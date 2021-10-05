@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ua-quality-assurance-platform</string>
+    <string name="employeeName">Kaley Pon</string>
+    <string name="partNumber">1234</string>
+    <string name="generatePdf">Generate PDF</string>
 </resources>
