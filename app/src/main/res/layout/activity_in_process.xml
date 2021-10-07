@@ -58,7 +58,7 @@
 
 
                     <!--first table in the in the first in process sheet-->
-                    <TableLayout
+task                    <TableLayout
                         android:id="@+id/firstRowInProcess"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -183,7 +183,7 @@
 
                             <EditText
                                 android:id="@+id/taskText"
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -216,7 +216,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tech_specs"
+                                android:hint="@string/include_tech_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -248,7 +248,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -280,7 +280,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -312,7 +312,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -408,11 +408,6 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="16dp">
-
-                    <!--                    <HorizontalScrollView-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="match_parent">-->
-                    <!--                    </HorizontalScrollView>-->
 
 
                     <!--first table in the in the first in process sheet-->
@@ -526,7 +521,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -558,7 +553,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tech_specs"
+                                android:hint="@string/include_tech_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -590,7 +585,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -622,7 +617,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -654,7 +649,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -867,7 +862,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -899,7 +894,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tech_specs"
+                                android:hint="@string/include_tech_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -931,7 +926,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -963,7 +958,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -995,7 +990,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1208,7 +1203,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1272,7 +1267,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1304,7 +1299,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1336,7 +1331,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1545,7 +1540,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1577,7 +1572,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tech_specs"
+                                android:hint="@string/include_tech_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1609,7 +1604,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1641,7 +1636,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1673,7 +1668,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1882,7 +1877,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1914,7 +1909,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tech_specs"
+                                android:hint="@string/include_tech_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1946,7 +1941,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1978,7 +1973,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -2010,7 +2005,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
