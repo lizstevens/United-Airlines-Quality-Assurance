@@ -48,7 +48,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/firstInProcess"
+                    android:id="@+id/technicalData"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#FFFFFF"
@@ -59,21 +59,21 @@
 
                     <!--first table in the in the first in process sheet-->
                     <TableLayout
-                        android:id="@+id/firstRowInProcess"
+                        android:id="@+id/tableTitleTech"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:stretchColumns="3">
 
                         <!--first row: header for first table in the in first in process sheet-->
                         <TableRow
-                            android:id="@+id/firstRow"
+                            android:id="@+id/tableTitleTechRow"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             >
 
                             <!--employee name table header-->
                             <TextView
-                                android:id="@+id/employeeName"
+                                android:id="@+id/tableTitleTech"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
@@ -126,7 +126,7 @@
 
                         <!-- text for the first row headers-->
                         <TableRow
-                            android:id="@+id/secondRow"
+                            android:id="@+id/tableTechHeadersRow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
@@ -159,7 +159,7 @@
 
 
                     <TableLayout
-                        android:id="@+id/secRowInProcess"
+                        android:id="@+id/tableTechHeaders"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:stretchColumns="1">

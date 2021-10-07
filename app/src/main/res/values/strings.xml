@@ -26,4 +26,11 @@
     <string name="trace_specs">Outside of Stores</string>
     <string name="req_training">Required Training</string>
     <string name="date_qual">Date Qualified</string>
+    <string name="tech_data_table_title">TECHNICAL DATA</string>
+    <string name="tech_data_table_h1">Part Number/\nAircraft/Eng\nEffectively Num.</string>
+    <string name="tech_data_table_h2">Manufacturer</string>
+    <string name="tech_data_table_h3">ATA/Document ID</string>
+    <string name="tech_data_table_h4">Rev.\nLevel</string>
+    <string name="tech_data_table_h5">Rev.\nDate</string>
+    <string name="tech_data_table_h6">Comments</string>
 </resources>
