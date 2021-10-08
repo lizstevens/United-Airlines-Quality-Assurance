@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
+    android:padding="12dp"
+    android:paddingTop="15dp"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -19,6 +21,13 @@
             android:layout_marginTop="32dp"
             android:layout_marginRight="20dp"
             android:padding="20dp">
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/united_airlines_quality_assurance_logo" />
+
 
             <TextView
                 android:id="@+id/welcome"
@@ -36,6 +45,7 @@
                 android:text="@string/dashboard"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp" />
+
 
         </RelativeLayout>
 
@@ -79,9 +89,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:backgroundTint="#1DFFFFFF"
-                        android:text="@string/create_a_new_audit"
+                        android:backgroundTint="@color/UnitedBlue"
+                        android:textColor="#FFFFFF"
                         android:textAllCaps="false"
+                        android:text="@string/create_a_new_audit"
                         android:textSize="18sp" />
                 </LinearLayout>
 
@@ -109,7 +120,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:contentDescription="@string/new_audit_sheet_logo"
-                        android:src="@drawable/add">
+                        android:src="@drawable/edit">
 
                     </ImageView>
 
@@ -118,7 +129,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:backgroundTint="#1DFFFFFF"
+                        android:backgroundTint="@color/UnitedBlue"
+                        android:textColor="#FFFFFF"
                         android:text="@string/edit_existing_audit"
                         android:textAllCaps="false"
                         android:textSize="18sp" />
@@ -156,9 +168,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"
-                        android:textColor="#FF040404"
                         android:text="@string/faa_updates"
-                        android:textSize="18sp" />
+                        android:textColor="#FF040404"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
 
                     <HorizontalScrollView
@@ -173,7 +186,8 @@
                             android:background="#FFFFFF"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="16dp">
+                            android:padding="16dp"
+                            >
 
 
                             <!--first table in the in the first in process sheet-->
@@ -183,20 +197,23 @@
                                 android:id="@+id/FAATable"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:radius="10dp"
+                                android:layout_gravity="center"
                                 android:stretchColumns="3">
 
                                 <TableRow
                                     android:id="@+id/tableFAAHeadersRow"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_marginTop="1dp">
+                                    android:layout_marginTop="1dp"
+                                    android:radius="10dp">
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_marginEnd="1dp"
                                         android:background="@color/UnitedBlue"
-                                        android:padding="12dp"
+                                        android:paddingTop="10dp"
                                         android:text="@string/publication_ndate"
                                         android:textAlignment="center"
                                         android:textColor="#FFFFFF"
@@ -209,7 +226,7 @@
                                         android:layout_marginEnd="1dp"
                                         android:layout_weight="1"
                                         android:background="@color/UnitedBlue"
-                                        android:padding="12dp"
+                                        android:paddingTop="16dp"
                                         android:text="@string/ad_number"
                                         android:textAlignment="center"
                                         android:textColor="#FFFFFF"
@@ -221,7 +238,7 @@
                                         android:layout_height="match_parent"
                                         android:layout_marginEnd="1dp"
                                         android:background="@color/UnitedBlue"
-                                        android:padding="12dp"
+                                        android:paddingTop="10dp"
                                         android:text="@string/effective_ndate"
                                         android:textAlignment="center"
                                         android:textColor="#FFFFFF"
@@ -233,9 +250,8 @@
                                         android:layout_height="match_parent"
                                         android:layout_marginEnd="1dp"
                                         android:background="@color/UnitedBlue"
-                                        android:padding="12dp"
+                                        android:paddingTop="16dp"
                                         android:text="@string/FAA_title"
-                                        android:paddingTop="1dp"
                                         android:textAlignment="center"
                                         android:textColor="#FFFFFF"
                                         android:textSize="12sp"
@@ -284,7 +300,7 @@
                                         android:layout_height="match_parent"
                                         android:layout_marginEnd="1dp"
                                         android:padding="12dp"
-                                        android:text="AERO Sp. z o.o. Airplanes"
+                                        android:text="AERO Sp. z o.o. \nAirplanes"
                                         android:textAlignment="center"
                                         android:textColor="#000000"
                                         android:textSize="12sp" />
@@ -331,7 +347,7 @@
                                         android:layout_height="match_parent"
                                         android:layout_marginEnd="1dp"
                                         android:padding="12dp"
-                                        android:text="MHI RJ Aviation ULC (Type Certificate Previously\n Held by Bombardier, Inc.) Airplanes"
+                                        android:text="MHI RJ Aviation ULC (Type Certificate \nPreviously\n Held by Bombardier, Inc.) Airplanes"
                                         android:textAlignment="center"
                                         android:textColor="#000000"
                                         android:textSize="12sp" />
@@ -374,11 +390,11 @@
                                         android:textSize="12sp" />
 
                                     <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
+                                        android:layout_width="239dp"
+                                        android:layout_height="1dp"
                                         android:layout_marginEnd="1dp"
                                         android:padding="12dp"
-                                        android:text="ATR-GIE Avions de Transport Regional Airplanes"
+                                        android:text="ATR-GIE Avions de \nTransport Regional Airplanes"
                                         android:textAlignment="center"
                                         android:textColor="#000000"
                                         android:textSize="12sp" />
@@ -448,7 +464,6 @@
                         </LinearLayout>
 
                     </HorizontalScrollView>
-
 
 
                 </LinearLayout>
