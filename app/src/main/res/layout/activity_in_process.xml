@@ -47,335 +47,339 @@
                     android:layout_height="wrap_content">
 
 
-                    <LinearLayout
+                <LinearLayout
+                    android:id="@+id/firstInProcess"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+
+                    <!--first table in the in the first in process sheet-->
+                    <TableLayout
+                        android:id="@+id/firstRowInProcess"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#FFFFFF"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:stretchColumns="3">
 
+                        <!--first row: header for first table in the in first in process sheet-->
+                        <TableRow
+                            android:id="@+id/firstRow"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            >
 
-                        <!--first table in the in the first in process sheet-->
-                        <TableLayout
+                            <!--employee name table header-->
+                            <TextView
+                                android:id="@+id/employeeName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/employeeName"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <!--part number table header-->
+                            <TextView
+                                android:id="@+id/partNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/partNumber"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <!--serial number table header-->
+                            <TextView
+                                android:id="@+id/serialNum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/serialNumber"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <!--nomenclature table header-->
+                            <TextView
+                                android:id="@+id/nomenclature"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/nomenclature"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </TableRow>
+                        <!--end-->
+
+                        <!-- text for the first row headers-->
+                        <TableRow
+                            android:id="@+id/secondRow"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="3">
+                            android:layout_height="wrap_content">
 
-                            <!--first row: header for first table in the in first in process sheet-->
-                            <TableRow
-                                android:id="@+id/tableTitleTechRow"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/empNameText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:importantForAutofill="no" />
 
-                                <!--employee name table header-->
-                                <TextView
-                                    android:id="@+id/tableTitleTech"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/employeeName"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
+                            <EditText
+                                android:id="@+id/partNumText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:importantForAutofill="no" />
 
-                                <!--part number table header-->
-                                <TextView
-                                    android:id="@+id/partNumber"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/partNumber"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
+                            <EditText
+                                android:id="@+id/serialNumText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp" />
 
-                                <!--serial number table header-->
-                                <TextView
-                                    android:id="@+id/serialNum"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/serialNumber"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <!--nomenclature table header-->
-                                <TextView
-                                    android:id="@+id/nomenclature"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/nomenclature"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-                            </TableRow>
-                            <!--end-->
-
-                            <!-- text for the first row headers-->
-                            <TableRow
-                                android:id="@+id/tableTechHeadersRow"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:id="@+id/empNameText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:id="@+id/partNumText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:id="@+id/serialNumText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp" />
-
-                                <EditText
-                                    android:id="@+id/nomenText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
-                            </TableRow>
-                        </TableLayout>
+                            <EditText
+                                android:id="@+id/nomenText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </TableRow>
+                    </TableLayout>
 
 
-                        <TableLayout
-                            android:id="@+id/tableTechData"
+                    <TableLayout
+                        android:id="@+id/secRowInProcess"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="1">
+
+                        <TableRow
+                            android:id="@+id/thirdRow"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
+                            android:layout_height="match_parent">
 
-                            <TableRow
-                                android:id="@+id/thirdRow"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <TextView
-                                    android:id="@+id/task"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/task"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-                                    android:id="@+id/taskText"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/include_custName" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    tech specs-->
-                        <TableLayout
-                            android:id="@+id/thirdRowInProcess"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
+                            <TextView
+                                android:id="@+id/task"
+                                android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/task"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
 
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/tech_specs"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/include_tech_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    tooling-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
+                            <EditText
+                                android:id="@+id/taskText"
+                                android:text="@string/include_custName"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
+                                android:layout_height="match_parent" />
+                        </TableRow>
+                    </TableLayout>
 
-                                <TextView
+<!--                    tech specs-->
+                    <TableLayout
+                        android:id="@+id/thirdRowInProcess"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="1">
 
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/tooling"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
+                        <TableRow
 
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/include_tooling_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    shelf life-->
-                        <TableLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/shelf_life"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/shelf_life_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    traceability-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/trace"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/trace_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    training/date-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
                             android:layout_marginTop="7dp"
-                            android:stretchColumns="0">
+                            android:layout_height="match_parent">
 
-                            <TableRow
+                            <TextView
 
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/tech_specs"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
 
-                                <TextView
+                            <EditText
 
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/req_training"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/date_qual"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-                            </TableRow>
-                            <!--end-->
-
-
-                            <TableRow
-
+                                android:text="@string/include_tech_specs"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="match_parent" />
+                        </TableRow>
+                    </TableLayout>
 
-                                <EditText
+<!--                    tooling-->
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="1">
 
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+                        <TableRow
+
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="7dp"
+                            android:layout_height="match_parent">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/tooling"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+
+                                android:text="@string/include_tooling_specs"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                        </TableRow>
+                    </TableLayout>
+
+<!--                    shelf life-->
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="1">
+
+                        <TableRow
+
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="7dp"
+                            android:layout_height="match_parent">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/shelf_life"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+
+                                android:text="@string/shelf_life_specs"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                        </TableRow>
+                    </TableLayout>
+
+<!--                    traceability-->
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="1">
+
+                        <TableRow
+
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="7dp"
+                            android:layout_height="match_parent">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/trace"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+
+                                android:text="@string/trace_specs"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                        </TableRow>
+                    </TableLayout>
+
+<!--                    training/date-->
+                    <TableLayout
+                        android:layout_marginTop="7dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="0">
+
+                        <TableRow
+
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/req_training"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
 
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
-                            </TableRow>
+                            <TextView
 
-                        </TableLayout>
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/date_qual"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </TableRow>
+                        <!--end-->
 
-                    </LinearLayout>
+
+                        <TableRow
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:importantForAutofill="no" />
+
+
+                            <EditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                </LinearLayout>
 
                 </HorizontalScrollView>
 
@@ -404,11 +408,6 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="16dp">
-
-                    <!--                    <HorizontalScrollView-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="match_parent">-->
-                    <!--                    </HorizontalScrollView>-->
 
 
                     <!--first table in the in the first in process sheet-->
@@ -522,7 +521,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -554,7 +553,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tech_specs"
+                                android:hint="@string/include_tech_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -586,7 +585,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -618,7 +617,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -650,7 +649,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -863,7 +862,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -895,7 +894,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tech_specs"
+                                android:hint="@string/include_tech_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -927,7 +926,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -959,7 +958,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -991,7 +990,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1204,7 +1203,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1268,7 +1267,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1300,7 +1299,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1332,7 +1331,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1541,7 +1540,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1573,7 +1572,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tech_specs"
+                                android:hint="@string/include_tech_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1605,7 +1604,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1637,7 +1636,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1669,7 +1668,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1878,7 +1877,7 @@
                                 android:textStyle="bold" />
 
                             <EditText
-                                android:text="@string/include_custName"
+                                android:hint="@string/include_custName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1910,7 +1909,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tech_specs"
+                                android:hint="@string/include_tech_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1942,7 +1941,7 @@
 
                             <EditText
 
-                                android:text="@string/include_tooling_specs"
+                                android:hint="@string/include_tooling_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -1974,7 +1973,7 @@
 
                             <EditText
 
-                                android:text="@string/shelf_life_specs"
+                                android:hint="@string/shelf_life_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
@@ -2006,7 +2005,7 @@
 
                             <EditText
 
-                                android:text="@string/trace_specs"
+                                android:hint="@string/trace_specs"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </TableRow>
