@@ -33,4 +33,17 @@
     <string name="tech_data_table_h4">Rev.\nLevel</string>
     <string name="tech_data_table_h5">Rev.\nDate</string>
     <string name="tech_data_table_h6">Comments</string>
+    <string name="ROM_data_table_title">RECORDS of MAINTENANCE (ROM)</string>
+    <string name="ROM_data_table_h1">Doc\nType</string>
+    <string name="ROM_data_table_h2">Document #</string>
+    <string name="ROM_data_table_h3">Part/PN/SN</string>
+    <string name="ROM_data_table_h4">Date</string>
+    <string name="ROM_data_table_h5">Specification incl.\nrevision level &amp; date</string>
+    <string name="ROM_data_table_h6">Tech. Name</string>
+    <string name="calibration_data_table_title">CALIBRATION</string>
+    <string name="calibration_data_table_h1">Item</string>
+    <string name="calibration_data_table_h2">ID #</string>
+    <string name="calibration_data_table_h3">CAL Date</string>
+    <string name="calibration_data_table_h4">CAL Due</string>
+    <string name="calibration_data_table_h5">CAL by</string>
 </resources>
