@@ -46,4 +46,21 @@
     <string name="calibration_data_table_h3">CAL Date</string>
     <string name="calibration_data_table_h4">CAL Due</string>
     <string name="calibration_data_table_h5">CAL by</string>
+    <string name="training_data_table_title">TRAINING (Non-Interviewed Personnel)</string>
+    <string name="training_data_table_h1">Technician\nName/ID</string>
+    <string name="training_data_table_h2">Part Number/\nMaintenance Performed</string>
+    <string name="training_data_table_h3">Required Training</string>
+    <string name="training_data_table_h4">OJT/Qualified\nDate</string>
+    <string name="traceability_data_table_title">TRACEABILITY</string>
+    <string name="traceability_data_table_h1">Product</string>
+    <string name="traceability_data_table_h2">Part Number</string>
+    <string name="traceability_data_table_h3">Batch/Lot #</string>
+    <string name="traceability_data_table_h4">P.O. Number</string>
+    <string name="traceability_data_table_h5">Supplier</string>
+    <string name="edit_existing_audit">Edit Existing Audit</string>
+    <string name="publication_ndate">Publication\nDate</string>
+    <string name="ad_number">AD Number</string>
+    <string name="effective_ndate">Effective\nDate</string>
+    <string name="FAA_title">Title</string>
+
 </resources>

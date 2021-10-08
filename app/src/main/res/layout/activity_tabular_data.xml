@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tabularDataActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".TabularDataActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -1372,13 +1373,14 @@
 
             <!--   third in process sheet-->
             <androidx.cardview.widget.CardView
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:layout_margin="12dp">
+                android:layout_margin="12dp"
+                android:visibility="gone"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp">
 
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
@@ -1656,6 +1658,7 @@
                                     android:importantForAutofill="no" />
 
                             </TableRow>
+
                             <TableRow
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
@@ -2080,7 +2083,8 @@
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:layout_margin="12dp">
+                android:layout_margin="12dp"
+                android:visibility="gone">
 
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
@@ -2102,304 +2106,402 @@
 
                         <!--first table in the in the first in process sheet-->
                         <TableLayout
+                            android:id="@+id/tableTitleTraining"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:stretchColumns="*">
+                            android:stretchColumns="1">
 
                             <!--first row: header for first table in the in first in process sheet-->
+
                             <TableRow
+                                android:id="@+id/tableTitleTrainingRow"
                                 android:layout_width="fill_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="match_parent">
 
-                                <!--employee name table header-->
                                 <TextView
+                                    android:id="@+id/tableTitleTrainingText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
                                     android:background="#b0b0b0"
                                     android:padding="12dp"
-                                    android:text="@string/employeeName"
+                                    android:text="@string/training_data_table_title"
+                                    android:textAlignment="center"
                                     android:textColor="#000000"
                                     android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <!--part number table header-->
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/partNumber"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <!--serial number table header-->
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/serialNumber"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <!--nomenclature table header-->
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/nomenclature"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"/>
                             </TableRow>
+
                             <!--end-->
 
                             <!-- text for the first row headers-->
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
-                            </TableRow>
                         </TableLayout>
 
 
                         <TableLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:stretchColumns="1">
+                            android:stretchColumns="*">
+
+                            <TableRow
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="1dp"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
+                                    android:background="#b0b0b0"
+                                    android:padding="12dp"
+                                    android:text="@string/training_data_table_h1"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
+                                    android:background="#b0b0b0"
+                                    android:padding="12dp"
+                                    android:text="@string/training_data_table_h2"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
+                                    android:background="#b0b0b0"
+                                    android:padding="12dp"
+                                    android:text="@string/training_data_table_h3"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
+                                    android:background="#b0b0b0"
+                                    android:padding="12dp"
+                                    android:text="@string/training_data_table_h4"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                            </TableRow>
 
                             <TableRow
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/task"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
                                 <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/include_custName" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    tech specs-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/tech_specs"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/include_tech_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    tooling-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/tooling"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/include_tooling_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    shelf life-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/shelf_life"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/shelf_life_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    traceability-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/trace"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/trace_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    training/date-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="7dp"
-                            android:stretchColumns="0">
-
-                            <TableRow
-
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/req_training"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/date_qual"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-                            </TableRow>
-                            <!--end-->
-
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
 
                                 <EditText
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
                             </TableRow>
 
                         </TableLayout>
@@ -2413,13 +2515,14 @@
 
             <!--  fifth in process sheet-->
             <androidx.cardview.widget.CardView
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:layout_margin="12dp">
+                android:layout_margin="12dp"
+                android:visibility="gone"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp">
 
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
@@ -2437,304 +2540,485 @@
 
                         <!--first table in the in the first in process sheet-->
                         <TableLayout
+                            android:id="@+id/tableTitleTraceability"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:stretchColumns="3">
+                            android:stretchColumns="1">
 
                             <!--first row: header for first table in the in first in process sheet-->
+
                             <TableRow
+                                android:id="@+id/tableTitleTraceabilityRow"
                                 android:layout_width="fill_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="match_parent">
 
-                                <!--employee name table header-->
                                 <TextView
+                                    android:id="@+id/tableTitleTraceabilityText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
                                     android:background="#b0b0b0"
                                     android:padding="12dp"
-                                    android:text="@string/employeeName"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <!--part number table header-->
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/partNumber"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <!--serial number table header-->
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/serialNumber"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <!--nomenclature table header-->
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/nomenclature"
+                                    android:text="@string/traceability_data_table_title"
+                                    android:textAlignment="center"
                                     android:textColor="#000000"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
                             </TableRow>
+
                             <!--end-->
 
                             <!-- text for the first row headers-->
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
-                            </TableRow>
                         </TableLayout>
 
 
                         <TableLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:stretchColumns="1">
+                            android:stretchColumns="*">
+
+                            <TableRow
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="1dp"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
+                                    android:background="#b0b0b0"
+                                    android:padding="12dp"
+                                    android:text="@string/traceability_data_table_h1"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
+                                    android:background="#b0b0b0"
+                                    android:padding="12dp"
+                                    android:text="@string/traceability_data_table_h2"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
+                                    android:background="#b0b0b0"
+                                    android:padding="12dp"
+                                    android:text="@string/traceability_data_table_h3"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
+                                    android:background="#b0b0b0"
+                                    android:padding="12dp"
+                                    android:text="@string/traceability_data_table_h4"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="1dp"
+                                    android:layout_weight="1"
+                                    android:background="#b0b0b0"
+                                    android:padding="12dp"
+                                    android:text="@string/traceability_data_table_h5"
+                                    android:textAlignment="center"
+                                    android:textColor="#000000"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                            </TableRow>
 
                             <TableRow
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/task"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
                                 <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/include_custName" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    tech specs-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/tech_specs"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/include_tech_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    tooling-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/tooling"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/include_tooling_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    shelf life-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/shelf_life"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/shelf_life_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    traceability-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:stretchColumns="1">
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="7dp">
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/trace"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/trace_specs" />
-                            </TableRow>
-                        </TableLayout>
-
-                        <!--                    training/date-->
-                        <TableLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="7dp"
-                            android:stretchColumns="0">
-
-                            <TableRow
-
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/req_training"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
+                                    android:importantForAutofill="no" />
 
-
-                                <TextView
-
+                                <EditText
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
-                                    android:background="#b0b0b0"
-                                    android:padding="12dp"
-                                    android:text="@string/date_qual"
-                                    android:textColor="#000000"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-                            </TableRow>
-                            <!--end-->
-
-
-                            <TableRow
-
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                    android:importantForAutofill="no" />
 
                                 <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
 
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
 
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
                                 <EditText
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="1dp"
+                                    android:importantForAutofill="no" />
+
+
                             </TableRow>
 
                         </TableLayout>
