@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -25,7 +26,7 @@ import java.io.IOException;
 
 public class InProcessActivity extends AppCompatActivity {
 
-    private Button createButton;
+    private Button createButton, addTableButton;
     private EditText name, partNum;
     private File file;
 
@@ -33,6 +34,33 @@ public class InProcessActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_process);
+
+
+        // button to generate PDF
+        createButton = findViewById(R.id.generate_pdf_btn);
+
+        // button to add table
+        addTableButton = findViewById(R.id.add_data_table_btn);
+
+        // request permissions
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+
+        createPdf();
+
+
+        addTableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                insertTabularDataActivity();
+
+            }
+        });
+    }
+
+    public void insertTabularDataActivity() {
+        Intent intent = new Intent(InProcessActivity.this, TabularDataActivity.class);
+        startActivity(intent);
     }
 
     private void createPdf() {
@@ -49,9 +77,9 @@ public class InProcessActivity extends AppCompatActivity {
                     canvas.drawText("Technical Operations Quality Assurance", 40, 50, myPaint);
                     myPdfDocument.finishPage(myPage);
 
-//                    file = new File(getExternalFilesDir("/"), "temp.pdf");
-                    String path = Environment.getExternalStorageDirectory().getPath();
-                    File file = new File(path, "/temp.pdf");
+                    file = new File(getExternalFilesDir("/"), "temp2.pdf");
+//                    String path = Environment.getExternalStorageDirectory().getPath();
+//                    File file = new File(path, "/temp2.pdf");
 
                     try {
                         myPdfDocument.writeTo(new FileOutputStream(file));

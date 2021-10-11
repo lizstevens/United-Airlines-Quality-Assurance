@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
-                android:text="Add Data Tables"
+                android:text="@string/add_data_tables"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
-                android:text="Upload Image"
+                android:text="@string/upload_image"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
-                android:text="Take Photo"
+                android:text="@string/take_photo"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
-                android:text="Save"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
-                android:text="Save &amp; Generate PDF"
+                android:text="@string/save_amp_generate_pdf"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 

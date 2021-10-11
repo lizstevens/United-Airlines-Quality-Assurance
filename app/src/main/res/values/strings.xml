@@ -62,5 +62,10 @@
     <string name="ad_number">AD Number</string>
     <string name="effective_ndate">Effective\nDate</string>
     <string name="FAA_title">Title</string>
+    <string name="add_data_tables">Add Data Tables</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="save">Save</string>
+    <string name="save_amp_generate_pdf"><![CDATA[Save & Generate PDF]]></string>
 
 </resources>
