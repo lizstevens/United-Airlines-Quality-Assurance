@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "700097307548",
+    "project_id": "ua-qa-platform",
+    "storage_bucket": "ua-qa-platform.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700097307548:android:830367c80449d62e50de59",
+        "android_client_info": {
+          "package_name": "edu.msu.steve702.ua_quality_assurance_platform"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700097307548-8q8potpqc7j8k8hotp2n46m47jvg3cbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9dCurr1pcfC9_i3VxmltNgrSXq9NZmFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700097307548-8q8potpqc7j8k8hotp2n46m47jvg3cbm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
