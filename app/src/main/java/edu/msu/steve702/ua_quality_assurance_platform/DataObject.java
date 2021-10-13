@@ -2,20 +2,25 @@ package edu.msu.steve702.ua_quality_assurance_platform;
 
 import android.widget.EditText;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 
 public class DataObject implements Serializable {
-    String employeeNameObj;
-    String partNumberObj;
-    String serialNumberObj;
-    String nomenclatureObj;
-    String taskObj;
-    String techSpecificationsObj;
-    String toolingObj;
-    String shelfLifeObj;
-    String traceObj;
-    String reqTrainingObj;
-    String trainingDateObj;
+
+    @Exclude private String id;
+
+    private String employeeNameObj;
+    private String partNumberObj;
+    private String serialNumberObj;
+    private String nomenclatureObj;
+    private String taskObj;
+    private String techSpecificationsObj;
+    private String toolingObj;
+    private String shelfLifeObj;
+    private String traceObj;
+    private String reqTrainingObj;
+    private String trainingDateObj;
 
     public DataObject() {
 
@@ -32,6 +37,14 @@ public class DataObject implements Serializable {
         this.traceObj = traceObj;
         this.reqTrainingObj = reqTrainingObj;
         this.trainingDateObj = trainingDateObj;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
     }
 
     public String getEmployeeNameObj() {

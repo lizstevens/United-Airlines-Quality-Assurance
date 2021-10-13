@@ -54,7 +54,7 @@ public class InProcessAdapter extends RecyclerView.Adapter<InProcessAdapter.InPr
         return inProcessList.size();
     }
 
-    class InProcessViewHolder extends RecyclerView.ViewHolder {
+    class InProcessViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView textViewEmpName, textViewPartNum, textViewSerialNum, textViewNomenclature, textViewTask;
         TextView textViewTechSpec, textViewTooling, textViewShelfLife, textViewTrace, textViewReqTraining, textViewTrainingDate;
@@ -74,20 +74,16 @@ public class InProcessAdapter extends RecyclerView.Adapter<InProcessAdapter.InPr
             textViewReqTraining = itemView.findViewById(R.id.textview_reqTraining);
             textViewTrainingDate = itemView.findViewById(R.id.textview_reqTrainingDate);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DataObject inProcess = inProcessList.get(InProcessViewHolder.this.getBindingAdapterPosition());
-                    Intent intent = new Intent(mCtx, UpdateInProcessActivity.class);
-                    intent.putExtra("in-process", inProcess);
-
-                    mCtx.startActivity(intent);
-
-                }
-
-            });
-
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            DataObject inProcess = inProcessList.get(getAbsoluteAdapterPosition());
+            Intent intent = new Intent(mCtx, UpdateInProcessActivity.class);
+            intent.putExtra("in-process", inProcess);
+
+            mCtx.startActivity(intent);
+        }
     }
 }

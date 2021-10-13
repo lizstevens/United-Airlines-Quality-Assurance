@@ -3,23 +3,12 @@ package edu.msu.steve702.ua_quality_assurance_platform;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.TextView;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,17 +16,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-
 
 public class InProcessActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseFirestore db;
-
-//    DataObject inProcessIntent = (DataObject)getIntent().getSerializableExtra("in-process");
 
     private Button saveButton, generatePDFButton, addTableButton, updateButton;
     private EditText employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
@@ -89,6 +71,7 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 
         findViewById(R.id.save_btn).setOnClickListener(this);
         findViewById(R.id.view_inProcess).setOnClickListener(this);
+
     }
 
 
@@ -138,25 +121,6 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-//    private void setText() {
-//        updateButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                employeeNameEdit.setText(inProcessIntent.getEmployeeNameObj());
-//                partNumberEdit.setText(inProcessIntent.getPartNumberObj());
-//                serialNumberEdit.setText(inProcessIntent.getSerialNumberObj());
-//                nomenclatureEdit.setText(inProcessIntent.getNomenclatureObj());
-//                taskEdit.setText(inProcessIntent.getTaskObj());
-//                techSpecificationsEdit.setText(inProcessIntent.getTechSpecificationsObj());
-//                toolingEdit.setText(inProcessIntent.getToolingObj());
-//                shelfLifeEdit.setText(inProcessIntent.getShelfLifeObj());
-//                traceEdit.setText(inProcessIntent.getTraceObj());
-//                reqTrainingEdit.setText(inProcessIntent.getReqTrainingObj());
-//                trainingDateEdit.setText(inProcessIntent.getTrainingDateObj());
-//            }
-//        });
-//    }
-
     @Override
     public void onClick(View view) {
         switch(view.getId()){
@@ -164,7 +128,7 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
                 saveInProcess();
                 break;
             case R.id.view_inProcess:
-                startActivity(new Intent(this, UpdateInProcessActivity.class));
+                startActivity(new Intent(this, InProcessListActivity.class));
                 break;
         }
 
