@@ -57,7 +57,7 @@
     <string name="traceability_data_table_h3">Batch/Lot #</string>
     <string name="traceability_data_table_h4">P.O. Number</string>
     <string name="traceability_data_table_h5">Supplier</string>
-    <string name="edit_existing_audit">Edit Existing Audit</string>
+    <string name="update_existing_audit">Update</string>
     <string name="publication_ndate">Publication\nDate</string>
     <string name="ad_number">AD Number</string>
     <string name="effective_ndate">Effective\nDate</string>

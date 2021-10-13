@@ -21,11 +21,11 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,14 +35,14 @@ import java.text.SimpleDateFormat;
 
 public class InProcessActivity extends AppCompatActivity {
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("in-process");
+    private FirebaseFirestore db;
 
-    private Button saveButton, generatePDFButton, addTableButton;
-    DataObject dataObject = new DataObject();
-    private EditText employeeNameEdit , partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
+    DataObject inProcess = new DataObject();
+
+//    DataObject inProcessIntent = (DataObject)getIntent().getSerializableExtra("in-process");
+    private Button saveButton, generatePDFButton, addTableButton, updateButton;
+    private EditText employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
     private EditText techSpecificationsEdit , toolingEdit , shelfLifeEdit, traceEdit, reqTrainingEdit, trainingDateEdit;
-    long auditNumber = 0;
     Button clearButton;
 
 
@@ -52,83 +52,24 @@ public class InProcessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_process);
 
+        db = FirebaseFirestore.getInstance();
+
         callFindViewId();
 
         callSaveOnClickListener();
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                auditNumber = snapshot.getChildrenCount();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        setText();
 
         // request permissions
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
-        createPdf();
+//        createPdf();
 
-        addTableButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                insertTabularDataActivity();
+//        addTable();
 
-            }
-        });
+//        clearData();
 
-        clearData();
-
-    }
-
-
-    // this function allows the user to clear all the data when they want to start another in-process sheet
-    private void clearData() {
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                employeeNameEdit.getText().clear();
-                partNumberEdit.getText().clear();
-                serialNumberEdit.getText().clear();
-                nomenclatureEdit.getText().clear();
-                taskEdit.getText().clear();
-                techSpecificationsEdit.getText().clear();
-                toolingEdit.getText().clear();
-                shelfLifeEdit.getText().clear();
-                traceEdit.getText().clear();
-                reqTrainingEdit.getText().clear();
-                trainingDateEdit.getText().clear();
-            }
-        });
-    }
-
-    // this function sets all the data objects
-    private void callSaveOnClickListener() {
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dataObject.auditNumber = auditNumber + 1;
-                dataObject.employeeNameObj = String.valueOf(employeeNameEdit.getText());
-                dataObject.partNumberObj = String.valueOf(partNumberEdit.getText());
-                dataObject.serialNumberObj = String.valueOf(serialNumberEdit.getText());
-                dataObject.nomenclatureObj = String.valueOf(nomenclatureEdit.getText());
-                dataObject.taskObj = String.valueOf(taskEdit.getText());
-                dataObject.techSpecificationsObj = String.valueOf(techSpecificationsEdit.getText());
-                dataObject.toolingObj = String.valueOf(toolingEdit.getText());
-                dataObject.shelfLifeObj = String.valueOf(shelfLifeEdit.getText());
-                dataObject.traceObj = String.valueOf(traceEdit.getText());
-                dataObject.reqTrainingObj = String.valueOf(reqTrainingEdit.getText());
-                dataObject.trainingDateObj = String.valueOf(trainingDateEdit.getText());
-
-                // adds one to every in process sheet made
-                myRef.child(String.valueOf(auditNumber + 1)).setValue(dataObject);
-            }
-        });
     }
 
     // this function calls all the ids
@@ -177,6 +118,94 @@ public class InProcessActivity extends AppCompatActivity {
 
         // button to clear data
         clearButton =  findViewById(R.id.clear_data);
+
+        // button to update data
+//        updateButton = findViewById(R.id.update_btn);
+    }
+
+    // this function sets all the data objects
+    private void callSaveOnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                inProcess.employeeNameObj = String.valueOf(employeeNameEdit.getText());
+                inProcess.partNumberObj = String.valueOf(partNumberEdit.getText());
+                inProcess.serialNumberObj = String.valueOf(serialNumberEdit.getText());
+                inProcess.nomenclatureObj = String.valueOf(nomenclatureEdit.getText());
+                inProcess.taskObj = String.valueOf(taskEdit.getText());
+                inProcess.techSpecificationsObj = String.valueOf(techSpecificationsEdit.getText());
+                inProcess.toolingObj = String.valueOf(toolingEdit.getText());
+                inProcess.shelfLifeObj = String.valueOf(shelfLifeEdit.getText());
+                inProcess.traceObj = String.valueOf(traceEdit.getText());
+                inProcess.reqTrainingObj = String.valueOf(reqTrainingEdit.getText());
+                inProcess.trainingDateObj = String.valueOf(trainingDateEdit.getText());
+
+                CollectionReference dbInProcessSheets = db.collection("in-process");
+
+                // save in firestore
+                dbInProcessSheets.add(inProcess).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(InProcessActivity.this, "Data Added", Toast.LENGTH_LONG).show();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(InProcessActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+    }
+
+//    private void setText() {
+//        updateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                employeeNameEdit.setText(inProcessIntent.getEmployeeNameObj());
+//                partNumberEdit.setText(inProcessIntent.getPartNumberObj());
+//                serialNumberEdit.setText(inProcessIntent.getSerialNumberObj());
+//                nomenclatureEdit.setText(inProcessIntent.getNomenclatureObj());
+//                taskEdit.setText(inProcessIntent.getTaskObj());
+//                techSpecificationsEdit.setText(inProcessIntent.getTechSpecificationsObj());
+//                toolingEdit.setText(inProcessIntent.getToolingObj());
+//                shelfLifeEdit.setText(inProcessIntent.getShelfLifeObj());
+//                traceEdit.setText(inProcessIntent.getTraceObj());
+//                reqTrainingEdit.setText(inProcessIntent.getReqTrainingObj());
+//                trainingDateEdit.setText(inProcessIntent.getTrainingDateObj());
+//            }
+//        });
+//    }
+
+    private void addTable() {
+        addTableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                insertTabularDataActivity();
+
+            }
+        });
+    }
+
+    // this function allows the user to clear all the data when they want to start another in-process sheet
+    private void clearData() {
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                employeeNameEdit.getText().clear();
+                partNumberEdit.getText().clear();
+                serialNumberEdit.getText().clear();
+                nomenclatureEdit.getText().clear();
+                taskEdit.getText().clear();
+                techSpecificationsEdit.getText().clear();
+                toolingEdit.getText().clear();
+                shelfLifeEdit.getText().clear();
+                traceEdit.getText().clear();
+                reqTrainingEdit.getText().clear();
+                trainingDateEdit.getText().clear();
+            }
+        });
     }
 
     // this function allows the in process activity to call the tabular activity

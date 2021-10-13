@@ -125,13 +125,13 @@
                     </ImageView>
 
                     <Button
-                        android:id="@+id/editAudit"
+                        android:id="@+id/updateAudit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:backgroundTint="@color/UnitedBlue"
                         android:textColor="#FFFFFF"
-                        android:text="@string/edit_existing_audit"
+                        android:text="@string/update_existing_audit"
                         android:textAllCaps="false"
                         android:textSize="18sp" />
                 </LinearLayout>

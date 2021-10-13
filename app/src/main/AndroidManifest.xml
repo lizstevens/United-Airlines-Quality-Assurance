@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".TabularDataActivity"></activity>
         <activity android:name=".InProcessActivity"></activity>
+<!--        <activity android:name=".UpdateInProcessActivity"></activity>-->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
