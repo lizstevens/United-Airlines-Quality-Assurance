@@ -11,7 +11,6 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Button auditButton;
-    private Button viewAndUpdateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,24 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-//        viewAndUpdateButton = (Button)findViewById(R.id.updateAudit);
-//        viewAndUpdateButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openUpdateInProcessActivity();
-//
-//            }
-//        });
     }
 
     public void openInProcessActivity() {
         Intent intent = new Intent(this, InProcessActivity.class);
         startActivity(intent);
     }
-
-//    public void openUpdateInProcessActivity() {
-//        Intent intent = new Intent(this, UpdateInProcessActivity.class);
-//        startActivity(intent);
-//    }
 }

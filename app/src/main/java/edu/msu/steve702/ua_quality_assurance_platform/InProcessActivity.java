@@ -33,17 +33,19 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 
-public class InProcessActivity extends AppCompatActivity {
+public class InProcessActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseFirestore db;
 
-    DataObject inProcess = new DataObject();
+//    DataObject inProcess = new DataObject();
 
 //    DataObject inProcessIntent = (DataObject)getIntent().getSerializableExtra("in-process");
+
     private Button saveButton, generatePDFButton, addTableButton, updateButton;
     private EditText employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
     private EditText techSpecificationsEdit , toolingEdit , shelfLifeEdit, traceEdit, reqTrainingEdit, trainingDateEdit;
-    Button clearButton;
+    private Button clearButton;
+    private Button viewAndUpdateButton;
 
 
 
@@ -53,32 +55,6 @@ public class InProcessActivity extends AppCompatActivity {
         setContentView(R.layout.activity_in_process);
 
         db = FirebaseFirestore.getInstance();
-
-        callFindViewId();
-
-        callSaveOnClickListener();
-
-//        setText();
-
-        // request permissions
-        ActivityCompat.requestPermissions(this, new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
-
-//        createPdf();
-
-//        addTable();
-
-//        clearData();
-
-    }
-
-    // this function calls all the ids
-    private void callFindViewId() {
-        // button to generate PDF
-        generatePDFButton = findViewById(R.id.generate_pdf_btn);
-
-        // save button
-        saveButton = findViewById(R.id.save_btn);
 
         // edit text name
         employeeNameEdit = findViewById(R.id.empNameText);
@@ -113,48 +89,53 @@ public class InProcessActivity extends AppCompatActivity {
         // edit text trainingDate
         trainingDateEdit  = findViewById(R.id.dateText);
 
-        // button to add table
-        addTableButton = findViewById(R.id.add_data_table_btn);
-
-        // button to clear data
-        clearButton =  findViewById(R.id.clear_data);
-
-        // button to update data
-//        updateButton = findViewById(R.id.update_btn);
+        findViewById(R.id.save_btn).setOnClickListener(this);
+        findViewById(R.id.view_inProcess).setOnClickListener(this);
     }
 
+
     // this function sets all the data objects
-    private void callSaveOnClickListener() {
-        saveButton.setOnClickListener(new View.OnClickListener() {
+    private void saveInProcess() {
+        String employeeNameObj = employeeNameEdit.getText().toString();
+        String partNumberObj = partNumberEdit.getText().toString();
+        String serialNumberObj = serialNumberEdit.getText().toString();
+        String nomenclatureObj = nomenclatureEdit.getText().toString();
+        String taskObj = taskEdit.getText().toString();
+        String techSpecificationsObj = techSpecificationsEdit.getText().toString();
+        String toolingObj = toolingEdit.getText().toString();
+        String shelfLifeObj = shelfLifeEdit.getText().toString();
+        String traceObj = traceEdit.getText().toString();
+        String reqTrainingObj = reqTrainingEdit.getText().toString();
+        String trainingDateObj = trainingDateEdit.getText().toString();
+
+
+        CollectionReference dbInProcessSheets = db.collection("in-process");
+
+        DataObject inProcess = new DataObject(
+                employeeNameObj,
+                partNumberObj,
+                serialNumberObj,
+                nomenclatureObj,
+                taskObj,
+                techSpecificationsObj,
+                toolingObj,
+                shelfLifeObj,
+                traceObj,
+                reqTrainingObj,
+                trainingDateObj
+        );
+
+        // save in firestore
+        dbInProcessSheets.add(inProcess).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void onClick(View view) {
-                inProcess.employeeNameObj = String.valueOf(employeeNameEdit.getText());
-                inProcess.partNumberObj = String.valueOf(partNumberEdit.getText());
-                inProcess.serialNumberObj = String.valueOf(serialNumberEdit.getText());
-                inProcess.nomenclatureObj = String.valueOf(nomenclatureEdit.getText());
-                inProcess.taskObj = String.valueOf(taskEdit.getText());
-                inProcess.techSpecificationsObj = String.valueOf(techSpecificationsEdit.getText());
-                inProcess.toolingObj = String.valueOf(toolingEdit.getText());
-                inProcess.shelfLifeObj = String.valueOf(shelfLifeEdit.getText());
-                inProcess.traceObj = String.valueOf(traceEdit.getText());
-                inProcess.reqTrainingObj = String.valueOf(reqTrainingEdit.getText());
-                inProcess.trainingDateObj = String.valueOf(trainingDateEdit.getText());
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(InProcessActivity.this, "Data Added", Toast.LENGTH_LONG).show();
 
-                CollectionReference dbInProcessSheets = db.collection("in-process");
-
-                // save in firestore
-                dbInProcessSheets.add(inProcess).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(InProcessActivity.this, "Data Added", Toast.LENGTH_LONG).show();
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(InProcessActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(InProcessActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -178,72 +159,18 @@ public class InProcessActivity extends AppCompatActivity {
 //        });
 //    }
 
-    private void addTable() {
-        addTableButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                insertTabularDataActivity();
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.save_btn:
+                saveInProcess();
+                break;
+            case R.id.view_inProcess:
+                startActivity(new Intent(this, UpdateInProcessActivity.class));
+                break;
+        }
 
-            }
-        });
     }
 
-    // this function allows the user to clear all the data when they want to start another in-process sheet
-    private void clearData() {
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                employeeNameEdit.getText().clear();
-                partNumberEdit.getText().clear();
-                serialNumberEdit.getText().clear();
-                nomenclatureEdit.getText().clear();
-                taskEdit.getText().clear();
-                techSpecificationsEdit.getText().clear();
-                toolingEdit.getText().clear();
-                shelfLifeEdit.getText().clear();
-                traceEdit.getText().clear();
-                reqTrainingEdit.getText().clear();
-                trainingDateEdit.getText().clear();
-            }
-        });
-    }
-
-    // this function allows the in process activity to call the tabular activity
-    public void insertTabularDataActivity() {
-        Intent intent = new Intent(InProcessActivity.this, TabularDataActivity.class);
-        startActivity(intent);
-    }
-
-    // this function allows user to create a pdf
-    private void createPdf() {
-        generatePDFButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    PdfDocument myPdfDocument = new PdfDocument();
-                    Paint myPaint = new Paint();
-
-                    PdfDocument.PageInfo myInfo = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
-                    PdfDocument.Page myPage = myPdfDocument.startPage(myInfo);
-                    Canvas canvas = myPage.getCanvas();
-
-                    canvas.drawText("Technical Operations Quality Assurance", 40, 50, myPaint);
-
-                    myPdfDocument.finishPage(myPage);
-
-                    File file = new File(getExternalFilesDir("/"), "temp2.pdf");
-
-                    try {
-                        myPdfDocument.writeTo(new FileOutputStream(file));
-                    } catch (IOException error) {
-                        error.printStackTrace();
-                    }
-
-                    myPdfDocument.close();
-                    Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        );
-    }
 
 }

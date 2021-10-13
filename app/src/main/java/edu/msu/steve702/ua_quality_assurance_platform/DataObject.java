@@ -18,9 +18,9 @@ public class DataObject implements Serializable {
     String trainingDateObj;
 
     public DataObject() {
-    }
 
-    public DataObject(String employeeName, String serialNumber, String nomenclature, String task, String techSpecifications, String tooling, String shelfLife, String trace, String reqTraining, String trainingDate) {
+    }
+    public DataObject(final String employeeNameObj, final String partNumberObj, final String serialNumberObj, final String nomenclatureObj, final String taskObj, final String techSpecificationsObj, final String toolingObj, final String shelfLifeObj, final String traceObj, final String reqTrainingObj, final String trainingDateObj) {
         this.employeeNameObj = employeeNameObj;
         this.partNumberObj = partNumberObj;
         this.serialNumberObj = serialNumberObj;
