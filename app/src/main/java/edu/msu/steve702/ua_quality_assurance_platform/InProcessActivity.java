@@ -52,21 +52,21 @@ public class InProcessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_process);
 
-//        callFindViewId();
+        callFindViewId();
 
-//        callSaveOnClickListener();
+        callSaveOnClickListener();
 
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                auditNumber = snapshot.getChildrenCount();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                auditNumber = snapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // request permissions
         ActivityCompat.requestPermissions(this, new String[]{
@@ -108,28 +108,28 @@ public class InProcessActivity extends AppCompatActivity {
     }
 
     // this function sets all the data objects
-//    private void callSaveOnClickListener() {
-//        saveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dataObject.auditNumber = auditNumber + 1;
-//                dataObject.employeeNameObj = String.valueOf(employeeNameEdit.getText());
-//                dataObject.partNumberObj = String.valueOf(partNumberEdit.getText());
-//                dataObject.serialNumberObj = String.valueOf(serialNumberEdit.getText());
-//                dataObject.nomenclatureObj = String.valueOf(nomenclatureEdit.getText());
-//                dataObject.taskObj = String.valueOf(taskEdit.getText());
-//                dataObject.techSpecificationsObj = String.valueOf(techSpecificationsEdit.getText());
-//                dataObject.toolingObj = String.valueOf(toolingEdit.getText());
-//                dataObject.shelfLifeObj = String.valueOf(shelfLifeEdit.getText());
-//                dataObject.traceObj = String.valueOf(traceEdit.getText());
-//                dataObject.reqTrainingObj = String.valueOf(reqTrainingEdit.getText());
-//                dataObject.trainingDateObj = String.valueOf(trainingDateEdit.getText());
-//
-//                // adds one to every in process sheet made
-//                myRef.child(String.valueOf(auditNumber + 1)).setValue(dataObject);
-//            }
-//        });
-//    }
+    private void callSaveOnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dataObject.auditNumber = auditNumber + 1;
+                dataObject.employeeNameObj = String.valueOf(employeeNameEdit.getText());
+                dataObject.partNumberObj = String.valueOf(partNumberEdit.getText());
+                dataObject.serialNumberObj = String.valueOf(serialNumberEdit.getText());
+                dataObject.nomenclatureObj = String.valueOf(nomenclatureEdit.getText());
+                dataObject.taskObj = String.valueOf(taskEdit.getText());
+                dataObject.techSpecificationsObj = String.valueOf(techSpecificationsEdit.getText());
+                dataObject.toolingObj = String.valueOf(toolingEdit.getText());
+                dataObject.shelfLifeObj = String.valueOf(shelfLifeEdit.getText());
+                dataObject.traceObj = String.valueOf(traceEdit.getText());
+                dataObject.reqTrainingObj = String.valueOf(reqTrainingEdit.getText());
+                dataObject.trainingDateObj = String.valueOf(trainingDateEdit.getText());
+
+                // adds one to every in process sheet made
+                myRef.child(String.valueOf(auditNumber + 1)).setValue(dataObject);
+            }
+        });
+    }
 
     // this function calls all the ids
     private void callFindViewId() {
