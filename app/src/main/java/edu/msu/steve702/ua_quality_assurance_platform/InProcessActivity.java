@@ -37,8 +37,6 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 
     private FirebaseFirestore db;
 
-//    DataObject inProcess = new DataObject();
-
 //    DataObject inProcessIntent = (DataObject)getIntent().getSerializableExtra("in-process");
 
     private Button saveButton, generatePDFButton, addTableButton, updateButton;
