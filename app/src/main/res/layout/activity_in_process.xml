@@ -46,6 +46,7 @@
                 android:backgroundTint="@color/UnitedBlue"
                 android:text="@string/upload_image"
                 android:textAllCaps="false"
+                android:visibility="gone"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
                 android:text="@string/take_photo"
+                android:visibility="gone"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -71,7 +73,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
-                android:text="@string/save_amp_generate_pdf"
+                android:text="@string/generate_pdf"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/clear_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/UnitedBlue"
+                android:text="@string/clear_all_data"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -240,7 +251,7 @@
                                     android:id="@+id/taskText"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:text="@string/include_custName" />
+                                    android:hint="@string/include_custName" />
                             </TableRow>
                         </TableLayout>
 
@@ -270,10 +281,10 @@
                                     android:textStyle="bold" />
 
                                 <EditText
-
+                                    android:id="@+id/techSpecText"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:text="@string/include_tech_specs" />
+                                    android:hint="@string/include_tech_specs" />
                             </TableRow>
                         </TableLayout>
 
@@ -302,10 +313,10 @@
                                     android:textStyle="bold" />
 
                                 <EditText
-
+                                    android:id="@+id/toolingText"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:text="@string/include_tooling_specs" />
+                                    android:hint="@string/include_tooling_specs" />
                             </TableRow>
                         </TableLayout>
 
@@ -334,10 +345,10 @@
                                     android:textStyle="bold" />
 
                                 <EditText
-
+                                    android:id="@+id/shelfLifeText"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:text="@string/shelf_life_specs" />
+                                    android:hint="@string/shelf_life_specs" />
                             </TableRow>
                         </TableLayout>
 
@@ -366,10 +377,10 @@
                                     android:textStyle="bold" />
 
                                 <EditText
-
+                                    android:id="@+id/traceText"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:text="@string/trace_specs" />
+                                    android:hint="@string/trace_specs" />
                             </TableRow>
                         </TableLayout>
 
@@ -419,7 +430,7 @@
                                 android:layout_height="wrap_content">
 
                                 <EditText
-
+                                    android:id="@+id/reqTrainingText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
@@ -427,6 +438,7 @@
 
 
                                 <EditText
+                                    android:id="@+id/dateText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
                             </TableRow>
@@ -448,6 +460,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
                 app:cardCornerRadius="12dp"
+                android:visibility="gone"
                 app:cardElevation="6dp">
 
                 <HorizontalScrollView
@@ -782,6 +795,7 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
+                android:visibility="gone"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp">
 
@@ -1118,6 +1132,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
@@ -1458,6 +1473,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
+                android:visibility="gone"
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
                 app:cardCornerRadius="12dp"
@@ -1792,6 +1808,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"

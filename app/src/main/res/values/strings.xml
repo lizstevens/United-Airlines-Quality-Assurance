@@ -67,5 +67,7 @@
     <string name="take_photo">Take Photo</string>
     <string name="save">Save</string>
     <string name="save_amp_generate_pdf"><![CDATA[Save & Generate PDF]]></string>
+    <string name="generate_pdf">Generate PDF</string>
+    <string name="clear_all_data">Clear All Data</string>
 
 </resources>
