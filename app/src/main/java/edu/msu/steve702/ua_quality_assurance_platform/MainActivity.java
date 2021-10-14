@@ -10,19 +10,27 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button auditButton;
+    private Button newAuditButton;
+    private Button editAuditButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        auditButton = (Button)findViewById(R.id.createAudit);
-        auditButton.setOnClickListener(new View.OnClickListener() {
+        newAuditButton = (Button)findViewById(R.id.createAudit);
+        newAuditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openInProcessActivity();
+            }
+        });
 
+        editAuditButton = (Button)findViewById(R.id.editAudit);
+        editAuditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startListOptionsActivity();
             }
         });
     }
@@ -30,5 +38,9 @@ public class MainActivity extends AppCompatActivity {
     public void openInProcessActivity() {
         Intent intent = new Intent(this, InProcessActivity.class);
         startActivity(intent);
+    }
+
+    public void startListOptionsActivity() {
+        startActivity(new Intent(this, InProcessListActivity.class));
     }
 }

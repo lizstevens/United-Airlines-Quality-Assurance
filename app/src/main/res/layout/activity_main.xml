@@ -123,6 +123,16 @@
                         android:src="@drawable/edit">
 
                     </ImageView>
+                    <Button
+                        android:id="@+id/editAudit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:backgroundTint="@color/UnitedBlue"
+                        android:textColor="#FFFFFF"
+                        android:textAllCaps="false"
+                        android:text="@string/edit_pending_audit"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

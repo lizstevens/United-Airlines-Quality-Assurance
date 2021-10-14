@@ -38,41 +38,32 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 
         // edit text name
         employeeNameEdit = findViewById(R.id.empNameText);
-
         // edit text part number
-        partNumberEdit  = findViewById(R.id.partNumText);
-
+        partNumberEdit = findViewById(R.id.partNumText);
         // edit text serial number
-        serialNumberEdit  = findViewById(R.id.serialNumText);
-
+        serialNumberEdit = findViewById(R.id.serialNumText);
         // edit text nomenclature
-        nomenclatureEdit  = findViewById(R.id.nomenText);
-
+        nomenclatureEdit = findViewById(R.id.nomenText);
         // edit text task
-        taskEdit  = findViewById(R.id.taskText);
-
+        taskEdit = findViewById(R.id.taskText);
         // edit text techSpecifications
-        techSpecificationsEdit  = findViewById(R.id.techSpecText);
-
+        techSpecificationsEdit = findViewById(R.id.techSpecText);
         // edit text tooling
-        toolingEdit  = findViewById(R.id.toolingText);
-
+        toolingEdit = findViewById(R.id.toolingText);
         // edit text shelfLife
-        shelfLifeEdit  = findViewById(R.id.shelfLifeText);
-
+        shelfLifeEdit = findViewById(R.id.shelfLifeText);
         // edit text traceability
-        traceEdit  = findViewById(R.id.traceText);
-
+        traceEdit = findViewById(R.id.traceText);
         // edit text reqTraining
-        reqTrainingEdit  = findViewById(R.id.reqTrainingText);
-
+        reqTrainingEdit = findViewById(R.id.reqTrainingText);
         // edit text trainingDate
-        trainingDateEdit  = findViewById(R.id.dateText);
+        trainingDateEdit = findViewById(R.id.dateText);
 
         findViewById(R.id.save_btn).setOnClickListener(this);
-        findViewById(R.id.view_inProcess).setOnClickListener(this);
+        findViewById(R.id.switch_to_data_tables_btn).setOnClickListener(this);
 
     }
+
 
 
     // this function sets all the data objects
@@ -90,7 +81,14 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         String trainingDateObj = trainingDateEdit.getText().toString();
 
 
-        CollectionReference dbInProcessSheets = db.collection("in-process");
+        //CollectionReference dbInProcessSheets = db.collection("in-process");
+
+        String title = ((EditText)findViewById(R.id.edit_AuditTitle)).getText().toString();
+        if (title.isEmpty()) {
+            title = "untitled_audit_";
+        }
+
+        CollectionReference dbInProcessSheets = db.collection(title);
 
         DataObject inProcess = new DataObject(
                 employeeNameObj,
@@ -121,14 +119,15 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+
     @Override
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.save_btn:
                 saveInProcess();
                 break;
-            case R.id.view_inProcess:
-                startActivity(new Intent(this, InProcessListActivity.class));
+            case R.id.switch_to_data_tables_btn:
+                startActivity(new Intent(this, TabularDataActivity.class));
                 break;
         }
 

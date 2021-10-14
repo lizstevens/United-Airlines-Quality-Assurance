@@ -5,7 +5,7 @@
     <string name="generatePdf">Generate PDF</string>
     <string name="header">Technical Operations Quality Assurance</string>
     <string name="dashboard">Dashboard</string>
-    <string name="create_a_new_audit">Create a New Audit</string>
+    <string name="create_a_new_audit">Start a New Audit</string>
     <string name="faa_updates">FAA Updates</string>
     <string name="welcome">Welcome.</string>
     <string name="web_scraping_logo">web scraping logo</string>
@@ -62,7 +62,7 @@
     <string name="ad_number">AD Number</string>
     <string name="effective_ndate">Effective\nDate</string>
     <string name="FAA_title">Title</string>
-    <string name="add_data_tables">Add Data Tables</string>
+    <string name="go_to_data_tables">Switch To Data Tables</string>
     <string name="upload_image">Upload Image</string>
     <string name="take_photo">Take Photo</string>
     <string name="save">Save</string>
@@ -70,5 +70,8 @@
     <string name="generate_pdf">Generate PDF</string>
     <string name="clear_all_data">Clear All Data</string>
     <string name="view_in_process_sheets">View In Process Sheets</string>
+    <string name="switch_to_inprocess_btn">Switch to In-Process Sheets</string>
+    <string name="edit_pending_audit">Edit Pending Audit</string>
+    <string name="untitled_audit_hint">Untitled Audit</string>
 
 </resources>
