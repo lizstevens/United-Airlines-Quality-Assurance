@@ -10,6 +10,7 @@ public class DataObject implements Serializable {
 
     @Exclude private String id;
 
+    private String titleObj;
     private String employeeNameObj;
     private String partNumberObj;
     private String serialNumberObj;
@@ -25,7 +26,8 @@ public class DataObject implements Serializable {
     public DataObject() {
 
     }
-    public DataObject(final String employeeNameObj, final String partNumberObj, final String serialNumberObj, final String nomenclatureObj, final String taskObj, final String techSpecificationsObj, final String toolingObj, final String shelfLifeObj, final String traceObj, final String reqTrainingObj, final String trainingDateObj) {
+    public DataObject(final String titleObj, final String employeeNameObj, final String partNumberObj, final String serialNumberObj, final String nomenclatureObj, final String taskObj, final String techSpecificationsObj, final String toolingObj, final String shelfLifeObj, final String traceObj, final String reqTrainingObj, final String trainingDateObj) {
+        this.titleObj = titleObj;
         this.employeeNameObj = employeeNameObj;
         this.partNumberObj = partNumberObj;
         this.serialNumberObj = serialNumberObj;
@@ -46,6 +48,8 @@ public class DataObject implements Serializable {
     public void setId(final String id) {
         this.id = id;
     }
+
+    public String getTitleObj() { return this.titleObj; }
 
     public String getEmployeeNameObj() {
         return this.employeeNameObj;

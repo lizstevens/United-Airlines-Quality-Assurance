@@ -15,11 +15,18 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/textview_empName"
+                android:id="@+id/textview_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textview_empName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
 
             <TextView
                 android:id="@+id/textview_partNum"

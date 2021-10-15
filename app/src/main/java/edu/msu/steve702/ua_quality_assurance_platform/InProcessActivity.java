@@ -22,7 +22,7 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
     private FirebaseFirestore db;
 
     private Button saveButton, generatePDFButton, addTableButton, updateButton;
-    private EditText employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
+    private EditText titleEdit, employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
     private EditText techSpecificationsEdit , toolingEdit , shelfLifeEdit, traceEdit, reqTrainingEdit, trainingDateEdit;
     private Button clearButton;
     private Button viewAndUpdateButton;
@@ -36,6 +36,8 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 
         db = FirebaseFirestore.getInstance();
 
+        // edit in process title
+        titleEdit = findViewById(R.id.edit_AuditTitle);
         // edit text name
         employeeNameEdit = findViewById(R.id.empNameText);
         // edit text part number
@@ -60,6 +62,7 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         trainingDateEdit = findViewById(R.id.dateText);
 
         findViewById(R.id.save_btn).setOnClickListener(this);
+        findViewById(R.id.clear_data).setOnClickListener(this);
         findViewById(R.id.switch_to_data_tables_btn).setOnClickListener(this);
 
     }
@@ -68,6 +71,10 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 
     // this function sets all the data objects
     private void saveInProcess() {
+        String titleObj = ((EditText)titleEdit).getText().toString();
+        if (titleObj.isEmpty()) {
+            titleObj = "untitled_audit_";
+        }
         String employeeNameObj = employeeNameEdit.getText().toString();
         String partNumberObj = partNumberEdit.getText().toString();
         String serialNumberObj = serialNumberEdit.getText().toString();
@@ -81,16 +88,12 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         String trainingDateObj = trainingDateEdit.getText().toString();
 
 
-        //CollectionReference dbInProcessSheets = db.collection("in-process");
-
-        String title = ((EditText)findViewById(R.id.edit_AuditTitle)).getText().toString();
-        if (title.isEmpty()) {
-            title = "untitled_audit_";
-        }
-
-        CollectionReference dbInProcessSheets = db.collection(title);
+        CollectionReference dbInProcessSheets = db.collection("in-process");
+//
+//        CollectionReference dbInProcessSheets = db.collection(title);
 
         DataObject inProcess = new DataObject(
+                titleObj,
                 employeeNameObj,
                 partNumberObj,
                 serialNumberObj,
@@ -119,12 +122,32 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+    // this function allows the user to clear all the data when they want to start another in-process sheet
+    private void clearData() {
+        titleEdit.getText().clear();
+        employeeNameEdit.getText().clear();
+        partNumberEdit.getText().clear();
+        serialNumberEdit.getText().clear();
+        nomenclatureEdit.getText().clear();
+        taskEdit.getText().clear();
+        techSpecificationsEdit.getText().clear();
+        toolingEdit.getText().clear();
+        shelfLifeEdit.getText().clear();
+        traceEdit.getText().clear();
+        reqTrainingEdit.getText().clear();
+        trainingDateEdit.getText().clear();
+        Toast.makeText(InProcessActivity.this, "Data Cleared", Toast.LENGTH_LONG).show();
+    }
+
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.save_btn:
                 saveInProcess();
+                break;
+            case R.id.clear_data:
+                clearData();
                 break;
             case R.id.switch_to_data_tables_btn:
                 startActivity(new Intent(this, TabularDataActivity.class));
