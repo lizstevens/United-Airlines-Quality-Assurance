@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".InProcessActivity">
 
 
@@ -98,8 +99,11 @@
             android:padding="20dp"
             android:textSize="18sp" />
 
-
-        <GridLayout
+        <LinearLayout
+            android:id="@+id/inProcessPdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <GridLayout
             android:id="@+id/grid_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -2152,6 +2156,7 @@
 
 
         </GridLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
