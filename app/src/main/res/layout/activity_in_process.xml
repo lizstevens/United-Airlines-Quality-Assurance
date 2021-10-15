@@ -22,7 +22,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:padding="20dp"
-            android:text="@string/header"
+            android:text="@string/create_header"
             android:textSize="18sp" />
 
         <LinearLayout

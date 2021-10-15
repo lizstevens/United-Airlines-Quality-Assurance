@@ -4,7 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +19,22 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 
 public class UpdateInProcessActivity extends AppCompatActivity implements View.OnClickListener {
@@ -27,7 +47,7 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
     private EditText titleEdit, employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
     private EditText techSpecificationsEdit , toolingEdit , shelfLifeEdit, traceEdit, reqTrainingEdit, trainingDateEdit;
     private Button clearButton;
-    private Button viewAndUpdateButton;
+    private Button goBackToCreateAudit;
 
 
 
@@ -89,6 +109,8 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
         trainingDateEdit.setText(inProcessIntent.getTrainingDateObj());
 
         findViewById(R.id.updateAudit).setOnClickListener(this);
+        findViewById(R.id.generate_pdf_btn).setOnClickListener(this);
+        findViewById(R.id.createAudit).setOnClickListener(this);
     }
 
     private void updateInProcess() {
@@ -134,13 +156,131 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
                 });
     }
 
+    // this function allows user to create a pdf to store locally
+    private void createPdf() throws FileNotFoundException {
+        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+        File file = new File(pdfPath, titleEdit.getText() + ".pdf");
+
+        OutputStream outputStream = new FileOutputStream(file);
+
+        PdfWriter writer = new PdfWriter(file);
+        PdfDocument pdfDocument = new PdfDocument(writer);
+        Document document = new Document(pdfDocument);
+
+        Drawable drawable = getDrawable(R.drawable.united_airlines_quality_assurance_logo);
+        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bitmapData = stream.toByteArray();
+
+        ImageData imageData = ImageDataFactory.create(bitmapData);
+        Image image = new Image(imageData);
+        image.setHeight(80);
+        image.setWidth(500);
+
+        Paragraph paragraph = new Paragraph("Technical Operations Quality Assurance");
+
+        float columnWidth[] = {200f, 200f};
+        Table table = new Table(columnWidth);
+
+        // add cell
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Employee Name: ")));
+        table.addCell(employeeNameEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number: ")));
+        table.addCell(partNumberEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Serial Number: ")));
+        table.addCell(serialNumberEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Nomeclature: ")));
+        table.addCell(nomenclatureEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Task: ")));
+        table.addCell(taskEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technical Specifications: ")));
+        table.addCell(techSpecificationsEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tooling: ")));
+        table.addCell(toolingEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Shelf Life: ")));
+        table.addCell(shelfLifeEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Traceability: ")));
+        table.addCell(traceEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training: ")));
+        table.addCell(reqTrainingEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date Qualified: ")));
+        table.addCell(trainingDateEdit.getText().toString());
+
+
+        document.add(image);
+        document.add(paragraph);
+        document.add(table);
+
+        document.close();
+        Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
+
+
+
+//        PdfDocument myPdfDocument = new PdfDocument();
+//        Paint myPaint = new Paint();
+//
+//        PdfDocument.PageInfo myInfo = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
+//        PdfDocument.Page myPage = myPdfDocument.startPage(myInfo);
+//        Canvas canvas = myPage.getCanvas();
+//
+////        canvas.drawBitmap(scaledbtmp, 0, 0, myPaint);
+//        canvas.drawText("Technical Operations Quality Assurance", 40, 50, myPaint);
+//        canvas.drawText(titleEdit.getText().toString(), 80, 100, myPaint);
+//        canvas.drawText(employeeNameEdit.getText().toString(), 120, 100, myPaint);
+//        canvas.drawText(partNumberEdit.getText().toString(), 160, 100, myPaint);
+//        canvas.drawText(serialNumberEdit.getText().toString(), 200, 100, myPaint);
+//        canvas.drawText(nomenclatureEdit.getText().toString(), 240, 100, myPaint);
+//        canvas.drawText(taskEdit.getText().toString(), 280, 100, myPaint);
+//        canvas.drawText(techSpecificationsEdit.getText().toString(), 320, 100, myPaint);
+//        canvas.drawText(toolingEdit.getText().toString(), 360, 100, myPaint);
+//        canvas.drawText(shelfLifeEdit.getText().toString(), 400, 100, myPaint);
+//        canvas.drawText(traceEdit.getText().toString(), 440, 100, myPaint);
+//        canvas.drawText(reqTrainingEdit.getText().toString(), 480, 100, myPaint);
+//        canvas.drawText(trainingDateEdit.getText().toString(), 520, 100, myPaint);
+//
+//        myPdfDocument.finishPage(myPage);
+//
+//        File file = new File(getExternalFilesDir("/"), titleEdit.getText() + ".pdf");
+//
+//        try {
+//         myPdfDocument.writeTo(new FileOutputStream(file));
+//        } catch (IOException error) {
+//         error.printStackTrace();
+//        }
+//
+//        myPdfDocument.close();
+//        Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.updateAudit:
                 updateInProcess();
                 break;
+            case R.id.generate_pdf_btn:
+                try {
+                    createPdf();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.createAudit:
+                startActivity(new Intent(this, InProcessActivity.class));
+                break;
         }
+
 
     }
 

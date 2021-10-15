@@ -40,6 +40,15 @@
                 android:textColor="#FFFFFF" />
 
             <Button
+                android:id="@+id/createAudit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/UnitedBlue"
+                android:text="@string/create_another_in_process_sheet"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+
+            <Button
                 android:id="@+id/generate_pdf_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

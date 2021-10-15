@@ -98,12 +98,6 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 
         inProcessPdf = findViewById(R.id.inProcessPdf);
 
-        // adding the logo to the pdf header
-        btmp = BitmapFactory.decodeResource(getResources(), R.drawable.united_airlines_quality_assurance_logo_pdf);
-        scaledbtmp = Bitmap.createScaledBitmap(btmp, 1200, 518, false);
-
-
-
 
         findViewById(R.id.save_btn).setOnClickListener(this);
         findViewById(R.id.clear_data).setOnClickListener(this);
