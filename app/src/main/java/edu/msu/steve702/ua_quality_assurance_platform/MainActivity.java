@@ -126,4 +126,12 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
+
+    public void onGetRegulations(View view){
+        Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+        httpIntent.setData(Uri.parse("http://35.9.22.101"));
+
+        startActivity(httpIntent);
+
+    }
 }

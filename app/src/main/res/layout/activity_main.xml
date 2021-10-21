@@ -211,6 +211,15 @@
                         android:textStyle="bold" />
 
 
+                    <Button
+                        android:id="@+id/buttonRegulations"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/UnitedBlue"
+                        android:onClick="onGetRegulations"
+                        android:text="@string/get_regulations"
+                        android:textColor="#FFFFFF" />
+
                     <HorizontalScrollView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">

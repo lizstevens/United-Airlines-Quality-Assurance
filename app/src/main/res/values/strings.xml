@@ -75,5 +75,6 @@
     <string name="untitled_audit_hint">Untitled Audit</string>
     <string name="create_another_in_process_sheet">Create Another In-Process Sheet</string>
     <string name="create_header">Technical Operations Quality Assurance: Create an In-Process Sheet</string>
+    <string name="get_regulations">Get Regulations</string>
 
 </resources>
