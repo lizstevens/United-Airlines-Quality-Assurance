@@ -56,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
                 android:text="@string/take_photo"
-                android:visibility="gone"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
