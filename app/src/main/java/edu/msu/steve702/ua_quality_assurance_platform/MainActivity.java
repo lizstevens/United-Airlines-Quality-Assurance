@@ -27,17 +27,14 @@ public class MainActivity extends AppCompatActivity {
 
     private Button newAuditButton;
     private Button editAuditButton;
-    private Button uploadImageButton;
-    private FirebaseStorage storage;
     private StorageReference storageRef;
+    private ProgressDialog progressDialog;
     public Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
         newAuditButton = (Button)findViewById(R.id.createAudit);
         newAuditButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,15 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 startListOptionsActivity();
             }
         });
-        uploadImageButton = findViewById(R.id.uploadImage);
-
-        uploadImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                choosePicture();
-            }
-        });
-
     }
 
     public void openInProcessActivity() {
@@ -71,60 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void startListOptionsActivity() {
         startActivity(new Intent(this, AuditActivity.class));
-    }
-
-    private void choosePicture() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-            imageUri = data.getData();
-            uploadImage(imageUri);
-        }
-    }
-
-    private void uploadImage(Uri imageUri) {
-
-        final ProgressDialog pd =new ProgressDialog(this);
-        pd.setTitle("Uploading Image...");
-        pd.show();
-
-        final String randomKey = UUID.randomUUID().toString();
-        // Create a reference
-        StorageReference imageRef = storageRef.child("image/" + randomKey);
-
-        // While the file names are the same, the references point to different files
-        imageRef.getName().equals(imageRef.getName());    // true
-        imageRef.getPath().equals(imageRef.getPath());    // false
-
-        imageRef.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        pd.dismiss();
-                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        pd.setMessage("Progress: " + (int) progressPercent + "%");
-                    }
-                });
-
     }
 
     public void onGetRegulations(View view){

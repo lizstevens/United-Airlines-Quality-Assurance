@@ -136,45 +136,7 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#FFFFFF"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/dashboard_upload_image_logo"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:contentDescription="@string/new_audit_sheet_logo"
-                        android:src="@drawable/add">
-
-                    </ImageView>
-
-                    <Button
-                        android:id="@+id/uploadImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:backgroundTint="@color/UnitedBlue"
-                        android:textColor="#FFFFFF"
-                        android:textAllCaps="false"
-                        android:text="@string/upload_image"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
