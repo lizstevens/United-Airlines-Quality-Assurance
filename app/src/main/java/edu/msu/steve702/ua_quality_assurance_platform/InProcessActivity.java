@@ -19,7 +19,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -122,7 +121,6 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.generate_pdf_btn).setOnClickListener(this);
         findViewById(R.id.switch_to_data_tables_btn).setOnClickListener(this);
         findViewById(R.id.upload_image_btn).setOnClickListener(this);
-        findViewById(R.id.take_photo_btn).setOnClickListener(this);
     }
 
 
@@ -311,10 +309,6 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
     }
-    private void takePhoto() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePictureIntent, 1);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -383,9 +377,6 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.upload_image_btn:
                 chooseImage();
-                break;
-            case R.id.take_photo_btn:
-                takePhoto();
                 break;
         }
 
