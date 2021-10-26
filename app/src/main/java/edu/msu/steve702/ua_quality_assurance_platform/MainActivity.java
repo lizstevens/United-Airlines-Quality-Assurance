@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startListOptionsActivity() {
-        startActivity(new Intent(this, InProcessListActivity.class));
+        startActivity(new Intent(this, AuditActivity.class));
     }
 
     private void choosePicture() {

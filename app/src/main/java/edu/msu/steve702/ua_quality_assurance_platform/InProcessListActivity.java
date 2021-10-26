@@ -43,29 +43,30 @@ public class InProcessListActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         // get all in the in processs sheets in the collection
-        db.collection("in-process").get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                        progressBar.setVisibility(View.GONE);
-                        // not empty
-                        if(!queryDocumentSnapshots.isEmpty()){
-                            // get the list of documents
-                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-
-                            // display in recycler view
-                            for(DocumentSnapshot d : list){
-
-                                DataObject p = d.toObject(DataObject.class);
-                                p.setId(d.getId());
-                                inProcessList.add(p);
-                            }
-
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                });
+//        db.collection("in-process").get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//
+//                        progressBar.setVisibility(View.GONE);
+//                        // not empty
+//                        if(!queryDocumentSnapshots.isEmpty()){
+//                            // get the list of documents
+//                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+//
+//                            // display in recycler view
+//                            for(DocumentSnapshot d : list){
+//
+//                                DataObject p = d.toObject(DataObject.class);
+//                                p.setId(d.getId());
+//                                inProcessList.add(p);
+//                            }
+//
+//                            adapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                });
     }
 
 

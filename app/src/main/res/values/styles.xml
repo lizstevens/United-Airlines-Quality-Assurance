@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/UnitedBlue</item>
         <item name="colorPrimaryDark">@color/UnitedBlue</item>
         <item name="colorAccent">@color/UnitedBlue</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionMenuOverflow</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -12,5 +13,7 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
+    <style name="MyActionMenuOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_baseline_menu_24</item>
+    </style>
 </resources>
