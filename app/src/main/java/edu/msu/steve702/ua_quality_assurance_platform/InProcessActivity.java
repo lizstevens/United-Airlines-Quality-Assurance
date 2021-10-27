@@ -1,16 +1,22 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 //import android.graphics.pdf.PdfDocument;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -21,9 +27,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -39,7 +50,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.util.UUID;
 
 
 public class InProcessActivity extends AppCompatActivity implements View.OnClickListener {
@@ -53,15 +66,23 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
     private Button viewAndUpdateButton;
     Bitmap btmp, scaledbtmp;
     private LinearLayout inProcessPdf;
-
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageRef;
+    private ProgressDialog progressDialog;
+    public Uri imageUri;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_process);
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageRef = firebaseStorage.getReference();
 
-        db = FirebaseFirestore.getInstance();
+
+
+
 
         // request permissions
         ActivityCompat.requestPermissions(this, new String[]{
@@ -99,8 +120,7 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.clear_data).setOnClickListener(this);
         findViewById(R.id.generate_pdf_btn).setOnClickListener(this);
         findViewById(R.id.switch_to_data_tables_btn).setOnClickListener(this);
-        findViewById(R.id.view_in_process_sheets).setOnClickListener(this);
-
+        findViewById(R.id.upload_image_btn).setOnClickListener(this);
     }
 
 
@@ -128,7 +148,7 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 //
 //        CollectionReference dbInProcessSheets = db.collection(title);
 
-        InProcessObject inProcess = new InProcessObject(
+        DataObject inProcess = new DataObject(
                 titleObj,
                 employeeNameObj,
                 partNumberObj,
@@ -282,7 +302,60 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 //        Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
     }
 
+    // this function allows user choose picture to upload
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+            imageUri = data.getData();
+            uploadImage(imageUri);
+        }
+    }
+
+    private void uploadImage(Uri imageUri) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading File....");
+        progressDialog.show();
+
+        final String randomKey = UUID.randomUUID().toString();
+        // Create a reference
+        StorageReference imageRef = storageRef.child("image/" + randomKey);
+
+        // While the file names are the same, the references point to different files
+        imageRef.getName().equals(imageRef.getName());    // true
+        imageRef.getPath().equals(imageRef.getPath());    // false
+
+        imageRef.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                        progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
+                    }
+                });
+
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -302,15 +375,9 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
             case R.id.switch_to_data_tables_btn:
                 startActivity(new Intent(this, TabularDataActivity.class));
                 break;
-            case R.id.view_in_process_sheets:
-                startActivity(new Intent(this, InProcessListActivity.class));
+            case R.id.upload_image_btn:
+                chooseImage();
                 break;
-//            case R.id.upload_image_btn:
-//                chooseImage();
-//                break;
-//            case R.id.take_photo_btn:
-//                takePhoto();
-//                break;
         }
 
     }

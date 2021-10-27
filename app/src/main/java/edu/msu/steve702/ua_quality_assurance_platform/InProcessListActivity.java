@@ -1,6 +1,5 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -14,14 +13,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InProcessListActivity extends AppCompatActivity implements View.OnClickListener {
+public class InProcessListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private InProcessAdapter adapter;
-    private List<InProcessObject> inProcessList;
+    private List<DataObject> inProcessList;
     private ProgressBar progressBar;
 
     private FirebaseFirestore db;
@@ -45,41 +43,31 @@ public class InProcessListActivity extends AppCompatActivity implements View.OnC
         db = FirebaseFirestore.getInstance();
 
         // get all in the in processs sheets in the collection
-        db.collection("in-process").get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                        progressBar.setVisibility(View.GONE);
-                        // not empty
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            // get the list of documents
-                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-
-                            // display in recycler view
-                            for (DocumentSnapshot d : list) {
-
-                                InProcessObject p = d.toObject(InProcessObject.class);
-                                p.setId(d.getId());
-                                inProcessList.add(p);
-                            }
-
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-
-        findViewById(R.id.back_to_main).setOnClickListener(this);
+//        db.collection("in-process").get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//
+//                        progressBar.setVisibility(View.GONE);
+//                        // not empty
+//                        if(!queryDocumentSnapshots.isEmpty()){
+//                            // get the list of documents
+//                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+//
+//                            // display in recycler view
+//                            for(DocumentSnapshot d : list){
+//
+//                                DataObject p = d.toObject(DataObject.class);
+//                                p.setId(d.getId());
+//                                inProcessList.add(p);
+//                            }
+//
+//                            adapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                });
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.back_to_main:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-        }
 
-
-    }
 }
