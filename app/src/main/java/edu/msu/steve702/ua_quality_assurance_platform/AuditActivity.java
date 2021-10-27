@@ -26,11 +26,15 @@ public class AuditActivity extends AppCompatActivity {
     TabItem tabChecklist;
     TabItem tabInProcess;
     TabItem tabTableData;
+    String checklist_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audit);
+
+        //name of the checklist that was selected from the previous view
+        checklist_name = getIntent().getStringExtra("checklistName");
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title);
@@ -75,7 +79,17 @@ public class AuditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        String option1 = getString(R.string.save);
+        String option2 = getString(R.string.generate_pdf);
+        String option3 = getString(R.string.take_photo);
+        String option4 = getString(R.string.upload_photo);
+
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
+        if (option1.equals(item.getTitle().toString())) {
+
+        } else if (option2.equals(item.getTitle().toString())) {
+
+        }
         return true;
     }
 }

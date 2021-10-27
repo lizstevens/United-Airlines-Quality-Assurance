@@ -85,6 +85,8 @@
     <string name="title">Quality Assurance Technical Operations</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_checklist_name">Default_Checklist_Name</string>
+    <string name="upload_photo">Upload Photo</string>
     <string name="auditor_name">Auditor Name</string>
     <string name="date">Date</string>
     <string name="vendor_name">Vendor Name</string>

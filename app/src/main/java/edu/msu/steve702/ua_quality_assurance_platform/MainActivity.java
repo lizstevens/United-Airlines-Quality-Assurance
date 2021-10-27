@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startListOptionsActivity() {
-        startActivity(new Intent(this, AuditActivity.class));
+        startActivity(new Intent(this, CheckListListActivity.class));
     }
 
     private void choosePicture() {

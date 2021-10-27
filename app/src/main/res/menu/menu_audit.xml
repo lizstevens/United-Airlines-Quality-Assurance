@@ -4,4 +4,6 @@
 
     <item android:title="@string/save"/>
     <item android:title="@string/generate_pdf" />
+    <item android:title="@string/take_photo" />
+    <item android:title="@string/upload_photo" />
 </menu>

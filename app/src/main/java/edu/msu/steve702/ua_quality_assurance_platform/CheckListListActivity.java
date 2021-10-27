@@ -46,13 +46,13 @@ public class CheckListListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 Log.d("CheckListListActivity", "onItemClick:" + checklistList.get(i));
                 Toast.makeText(CheckListListActivity.this, checklistList.get(i), Toast.LENGTH_SHORT).show();
-                openChecklistActivity(checklistList.get(i));
+                openAuditActivity(checklistList.get(i));
             }
         });
     }
 
-    public void openChecklistActivity(String checklistName) {
-        Intent intent = new Intent(this, CheckListActivity.class);
+    public void openAuditActivity(String checklistName) {
+        Intent intent = new Intent(this, AuditActivity.class);
         intent.putExtra("checklistName", checklistName);
         startActivity(intent);
     }
