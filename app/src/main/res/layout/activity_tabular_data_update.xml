@@ -38,16 +38,6 @@
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/view_td"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/UnitedBlue"
-                android:text="View Tables"
-                android:visibility="gone"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF" />
-
-            <Button
                 android:id="@+id/upload_image_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,31 +58,22 @@
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/save_btn"
+                android:id="@+id/update_td"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
-                android:text="@string/save"
+                android:text="Update"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
-            <Button
-                android:id="@+id/updateAudit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/UnitedBlue"
-                android:text="@string/update_existing_audit"
-                android:visibility="gone"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/generate_pdf_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:backgroundTint="@color/UnitedBlue"
                 android:text="@string/generate_pdf"
+                android:visibility="gone"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -318,17 +299,16 @@
                                     android:importantForAutofill="no" />
                             </TableRow>
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-                                <Button
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:text="Add Data"
-                                    android:visibility="gone"
-                                    android:importantForAutofill="no" />
-                            </TableRow>
+<!--                            <TableRow-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent">-->
+<!--                                <Button-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:text="Add Data"-->
+<!--                                    android:importantForAutofill="no" />-->
+<!--                            </TableRow>-->
 
                         </TableLayout>
 
@@ -343,6 +323,7 @@
             <androidx.cardview.widget.CardView
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
@@ -534,7 +515,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:text="Add Data"
-                                    android:visibility="gone"
                                     android:importantForAutofill="no" />
                             </TableRow>
 
@@ -554,7 +534,7 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp">
 
@@ -733,7 +713,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no"
-                                android:visibility="gone"
                                 android:text="Add Data" />
                         </TableRow>
 
@@ -750,6 +729,7 @@
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
+                android:visibility="gone"
                 android:layout_margin="12dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp">
@@ -907,7 +887,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no"
-                                android:visibility="gone"
                                 android:text="Add Data" />
                         </TableRow>
 
@@ -926,6 +905,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
+                android:visibility="gone"
                 android:layout_columnWeight="1"
                 >
 
@@ -1437,7 +1417,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no"
-                                android:visibility="gone"
                                 android:text="Add Data" />
                         </TableRow>
 
@@ -1455,6 +1434,7 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
+                android:visibility="gone"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp">
 
@@ -1966,7 +1946,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no"
-                                android:visibility="gone"
                                 android:text="Add Data" />
                         </TableRow>
 

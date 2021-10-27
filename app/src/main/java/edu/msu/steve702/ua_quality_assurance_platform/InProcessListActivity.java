@@ -19,7 +19,7 @@ import java.util.List;
 public class InProcessListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private InProcessAdapter adapter;
-    private List<DataObject> inProcessList;
+    private List<InProcessObject> inProcessList;
     private ProgressBar progressBar;
 
     private FirebaseFirestore db;

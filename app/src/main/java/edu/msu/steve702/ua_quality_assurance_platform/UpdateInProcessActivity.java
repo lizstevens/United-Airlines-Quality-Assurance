@@ -1,8 +1,10 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,10 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -41,7 +42,7 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
 
     private FirebaseFirestore db;
 
-    private DataObject inProcessIntent;
+    private InProcessObject inProcessIntent;
 
     private Button saveButton, generatePDFButton, addTableButton, updateButton;
     private EditText titleEdit, employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
@@ -56,7 +57,7 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_process_update);
 
-        inProcessIntent = (DataObject)getIntent().getSerializableExtra("in-process");
+        inProcessIntent = (InProcessObject)getIntent().getSerializableExtra("in-process");
         db = FirebaseFirestore.getInstance();
 
         // edit in process title
@@ -111,6 +112,8 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
         findViewById(R.id.updateAudit).setOnClickListener(this);
         findViewById(R.id.generate_pdf_btn).setOnClickListener(this);
         findViewById(R.id.createAudit).setOnClickListener(this);
+        findViewById(R.id.view_in_process_sheets).setOnClickListener(this);
+        findViewById(R.id.deleteAudit).setOnClickListener(this);
     }
 
     private void updateInProcess() {
@@ -130,7 +133,7 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
         String reqTrainingObj = reqTrainingEdit.getText().toString();
         String trainingDateObj = trainingDateEdit.getText().toString();
 
-        DataObject inProcessUpdate = new DataObject(
+        InProcessObject inProcessUpdate = new InProcessObject(
                 titleObj,
                 employeeNameObj,
                 partNumberObj,
@@ -263,6 +266,21 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
 //        Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
     }
 
+    private void deleteInProcess() {
+        db.collection("in-process").document(inProcessIntent.getId()).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()) {
+                        Toast.makeText(UpdateInProcessActivity.this, "In-Process Deleted", Toast.LENGTH_LONG).show();
+                        finish();
+                        startActivity(new Intent(UpdateInProcessActivity.this, InProcessListActivity.class));
+                    }
+
+                }
+            });
+    }
+
     @Override
     public void onClick(View view) {
         switch(view.getId()){
@@ -279,10 +297,37 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
             case R.id.createAudit:
                 startActivity(new Intent(this, InProcessActivity.class));
                 break;
+            case R.id.view_in_process_sheets:
+                startActivity(new Intent(this, InProcessListActivity.class));
+                break;
+            case R.id.deleteAudit:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Are you sure you would like to delete this in-process sheet data?");
+                builder.setMessage("This deletion is permanent");
+
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteInProcess();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                break;
         }
 
 
     }
+
 
 
 }

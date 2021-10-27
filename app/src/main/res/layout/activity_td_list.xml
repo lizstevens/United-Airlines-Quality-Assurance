@@ -26,7 +26,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
         android:gravity="center"
-        android:text="@string/current_in_process_sheets"
+        android:text="@string/current_technical_data"
         android:textSize="24sp" />
 
 
@@ -39,7 +39,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_inProcess"
+        android:id="@+id/recyclerview_td"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp" />

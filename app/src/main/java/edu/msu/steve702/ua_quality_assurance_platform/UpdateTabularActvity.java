@@ -41,22 +41,21 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-public class TabularDataActivity extends AppCompatActivity implements View.OnClickListener {
+public class UpdateTabularActvity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseFirestore db;
+
+    private TabularDataObject techDataIntent;
 
     private EditText tdPartNumEdit, tdManufEdit, tdAtaEdit , tdRevLevelEdit, tdRevDateEdit, tdCommentsEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tabular_data);
+        setContentView(R.layout.activity_tabular_data_update);
 
+        techDataIntent = (TabularDataObject) getIntent().getSerializableExtra("technical-data");
         db = FirebaseFirestore.getInstance();
-
-        // request permissions
-        ActivityCompat.requestPermissions(this, new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         // edit technical data table
         tdPartNumEdit = findViewById(R.id.tdPartNumText);
@@ -66,13 +65,21 @@ public class TabularDataActivity extends AppCompatActivity implements View.OnCli
         tdRevDateEdit = findViewById(R.id.tdRevDateText);
         tdCommentsEdit = findViewById(R.id.tdCommentsText);
 
+
+        tdPartNumEdit.setText(techDataIntent.getTdPartNumObj());
+        tdManufEdit.setText(techDataIntent.getTdManufObj());
+        tdAtaEdit.setText(techDataIntent.getTdAtaObj());
+        tdRevLevelEdit.setText(techDataIntent.getTdRevLevelObj());
+        tdRevDateEdit.setText(techDataIntent.getTdRevDateObj());
+        tdCommentsEdit.setText(techDataIntent.getTdCommentsObj());
+
+
         findViewById(R.id.save_btn).setOnClickListener(this);
-        findViewById(R.id.view_td).setOnClickListener(this);
+        findViewById(R.id.update_td).setOnClickListener(this);
         findViewById(R.id.switch_to_in_process_btn).setOnClickListener(this);
     }
 
-    // this function sets all the data objects
-    private void saveTechnicalData() {
+    private void updateTechnicalData() {
         String tdPartNumObj = ((EditText)tdPartNumEdit).getText().toString();
         String tdManufObj = tdManufEdit.getText().toString();
         String tdAtaObj = tdAtaEdit.getText().toString();
@@ -81,11 +88,7 @@ public class TabularDataActivity extends AppCompatActivity implements View.OnCli
         String tdCommentsObj = tdCommentsEdit.getText().toString();
 
 
-
-        CollectionReference dbInProcessSheets = db.collection("technical_data");
-
-
-        TabularDataObject techData = new TabularDataObject(
+        TabularDataObject techDataUpdate = new TabularDataObject(
                 tdPartNumObj,
                 tdManufObj,
                 tdAtaObj,
@@ -94,33 +97,26 @@ public class TabularDataActivity extends AppCompatActivity implements View.OnCli
                 tdCommentsObj
         );
 
-        // save in firestore
-        dbInProcessSheets.add(techData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(TabularDataActivity.this, "Technical Data Added", Toast.LENGTH_LONG).show();
+        // override existing data using id
+        db.collection("technical-data").document(techDataIntent.getId()).set(techDataUpdate)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(UpdateTabularActvity.this, "Technical Data Updated", Toast.LENGTH_LONG).show();
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(TabularDataActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+                    }
+                });
     }
 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.save_btn:
-                saveTechnicalData();
+        switch(view.getId()){
+            case R.id.update_td:
+                updateTechnicalData();
                 break;
             case R.id.switch_to_in_process_btn:
                 startActivity(new Intent(this, InProcessActivity.class));
-                break;
-            case R.id.view_td:
-                startActivity(new Intent(this, TechnicalDataListActivity.class));
                 break;
         }
 

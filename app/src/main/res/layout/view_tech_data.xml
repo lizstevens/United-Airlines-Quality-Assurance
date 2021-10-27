@@ -21,71 +21,42 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/textview_title"
+                android:id="@+id/textview_tdPartNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textview_empName"
+                android:id="@+id/textview_tdManuf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
 
             <TextView
-                android:id="@+id/textview_partNum"
+                android:id="@+id/textview_tdAta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
             <TextView
-                android:id="@+id/textview_serialNum"
+                android:id="@+id/textview_tdRevLevel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
             <TextView
-                android:id="@+id/textview_nomenclature"
+                android:id="@+id/textview_tdRevLevelDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
             <TextView
-                android:id="@+id/textview_task"
+                android:id="@+id/textview_tdComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-            <TextView
-                android:id="@+id/textview_techSpec"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-            <TextView
-                android:id="@+id/textview_tooling"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-            <TextView
-                android:id="@+id/textview_shelfLife"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-            <TextView
-                android:id="@+id/textview_trace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-            <TextView
-                android:id="@+id/textview_reqTraining"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-            <TextView
-                android:id="@+id/textview_reqTrainingDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
 
         </LinearLayout>
 
