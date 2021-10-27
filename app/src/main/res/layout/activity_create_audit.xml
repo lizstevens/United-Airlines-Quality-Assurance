@@ -101,36 +101,6 @@
             android:hint="@string/description"
             android:inputType="textMultiLine" />
 
-        <Button
-            android:id="@+id/save_audit_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/UnitedBlue"
-            android:text="@string/save_audit_information"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/auditInfo"
-        android:layout_marginTop="20dp"
-        android:gravity="right"
-        android:padding="20dp">
-
-        <Button
-            android:id="@+id/start_in_process"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/UnitedBlue"
-            android:text="Start In-Process"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
-
     </LinearLayout>
 
     </LinearLayout>

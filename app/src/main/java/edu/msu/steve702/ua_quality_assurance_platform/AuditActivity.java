@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewParent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -33,9 +36,6 @@ public class AuditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audit);
 
-        //name of the checklist that was selected from the previous view
-        checklist_name = getIntent().getStringExtra("checklistName");
-
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title);
         setSupportActionBar(toolbar);
@@ -47,8 +47,11 @@ public class AuditActivity extends AppCompatActivity {
         tabTableData = findViewById(R.id.tableDataTabItem);
         viewPager = findViewById(R.id.viewPager);
 
-        pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        //name of the checklist that was selected from the previous view
+        checklist_name = getIntent().getStringExtra("checklistName");
+        pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), checklist_name);
         viewPager.setAdapter(pageAdapter);
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -92,4 +95,6 @@ public class AuditActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
 }

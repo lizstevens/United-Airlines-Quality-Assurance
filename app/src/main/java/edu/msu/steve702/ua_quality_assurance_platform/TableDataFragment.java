@@ -2,6 +2,8 @@ package edu.msu.steve702.ua_quality_assurance_platform;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,6 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -17,7 +24,15 @@ import android.widget.Toast;
  * Use the {@link TableDataFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TableDataFragment extends Fragment {
+public class TableDataFragment extends Fragment implements View.OnClickListener {
+
+    private ViewGroup layout;
+    private int numRows_table1 = 1;
+    private int numRows_table2 = 1;
+    private int numRows_table3 = 1;
+    private int numRows_table4 = 1;
+    private int numRows_table5 = 1;
+    private int numRows_table6 = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,10 +75,26 @@ public class TableDataFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        layout = (ViewGroup) view.getParent();
+        Button addButton_table1 = view.findViewById(R.id.buttonTable1);
+        addButton_table1.setOnClickListener(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_tabular_data, container, false);
     }
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonTable1:
+                Toast.makeText(getContext(), "ID:" + v.getId(), Toast.LENGTH_LONG).show();
+        }
+    }
 }

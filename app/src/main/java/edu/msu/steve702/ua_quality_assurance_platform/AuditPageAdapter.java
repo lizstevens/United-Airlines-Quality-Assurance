@@ -20,7 +20,7 @@ public class AuditPageAdapter extends FragmentPagerAdapter {
     public InProcessFragment getInProcessFragment() { return this.inProcessFragment; }
     public TableDataFragment getTableDataFragment() { return this.tableDataFragment; }
 
-    public AuditPageAdapter(@NonNull FragmentManager fm, int numOfTabs) {
+    public AuditPageAdapter(@NonNull FragmentManager fm, int numOfTabs, String checklist_name) {
         super(fm);
         this.numOfTabs = numOfTabs;
 
@@ -28,6 +28,8 @@ public class AuditPageAdapter extends FragmentPagerAdapter {
         checklistFragment = new ChecklistFragment();
         inProcessFragment = new InProcessFragment();
         tableDataFragment = new TableDataFragment();
+
+        checklistFragment.changeChecklistTitleText(checklist_name);
     }
 
     @NonNull

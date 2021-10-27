@@ -36,8 +36,8 @@ public class InitialAuditActivity extends AppCompatActivity implements View.OnCl
         auditDescrip = findViewById(R.id.descripEdit);
 
 
-        findViewById(R.id.save_audit_info).setOnClickListener(this);
-        findViewById(R.id.start_in_process).setOnClickListener(this);
+        //findViewById(R.id.save_audit_info).setOnClickListener(this);
+        //findViewById(R.id.start_in_process).setOnClickListener(this);
     }
 
     private void saveAuditInfo (View view) {
@@ -68,15 +68,15 @@ public class InitialAuditActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.save_audit_info:
-                saveAuditInfo(view);
-                break;
-            case R.id.start_in_process:
-                startActivity(new Intent(this, InProcessActivity.class));
-                break;
-
-        }
+//        switch (view.getId()) {
+//            case R.id.save_audit_info:
+//                saveAuditInfo(view);
+//                break;
+//            case R.id.start_in_process:
+//                startActivity(new Intent(this, InProcessActivity.class));
+//                break;
+//
+//        }
 
     }
 }

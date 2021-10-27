@@ -98,4 +98,5 @@
     <string name="delete">Delete</string>
     <string name="technical_operations_quality_assurance">Technical Operations Quality Assurance</string>
     <string name="current_technical_data">Current Technical Data</string>
+    <string name="add_row">Add Row</string>
 </resources>
