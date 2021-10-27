@@ -19,7 +19,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:padding="20dp"
-            android:text="@string/header"
+            android:text="@string/technical_operations_quality_assurance"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -34,6 +34,16 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
                 android:text="@string/switch_to_inprocess_btn"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/view_td"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/UnitedBlue"
+                android:text="View Tables"
+                android:visibility="gone"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -80,6 +90,7 @@
                 android:id="@+id/generate_pdf_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:backgroundTint="@color/UnitedBlue"
                 android:text="@string/generate_pdf"
                 android:textAllCaps="false"
@@ -91,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
                 android:text="@string/clear_all_data"
+                android:visibility="gone"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -178,6 +190,7 @@
                                 android:layout_marginTop="1dp">
 
                                 <TextView
+                                    android:id="@+id/tdPartNum"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginEnd="1dp"
@@ -190,6 +203,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tdManuf"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginEnd="1dp"
@@ -203,6 +217,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tdAta"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginEnd="1dp"
@@ -215,6 +230,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tdRevLevel"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginEnd="1dp"
@@ -227,6 +243,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tdRevDate"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginEnd="1dp"
@@ -239,6 +256,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tdComments"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_marginEnd="1dp"
@@ -258,78 +276,42 @@
                                 android:layout_height="match_parent">
 
                                 <EditText
+                                    android:id="@+id/tdPartNumText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
+                                    android:id="@+id/tdManufText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
+                                    android:id="@+id/tdAtaText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
+                                    android:id="@+id/tdRevLevelText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
+                                    android:id="@+id/tdRevDateText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-                            </TableRow>
-
-                            <TableRow
-                                android:id="@+id/row2"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
+                                    android:id="@+id/tdCommentsText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
@@ -343,525 +325,12 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
-                                    android:text="Add Row"
+                                    android:text="Add Data"
+                                    android:visibility="gone"
                                     android:importantForAutofill="no" />
                             </TableRow>
 
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row3"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row4"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row5"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row6"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row7"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row8"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row9"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row10"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row11"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row12"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row13"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:id="@+id/row14"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
                         </TableLayout>
-
-                        <!--                    tech specs-->
-
-                        <!--                    tooling-->
-
-                        <!--                    shelf life-->
-
-                        <!--                    traceability-->
-
-                        <!--                    training/date-->
 
                     </LinearLayout>
 
@@ -876,9 +345,9 @@
                 app:cardElevation="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="12dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:layout_margin="12dp"
                 >
 
                 <HorizontalScrollView
@@ -894,12 +363,6 @@
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="16dp">
-
-                        <!--                    <HorizontalScrollView-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="match_parent">-->
-                        <!--                    </HorizontalScrollView>-->
-
 
                         <!--first table in the in the first in process sheet-->
                         <TableLayout
@@ -928,15 +391,8 @@
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
-                                <!--part number table header-->
-
-                                <!--serial number table header-->
-
-                                <!--nomenclature table header-->
                             </TableRow>
-                            <!--end-->
 
-                            <!-- text for the first row headers-->
                         </TableLayout>
 
 
@@ -1069,46 +525,6 @@
                                     android:importantForAutofill="no" />
                             </TableRow>
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-                            </TableRow>
 
                             <TableRow
                                 android:layout_width="match_parent"
@@ -1117,338 +533,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
-                                    android:text="Add Row"
+                                    android:text="Add Data"
+                                    android:visibility="gone"
                                     android:importantForAutofill="no" />
                             </TableRow>
-
-
-<!--                            <TableRow-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
-
-<!--                            <TableRow-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginEnd="1dp"-->
-<!--                                    android:importantForAutofill="no" />-->
-<!--                            </TableRow>-->
 
                         </TableLayout>
 
@@ -1482,12 +570,6 @@
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="16dp">
-
-                        <!--                    <HorizontalScrollView-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="match_parent">-->
-                        <!--                    </HorizontalScrollView>-->
-
 
                         <!--first table in the in the first in process sheet-->
 
@@ -1639,521 +721,6 @@
 
                             </TableRow>
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                            </TableRow>
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content">-->
-                            <!--                                <Button-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                        android:layout_marginEnd="1dp"-->
-                            <!--                                    android:text="Add Row"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
 
                         </TableLayout>
 
@@ -2166,18 +733,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no"
-                                android:text="Add Row" />
+                                android:visibility="gone"
+                                android:text="Add Data" />
                         </TableRow>
-
-                        <!--                    tech specs-->
-
-                        <!--                    tooling-->
-
-                        <!--                    shelf life-->
-
-                        <!--                    traceability-->
-
-                        <!--                    training/date-->
 
                     </LinearLayout>
 
@@ -2193,7 +751,6 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
-                android:visibility="visible"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp">
 
@@ -2208,12 +765,6 @@
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="16dp">
-
-                        <!--                    <HorizontalScrollView-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="match_parent">-->
-                        <!--                    </HorizontalScrollView>-->
-
 
                         <!--first table in the in the first in process sheet-->
                         <TableLayout
@@ -2345,276 +896,6 @@
 
                             </TableRow>
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
-
-                            </TableRow>
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
-                            <!--                            <TableRow-->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="match_parent">-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                                <EditText-->
-                            <!--                                    android:layout_width="wrap_content"-->
-                            <!--                                    android:layout_height="wrap_content"-->
-                            <!--                                    android:layout_marginEnd="1dp"-->
-                            <!--                                    android:importantForAutofill="no" />-->
-
-                            <!--                            </TableRow>-->
-
                         </TableLayout>
 
                         <TableRow
@@ -2626,7 +907,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no"
-                                android:text="Add Row" />
+                                android:visibility="gone"
+                                android:text="Add Data" />
                         </TableRow>
 
                     </LinearLayout>
@@ -2638,13 +920,14 @@
 
             <!--  fifth in process sheet-->
             <androidx.cardview.widget.CardView
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp"
+                android:layout_margin="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:layout_margin="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                >
 
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
@@ -2810,42 +1093,42 @@
 
                             </TableRow>
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+<!--                            <TableRow-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent">-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
 
-                            </TableRow>
+<!--                            </TableRow>-->
 
 <!--                            <TableRow-->
 <!--                                android:layout_width="match_parent"-->
@@ -3154,7 +1437,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no"
-                                android:text="Add Row" />
+                                android:visibility="gone"
+                                android:text="Add Data" />
                         </TableRow>
 
                     </LinearLayout>
@@ -3210,7 +1494,7 @@
                                     android:layout_weight="1"
                                     android:background="#b0b0b0"
                                     android:padding="12dp"
-                                    android:text="Shelf Life"
+                                    android:text="SHELF LIFE"
                                     android:textAlignment="center"
                                     android:textColor="#000000"
                                     android:textSize="12sp"
@@ -3338,42 +1622,42 @@
 
                             </TableRow>
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+<!--                            <TableRow-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent">-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="1dp"
-                                    android:importantForAutofill="no" />
+<!--                                <EditText-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginEnd="1dp"-->
+<!--                                    android:importantForAutofill="no" />-->
 
 
-                            </TableRow>
+<!--                            </TableRow>-->
 
                             <!--                            <TableRow-->
                             <!--                                android:layout_width="match_parent"-->
@@ -3682,7 +1966,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no"
-                                android:text="Add Row" />
+                                android:visibility="gone"
+                                android:text="Add Data" />
                         </TableRow>
 
                     </LinearLayout>

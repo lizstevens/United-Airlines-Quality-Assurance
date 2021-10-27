@@ -75,6 +75,17 @@
     <string name="untitled_audit_hint">Untitled Audit</string>
     <string name="create_another_in_process_sheet">Create Another In-Process Sheet</string>
     <string name="create_header">Technical Operations Quality Assurance: Create an In-Process Sheet</string>
+    <string name="current_in_process_sheets">Current In-Process Sheets</string>
     <string name="get_regulations">Get Regulations</string>
+    <string name="auditor_name">Name</string>
+    <string name="date">Date</string>
+    <string name="vendor_name">Vendor Name</string>
+    <string name="vendor_number">Vendor Number</string>
+    <string name="description">Description</string>
+    <string name="save_audit_information">Save Audit Information</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="delete">Delete</string>
+    <string name="technical_operations_quality_assurance">Technical Operations Quality Assurance</string>
+    <string name="current_technical_data">Current Technical Data</string>
 
 </resources>

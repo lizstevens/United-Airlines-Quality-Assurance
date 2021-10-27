@@ -6,7 +6,7 @@ import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
-public class DataObject implements Serializable {
+public class InProcessObject implements Serializable {
 
     @Exclude private String id;
 
@@ -23,10 +23,10 @@ public class DataObject implements Serializable {
     private String reqTrainingObj;
     private String trainingDateObj;
 
-    public DataObject() {
+    public InProcessObject() {
 
     }
-    public DataObject(final String titleObj, final String employeeNameObj, final String partNumberObj, final String serialNumberObj, final String nomenclatureObj, final String taskObj, final String techSpecificationsObj, final String toolingObj, final String shelfLifeObj, final String traceObj, final String reqTrainingObj, final String trainingDateObj) {
+    public InProcessObject(final String titleObj, final String employeeNameObj, final String partNumberObj, final String serialNumberObj, final String nomenclatureObj, final String taskObj, final String techSpecificationsObj, final String toolingObj, final String shelfLifeObj, final String traceObj, final String reqTrainingObj, final String trainingDateObj) {
         this.titleObj = titleObj;
         this.employeeNameObj = employeeNameObj;
         this.partNumberObj = partNumberObj;

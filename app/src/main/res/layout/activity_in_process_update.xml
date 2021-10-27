@@ -40,6 +40,15 @@
                 android:textColor="#FFFFFF" />
 
             <Button
+                android:id="@+id/deleteAudit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/UnitedBlue"
+                android:text="@string/delete"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+
+            <Button
                 android:id="@+id/createAudit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -2122,6 +2131,21 @@
 
 
         </GridLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/view_in_process_sheets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/UnitedBlue"
+                android:text="@string/view_in_process_sheets"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
 
     </LinearLayout>
 

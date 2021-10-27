@@ -15,9 +15,9 @@ import java.util.List;
 public class InProcessAdapter extends RecyclerView.Adapter<InProcessAdapter.InProcessViewHolder> {
 
     private Context mCtx;
-    private List<DataObject> inProcessList;
+    private List<InProcessObject> inProcessList;
 
-    public InProcessAdapter(Context mCtx, List<DataObject> inProcessList) {
+    public InProcessAdapter(Context mCtx, List<InProcessObject> inProcessList) {
         this.mCtx = mCtx;
         this.inProcessList = inProcessList;
     }
@@ -32,7 +32,7 @@ public class InProcessAdapter extends RecyclerView.Adapter<InProcessAdapter.InPr
 
     @Override
     public void onBindViewHolder(@NonNull InProcessViewHolder holder, int position) {
-        DataObject product = inProcessList.get(position);
+        InProcessObject product = inProcessList.get(position);
 
         holder.textViewTitle.setText(product.getTitleObj());
         holder.textViewEmpName.setText(product.getEmployeeNameObj());
@@ -81,7 +81,7 @@ public class InProcessAdapter extends RecyclerView.Adapter<InProcessAdapter.InPr
 
         @Override
         public void onClick(View view) {
-            DataObject inProcess = inProcessList.get(getAbsoluteAdapterPosition());
+            InProcessObject inProcess = inProcessList.get(getAbsoluteAdapterPosition());
             Intent intent = new Intent(mCtx, UpdateInProcessActivity.class);
             intent.putExtra("in-process", inProcess);
 
