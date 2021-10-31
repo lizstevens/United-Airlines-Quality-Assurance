@@ -8,6 +8,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.FileObserver;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -20,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar;
 //import com.google.firebase.storage.StorageReference;
 //import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.UUID;
 
 
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private Button newAuditButton;
     private Button editAuditButton;
     private Button uploadImageButton;
+
+    private FileObserver observer;
 //    private FirebaseStorage storage;
 //    private StorageReference storageRef;
     public Uri imageUri;
@@ -132,11 +138,28 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 //
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        File f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        Log.v("Files",f.exists()+"");
+        Log.v("Files",f.isDirectory()+"");
+        Log.v("Files",f.listFiles()+"");
+
+        File[] files = f.listFiles();
+    }
+
     public void onGetRegulations(View view){
         Intent httpIntent = new Intent(Intent.ACTION_VIEW);
         httpIntent.setData(Uri.parse("http://35.9.22.101"));
 
+
+
         startActivity(httpIntent);
+
+
 
     }
 }
