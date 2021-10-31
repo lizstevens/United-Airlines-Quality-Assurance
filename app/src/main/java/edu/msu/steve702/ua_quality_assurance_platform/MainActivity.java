@@ -1,10 +1,13 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
+import static java.util.logging.Logger.global;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -177,13 +180,17 @@ public class MainActivity extends AppCompatActivity {
             // Add header
             TableRow header = new TableRow(this);
 
+            header.setBackgroundColor(getColor(R.color.UnitedBlue));
+
             TextView file = new TextView(this);
             file.setText("Airworthiness Directives");
+            file.setTextColor(getColor(android.R.color.white));
             header.addView(file);
 
 
             TextView delete = new TextView(this);
             delete.setText("Delete");
+            delete.setTextColor(getColor(android.R.color.white));
             header.addView(delete);
 
             tl.addView(header);
@@ -192,6 +199,24 @@ public class MainActivity extends AppCompatActivity {
                 TableRow tableRow = new TableRow(this);
                 TextView fileName = new TextView(this);
                 fileName.setText(files[i].getName());
+
+
+                int finalI = i;
+                fileName.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.fromFile(files[finalI]),"application/pdf");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                        startActivity(intent);
+
+
+                    }
+                });
+
+
                 tableRow.addView(fileName);
 
                 Button button = new Button(this);
