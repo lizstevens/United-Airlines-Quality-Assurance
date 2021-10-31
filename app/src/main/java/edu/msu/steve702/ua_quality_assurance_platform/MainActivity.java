@@ -13,6 +13,10 @@ import android.os.FileObserver;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 //import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.UUID;
 
 
@@ -144,11 +149,64 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         File f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        Log.v("Files",f.exists()+"");
-        Log.v("Files",f.isDirectory()+"");
-        Log.v("Files",f.listFiles()+"");
 
-        File[] files = f.listFiles();
+
+        File[] files = f.listFiles(new FilenameFilter(){
+            @Override
+            public boolean accept(File file, String s) {
+                return s.matches("[0-9]{4}-[0-3][0-9]-[0-9]{2}.pdf");
+            }
+        });
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.FAAData);
+
+        // Check if table already exists
+        if(findViewById(R.id.RegTable) != null){
+            layout.removeView(findViewById(R.id.RegTable));
+        }
+
+        if(files.length > 0){
+
+
+            // Add table layout
+
+            TableLayout tl = new TableLayout(this);
+
+            tl.setId(R.id.RegTable);
+
+            // Add header
+            TableRow header = new TableRow(this);
+
+            TextView file = new TextView(this);
+            file.setText("Airworthiness Directives");
+            header.addView(file);
+
+
+            TextView delete = new TextView(this);
+            delete.setText("Delete");
+            header.addView(delete);
+
+            tl.addView(header);
+
+            for(int i=0; i < files.length; i++){
+                TableRow tableRow = new TableRow(this);
+                TextView fileName = new TextView(this);
+                fileName.setText(files[i].getName());
+                tableRow.addView(fileName);
+
+                Button button = new Button(this);
+                button.setText("Delete");
+                tableRow.addView(button);
+
+                tl.addView(tableRow);
+            }
+
+            layout.addView(tl);
+        }
+
+        
+
+
     }
 
     public void onGetRegulations(View view){
