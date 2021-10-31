@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.setDataAndType(Uri.fromFile(files[finalI]),"application/pdf");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-                        startActivity(intent);
+                        view.getContext().startActivity(intent);
 
 
                     }
