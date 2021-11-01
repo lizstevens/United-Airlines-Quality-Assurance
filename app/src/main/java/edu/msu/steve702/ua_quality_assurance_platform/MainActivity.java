@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         newAuditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openInProcessActivity();
+                startNewAuditActivity();
             }
         });
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         editAuditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startListOptionsActivity();
+                startEditAuditActivity();
             }
         });
 //        uploadImageButton = findViewById(R.id.uploadImage);
@@ -83,12 +83,12 @@ public class MainActivity extends AppCompatActivity {
 ////        startActivity(intent);
 ////    }
 
-    public void openInProcessActivity() {
-        Intent intent = new Intent(this, InitialAuditActivity.class);
+    public void startNewAuditActivity() {
+        Intent intent = new Intent(this, CheckListListActivity.class);
         startActivity(intent);
     }
 
-    public void startListOptionsActivity() {
+    public void startEditAuditActivity() {
         startActivity(new Intent(this, CheckListListActivity.class));
     }
 

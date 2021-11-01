@@ -87,11 +87,11 @@ public class AuditActivity extends AppCompatActivity {
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         if (option1.equals(item.getTitle().toString())) {
 
+
         } else if (option2.equals(item.getTitle().toString())) {
 
         }
         return true;
     }
-
 
 }

@@ -149,9 +149,8 @@
                 android:id="@+id/togglebutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textOn="@string/audit_status_open"
                 android:textOff="@string/audit_status_closed"
-                android:onClick="onToggleClicked"/>
+                android:textOn="@string/audit_status_open" />
 
         </LinearLayout>
 

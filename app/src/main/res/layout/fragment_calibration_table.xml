@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".table_data_sub_fragments.TechDataTableFragment">
+    tools:context=".table_data_sub_fragments.CalibrationTableFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,6 +14,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
             android:layout_margin="12dp"
             android:visibility="visible"
             app:cardCornerRadius="12dp"
@@ -23,44 +25,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-
                 <LinearLayout
-                    android:id="@+id/technicalData"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/Calibration"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#FFFFFF"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="16dp">
 
-
                     <!--first table in the in the first in process sheet-->
+
                     <TableLayout
-                        android:id="@+id/tableTitleTech"
+                        android:id="@+id/tableTitleCalibration"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:stretchColumns="1">
 
                         <!--first row: header for first table in the in first in process sheet-->
+
                         <TableRow
-                            android:id="@+id/tableTitleTechRow"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:id="@+id/tableTitleCalibrationRow"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/tableTitleTechText"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:id="@+id/tableTitleCalibrationText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:layout_weight="1"
                                 android:background="#b0b0b0"
                                 android:padding="12dp"
-                                android:text="@string/tech_data_table_title"
+                                android:text="@string/calibration_data_table_title"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
                         </TableRow>
+
                         <!--end-->
 
                         <!-- text for the first row headers-->
@@ -68,91 +71,78 @@
 
 
                     <TableLayout
-                        android:id="@+id/tableTechData"
+                        android:id="@+id/talbleCalibrationData"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:stretchColumns="5">
+                        android:stretchColumns="*">
 
                         <TableRow
-                            android:id="@+id/tableTechHeadersRow"
-                            android:layout_width="match_parent"
+                            android:id="@+id/tableCalibrationHeaders"
+                            android:layout_width="fill_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="1dp">
+                            android:layout_marginTop="1dp"
+                            android:layout_weight="1">
 
                             <TextView
-                                android:id="@+id/tdPartNum"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginEnd="1dp"
-                                android:background="#b0b0b0"
-                                android:padding="12dp"
-                                android:text="@string/tech_data_table_h1"
-                                android:textAlignment="center"
-                                android:textColor="#000000"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tdManuf"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="1dp"
                                 android:layout_weight="1"
                                 android:background="#b0b0b0"
                                 android:padding="12dp"
-                                android:text="@string/tech_data_table_h2"
+                                android:text="@string/calibration_data_table_h1"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/tdAta"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="1dp"
+                                android:layout_weight="1"
                                 android:background="#b0b0b0"
                                 android:padding="12dp"
-                                android:text="@string/tech_data_table_h3"
+                                android:text="@string/calibration_data_table_h2"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/tdRevLevel"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="1dp"
+                                android:layout_weight="1"
                                 android:background="#b0b0b0"
                                 android:padding="12dp"
-                                android:text="@string/tech_data_table_h4"
+                                android:text="@string/calibration_data_table_h3"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/tdRevDate"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="1dp"
+                                android:layout_weight="1"
                                 android:background="#b0b0b0"
                                 android:padding="12dp"
-                                android:text="@string/tech_data_table_h5"
+                                android:text="@string/calibration_data_table_h4"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/tdComments"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="1dp"
+                                android:layout_weight="1"
                                 android:background="#b0b0b0"
                                 android:padding="12dp"
-                                android:text="@string/tech_data_table_h6"
+                                android:text="@string/calibration_data_table_h5"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
                                 android:textSize="12sp"
@@ -200,12 +190,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row1_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -248,12 +232,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row2_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -296,12 +274,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row3_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -344,12 +316,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row4_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -392,12 +358,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row5_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -440,12 +400,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row6_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -488,12 +442,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row7_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -536,12 +484,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row8_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -584,12 +526,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row9_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -632,12 +568,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row10_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -680,12 +610,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row11_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -728,12 +652,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row12_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -776,12 +694,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row13_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -824,12 +736,48 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/row15"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
                             <EditText
-                                android:id="@+id/row14_col6"
+                                android:id="@+id/row15_col1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
+
+                            <EditText
+                                android:id="@+id/row15_col2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:importantForAutofill="no" />
+
+                            <EditText
+                                android:id="@+id/row15_col3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:importantForAutofill="no" />
+
+                            <EditText
+                                android:id="@+id/row15_col4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:importantForAutofill="no" />
+
+                            <EditText
+                                android:id="@+id/row15_col5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="1dp"
+                                android:importantForAutofill="no" />
+
                         </TableRow>
 
 
@@ -841,5 +789,4 @@
 
         </androidx.cardview.widget.CardView>
     </LinearLayout>
-
 </ScrollView>

@@ -4,18 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".table_data_sub_fragments.TechDataTableFragment">
+    tools:context=".table_data_sub_fragments.ROMTableFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
-            android:visibility="visible"
             app:cardCornerRadius="12dp"
             app:cardElevation="6dp">
 
@@ -25,134 +23,129 @@
 
 
                 <LinearLayout
-                    android:id="@+id/technicalData"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ROM"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#FFFFFF"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="16dp">
 
-
                     <!--first table in the in the first in process sheet-->
                     <TableLayout
-                        android:id="@+id/tableTitleTech"
+                        android:id="@+id/tableTitleROM"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:stretchColumns="1">
+                        android:layout_height="match_parent">
 
                         <!--first row: header for first table in the in first in process sheet-->
                         <TableRow
-                            android:id="@+id/tableTitleTechRow"
-                            android:layout_width="match_parent"
+                            android:id="@+id/tableTitleROMRow"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content">
 
+                            <!--employee name table header-->
                             <TextView
-                                android:id="@+id/tableTitleTechText"
+                                android:id="@+id/tableTitleROMText"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="1dp"
                                 android:layout_weight="1"
                                 android:background="#b0b0b0"
                                 android:padding="12dp"
-                                android:text="@string/tech_data_table_title"
+                                android:text="@string/ROM_data_table_title"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
-                        </TableRow>
-                        <!--end-->
 
-                        <!-- text for the first row headers-->
+                        </TableRow>
+
                     </TableLayout>
 
 
                     <TableLayout
-                        android:id="@+id/tableTechData"
+                        android:id="@+id/tableROMData"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
                         android:stretchColumns="5">
 
                         <TableRow
-                            android:id="@+id/tableTechHeadersRow"
+                            android:id="@+id/tableROMHeadersRow"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="1dp">
+                            android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/tdPartNum"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="1dp"
+                                android:layout_weight="5"
                                 android:background="#b0b0b0"
                                 android:padding="12dp"
-                                android:text="@string/tech_data_table_h1"
+                                android:text="@string/ROM_data_table_h1"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/tdManuf"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="1dp"
+                                android:layout_weight="4"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/ROM_data_table_h2"
+                                android:textAlignment="center"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/ROM_data_table_h3"
+                                android:textAlignment="center"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="1dp"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/ROM_data_table_h4"
+                                android:textAlignment="center"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="1dp"
+                                android:layout_weight="2"
+                                android:background="#b0b0b0"
+                                android:padding="12dp"
+                                android:text="@string/ROM_data_table_h5"
+                                android:textAlignment="center"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="1dp"
                                 android:layout_weight="1"
                                 android:background="#b0b0b0"
                                 android:padding="12dp"
-                                android:text="@string/tech_data_table_h2"
-                                android:textAlignment="center"
-                                android:textColor="#000000"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tdAta"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginEnd="1dp"
-                                android:background="#b0b0b0"
-                                android:padding="12dp"
-                                android:text="@string/tech_data_table_h3"
-                                android:textAlignment="center"
-                                android:textColor="#000000"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tdRevLevel"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginEnd="1dp"
-                                android:background="#b0b0b0"
-                                android:padding="12dp"
-                                android:text="@string/tech_data_table_h4"
-                                android:textAlignment="center"
-                                android:textColor="#000000"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tdRevDate"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginEnd="1dp"
-                                android:background="#b0b0b0"
-                                android:padding="12dp"
-                                android:text="@string/tech_data_table_h5"
-                                android:textAlignment="center"
-                                android:textColor="#000000"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tdComments"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginEnd="1dp"
-                                android:background="#b0b0b0"
-                                android:padding="12dp"
-                                android:text="@string/tech_data_table_h6"
+                                android:text="@string/ROM_data_table_h6"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
                                 android:textSize="12sp"
@@ -640,197 +633,6 @@
                                 android:importantForAutofill="no" />
                         </TableRow>
 
-                        <TableRow
-                            android:id="@+id/row11"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <EditText
-                                android:id="@+id/row11_col1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row11_col2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row11_col3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row11_col4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row11_col5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row11_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-                        </TableRow>
-
-                        <TableRow
-                            android:id="@+id/row12"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <EditText
-                                android:id="@+id/row12_col1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row12_col2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row12_col3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row12_col4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row12_col5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row12_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-                        </TableRow>
-
-                        <TableRow
-                            android:id="@+id/row13"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <EditText
-                                android:id="@+id/row13_col1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row13_col2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row13_col3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row13_col4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row13_col5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row13_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-                        </TableRow>
-
-                        <TableRow
-                            android:id="@+id/row14"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <EditText
-                                android:id="@+id/row14_col1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row14_col2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row14_col3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row14_col4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row14_col5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-
-                            <EditText
-                                android:id="@+id/row14_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
-                        </TableRow>
 
 
                     </TableLayout>
@@ -841,5 +643,4 @@
 
         </androidx.cardview.widget.CardView>
     </LinearLayout>
-
 </ScrollView>

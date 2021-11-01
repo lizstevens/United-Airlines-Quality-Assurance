@@ -10,11 +10,11 @@ public class TablePageAdapter extends FragmentPagerAdapter {
 
     //Instances of each audit characteristic
     private TechDataTableFragment techDataFragment;
-    //private ROMTableFragment romTableFragment;
-    //private CalTableFragment calTableFragment;
-    //private TrainTableFragment trainTableFragment;
-    //private TraceTableFragment traceTableFragment;
-    //private ShelfTableFragment shelfTableFragment;
+    private ROMTableFragment romTableFragment;
+    private CalibrationTableFragment calTableFragment;
+    private TrainingTableFragment trainTableFragment;
+    private TraceabilityTableFragment traceTableFragment;
+    private ShelfLifeTableFragment shelfTableFragment;
 
     //Getters for each audit characteristic
 
@@ -24,6 +24,11 @@ public class TablePageAdapter extends FragmentPagerAdapter {
         this.numOfTabs = numOfTabs;
 
         techDataFragment = new TechDataTableFragment();
+        romTableFragment = new ROMTableFragment();
+        calTableFragment = new CalibrationTableFragment();
+        trainTableFragment = new TrainingTableFragment();
+        traceTableFragment = new TraceabilityTableFragment();
+        shelfTableFragment = new ShelfLifeTableFragment();
     }
 
     @NonNull
@@ -31,17 +36,17 @@ public class TablePageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch(position) {
             case 0:
-                return new TechDataTableFragment();
+                return techDataFragment;
             case 1:
-                return new TechDataTableFragment();
+                return romTableFragment;
             case 2:
-                return new TechDataTableFragment();
+                return calTableFragment;
             case 3:
-                return new TechDataTableFragment();
+                return trainTableFragment;
             case 4:
-                return new TechDataTableFragment();
+                return traceTableFragment;
             case 5:
-                return new TechDataTableFragment();
+                return shelfTableFragment;
             default:
                 return null;
         }

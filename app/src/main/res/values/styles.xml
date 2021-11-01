@@ -16,4 +16,7 @@
     <style name="MyActionMenuOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_baseline_menu_24</item>
     </style>
+    <style name="TabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

@@ -38,12 +38,12 @@ public class TabularDataActivity extends AppCompatActivity implements View.OnCli
                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         // edit technical data table
-        tdPartNumEdit = findViewById(R.id.tdPartNumText);
-        tdManufEdit = findViewById(R.id.tdManufText);
-        tdAtaEdit = findViewById(R.id.tdAtaText);
-        tdRevLevelEdit = findViewById(R.id.tdRevLevelText);
-        tdRevDateEdit = findViewById(R.id.tdRevDateText);
-        tdCommentsEdit = findViewById(R.id.tdCommentsText);
+        tdPartNumEdit = findViewById(R.id.row1_col1);
+        tdManufEdit = findViewById(R.id.row1_col2);
+        tdAtaEdit = findViewById(R.id.row1_col3);
+        tdRevLevelEdit = findViewById(R.id.row1_col4);
+        tdRevDateEdit = findViewById(R.id.row1_col5);
+        tdCommentsEdit = findViewById(R.id.row1_col6);
 
     }
 

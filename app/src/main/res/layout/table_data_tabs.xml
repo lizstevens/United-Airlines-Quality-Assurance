@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,43 +10,51 @@
         android:id="@+id/tableTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="fill|fill_horizontal">
+        android:layout_gravity="fill|fill_horizontal"
+        app:tabGravity="fill"
+        app:tabMode="scrollable">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tech_data_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/technical_data" />
+            android:text="@string/technical_data"
+            android:textSize="12sp" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/rom_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/rom" />
+            android:text="@string/rom"
+            android:textSize="12sp" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/cal_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/calibration" />
+            android:text="@string/calibration"
+            android:textSize="12sp" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/train_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/training" />
+            android:text="@string/training"
+            android:textSize="12sp" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/trace_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/traceability" />
+            android:text="@string/traceability"
+            android:textSize="12sp" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/shelf_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/shelf_life" />
+            android:text="@string/shelf_life"
+            android:textSize="12sp" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager

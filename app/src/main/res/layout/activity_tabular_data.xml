@@ -186,42 +186,42 @@
                                 android:layout_height="match_parent">
 
                                 <EditText
-                                    android:id="@+id/tdPartNumText"
+                                    android:id="@+id/row1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
-                                    android:id="@+id/tdManufText"
+                                    android:id="@+id/row1_col2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
-                                    android:id="@+id/tdAtaText"
+                                    android:id="@+id/row1_col3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
-                                    android:id="@+id/tdRevLevelText"
+                                    android:id="@+id/row1_col4"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
-                                    android:id="@+id/tdRevDateText"
+                                    android:id="@+id/row1_col5"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
                                     android:importantForAutofill="no" />
 
                                 <EditText
-                                    android:id="@+id/tdCommentsText"
+                                    android:id="@+id/row1_col6"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="1dp"
