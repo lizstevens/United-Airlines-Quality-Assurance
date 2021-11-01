@@ -1,6 +1,7 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +25,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
+import edu.msu.steve702.ua_quality_assurance_platform.InitialAuditActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditPageAdapter;
 
@@ -46,6 +49,8 @@ public class AuditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audit);
+
+        db = FirebaseFirestore.getInstance();
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title);
@@ -101,12 +106,62 @@ public class AuditActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         if (option1.equals(item.getTitle().toString())) {
+            saveAuditSpecs(pageAdapter.getAuditSpecFragment().getView());
             saveInProcess(pageAdapter.getInProcessFragment().getView());
 
         } else if (option2.equals(item.getTitle().toString())) {
 
         }
         return true;
+    }
+
+    private void saveAuditSpecs(View view) {
+        EditText auditName = view.findViewById(R.id.nameEdit);
+        EditText auditDate = view.findViewById(R.id.dateEdit);
+        EditText location = view.findViewById(R.id.locationEdit);
+        EditText auditTitle = view.findViewById(R.id.auditTitleEdit);
+        EditText auditNumber = view.findViewById(R.id.auditNumberEdit);
+        EditText vendorName = view.findViewById(R.id.vendorNameEdit);
+        EditText vendorNum = view.findViewById(R.id.vendorNumEdit);
+        EditText auditDescrip = view.findViewById(R.id.descripEdit);
+
+        String auditNameObj = auditName.getText().toString();
+        String auditDateObj = auditDate.getText().toString();
+        String locationObj = location.getText().toString();
+        String auditTitleObj = auditTitle.getText().toString();
+        String auditNumberObj = auditNumber.getText().toString();
+        String vendorNameObj = vendorName.getText().toString();
+        String vendorNumObj = vendorNum.getText().toString();
+        String auditDescripObj = auditDescrip.getText().toString();
+
+        CollectionReference dbAuditSpecs = db.collection("Audit");
+
+        AuditObject auditObject = new AuditObject(
+                auditNameObj,
+                auditDateObj,
+                locationObj,
+                auditTitleObj,
+                auditNumberObj,
+                vendorNameObj,
+                vendorNumObj,
+                auditDescripObj
+        );
+
+        // save in firestore
+        dbAuditSpecs.add(auditObject).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(AuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
     }
 
 
@@ -147,11 +202,9 @@ public class AuditActivity extends AppCompatActivity {
         String trainingDateObj = trainingDateEdit.getText().toString();
 
 
-//        String inProcessRef = db.collection("Audit").document().getId();
-//        CollectionReference dbInProcessSheets = db.collection("Audit").document(inProcessRef).collection("in-process");
-//
-        CollectionReference dbInProcessSheets = db.collection("in-process");
-//        CollectionReference dbInProcessSheets = db.collection(title);
+        String inProcessRef = db.collection("Audit").document().getId();
+        CollectionReference dbInProcessSheets = db.collection("Audit").document(inProcessRef).collection("in-process");
+
 
         InProcessObject inProcess = new InProcessObject(
                 employeeNameObj,
@@ -171,13 +224,14 @@ public class AuditActivity extends AppCompatActivity {
         dbInProcessSheets.add(inProcess).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(AuditActivity.this, "Data Added", Toast.LENGTH_LONG).show();
+                Toast.makeText(AuditActivity.this, "In-Process Data Added", Toast.LENGTH_LONG).show();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
             }
         });
 

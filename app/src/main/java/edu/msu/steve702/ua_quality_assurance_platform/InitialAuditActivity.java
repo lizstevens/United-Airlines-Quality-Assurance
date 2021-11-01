@@ -40,28 +40,28 @@ public class InitialAuditActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void saveAuditInfo (View view) {
-        String auditNameObj = auditName.getText().toString();
-        String auditDateObj = auditDate.getText().toString();
-        String vendorNameObj = vendorName.getText().toString();
-        String vendorNumObj = vendorNum.getText().toString();
-        String auditDescripObj = auditDescrip.getText().toString();
-
-        AuditObject auditObject = new AuditObject(auditNameObj,  auditDateObj, vendorNameObj, vendorNumObj, auditDescripObj);
-
-        db.collection("Audit").document().set(auditObject)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(InitialAuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(InitialAuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
+//        String auditNameObj = auditName.getText().toString();
+//        String auditDateObj = auditDate.getText().toString();
+//        String vendorNameObj = vendorName.getText().toString();
+//        String vendorNumObj = vendorNum.getText().toString();
+//        String auditDescripObj = auditDescrip.getText().toString();
+//
+//        AuditObject auditObject = new AuditObject(auditNameObj, auditDateObj, vendorNameObj, vendorNumObj, auditDescripObj);
+//
+//        db.collection("Audit").document().set(auditObject)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(InitialAuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(InitialAuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//
+//                    }
+//                });
 
     }
 

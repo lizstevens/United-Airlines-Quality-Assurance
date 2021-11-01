@@ -1,17 +1,24 @@
 package edu.msu.steve702.ua_quality_assurance_platform.data_objects;
 
 public class AuditObject {
+
     private String auditNameObj;
     private String auditDateObj;
+    private String locationObj;
+    private String auditTitleObj;
+    private String auditNumberObj;
     private String vendorNameObj;
     private String vendorNumObj;
     private String auditDescripObj;
 
     public AuditObject() {}
 
-    public AuditObject(final String auditNameObj, final String auditDateObj, final String vendorNameObj, final String vendorNumObj, final String auditDescripObj) {
+    public AuditObject(final String auditNameObj, final String auditDateObj, final String locationObj, final String auditTitleObj, final String auditNumberObj, final String vendorNameObj, final String vendorNumObj, final String auditDescripObj) {
         this.auditNameObj = auditNameObj;
         this.auditDateObj = auditDateObj;
+        this.locationObj = locationObj;
+        this.auditTitleObj = auditTitleObj;
+        this.auditNumberObj = auditNumberObj;
         this.vendorNameObj = vendorNameObj;
         this.vendorNumObj = vendorNumObj;
         this.auditDescripObj = auditDescripObj;
@@ -31,6 +38,30 @@ public class AuditObject {
 
     public void setAuditDateObj(final String auditDateObj) {
         this.auditDateObj = auditDateObj;
+    }
+
+    public String getLocationObj() {
+        return this.locationObj;
+    }
+
+    public void setLocationObj(final String locationObj) {
+        this.locationObj = locationObj;
+    }
+
+    public String getAuditTitleObj() {
+        return this.auditTitleObj;
+    }
+
+    public void setAuditTitleObj(final String auditTitleObj) {
+        this.auditTitleObj = auditTitleObj;
+    }
+
+    public String getAuditNumberObj() {
+        return this.auditNumberObj;
+    }
+
+    public void setAuditNumberObj(final String auditNumberObj) {
+        this.auditNumberObj = auditNumberObj;
     }
 
     public String getVendorNameObj() {
