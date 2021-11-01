@@ -80,8 +80,6 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
-        // edit in process title
-        titleEdit = findViewById(R.id.edit_AuditTitle);
         // edit text name
         employeeNameEdit = findViewById(R.id.empNameText);
         // edit text part number
@@ -105,7 +103,7 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         // edit text trainingDate
         trainingDateEdit = findViewById(R.id.dateText);
 
-        inProcessPdf = findViewById(R.id.inProcessPdf);
+//        inProcessPdf = findViewById(R.id.inProcessPdf);
 
 
 //        findViewById(R.id.save_btn).setOnClickListener(this);
@@ -119,10 +117,6 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 
     // this function sets all the data objects
     private void saveInProcess() {
-        String titleObj = ((EditText)titleEdit).getText().toString();
-        if (titleObj.isEmpty()) {
-            titleObj = "untitled_audit_";
-        }
         String employeeNameObj = employeeNameEdit.getText().toString();
         String partNumberObj = partNumberEdit.getText().toString();
         String serialNumberObj = serialNumberEdit.getText().toString();
@@ -141,7 +135,6 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 //        CollectionReference dbInProcessSheets = db.collection(title);
 
         InProcessObject inProcess = new InProcessObject(
-                titleObj,
                 employeeNameObj,
                 partNumberObj,
                 serialNumberObj,

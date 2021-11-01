@@ -36,7 +36,6 @@ public class InProcessAdapter extends RecyclerView.Adapter<InProcessAdapter.InPr
     public void onBindViewHolder(@NonNull InProcessViewHolder holder, int position) {
         InProcessObject product = inProcessList.get(position);
 
-        holder.textViewTitle.setText(product.getTitleObj());
         holder.textViewEmpName.setText(product.getEmployeeNameObj());
         holder.textViewPartNum.setText(product.getPartNumberObj());
         holder.textViewSerialNum.setText(product.getSerialNumberObj());
@@ -59,13 +58,12 @@ public class InProcessAdapter extends RecyclerView.Adapter<InProcessAdapter.InPr
 
     class InProcessViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView textViewTitle, textViewEmpName, textViewPartNum, textViewSerialNum, textViewNomenclature, textViewTask;
+        TextView textViewEmpName, textViewPartNum, textViewSerialNum, textViewNomenclature, textViewTask;
         TextView textViewTechSpec, textViewTooling, textViewShelfLife, textViewTrace, textViewReqTraining, textViewTrainingDate;
 
         public InProcessViewHolder(View itemView) {
             super(itemView);
 
-            textViewTitle = itemView.findViewById(R.id.textview_title);
             textViewEmpName = itemView.findViewById(R.id.textview_empName);
             textViewPartNum = itemView.findViewById(R.id.textview_partNum);
             textViewSerialNum = itemView.findViewById(R.id.textview_serialNum);

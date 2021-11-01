@@ -14,11 +14,24 @@
         android:gravity="center"
         android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/in_process_options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/inProcessPdf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/saveInProcess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/UnitedBlue"
+                    android:text="@string/save"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF" />
+
+
+            </LinearLayout>
+
             <GridLayout
             android:id="@+id/grid_view"
             android:layout_width="match_parent"
@@ -383,26 +396,8 @@
             </androidx.cardview.widget.CardView>
 
 
-
-
-            <!--            second in process sheet-->
-
-
-                <!--   third in process sheet-->
-
-
-                <!--   fourth in process sheet-->
-
-
-                <!--  fifth in process sheet-->
-
-
-                <!--  sixth in process sheet-->
-
-
             </GridLayout>
 
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

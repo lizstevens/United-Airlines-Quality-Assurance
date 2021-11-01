@@ -4,17 +4,28 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditPageAdapter;
 
 public class AuditActivity extends AppCompatActivity {
@@ -27,6 +38,9 @@ public class AuditActivity extends AppCompatActivity {
     TabItem tabInProcess;
     TabItem tabTableData;
     String checklist_name;
+
+    private FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +82,7 @@ public class AuditActivity extends AppCompatActivity {
             }
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
     }
 
     @Override
@@ -86,12 +101,87 @@ public class AuditActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         if (option1.equals(item.getTitle().toString())) {
-
+            saveInProcess(pageAdapter.getInProcessFragment().getView());
 
         } else if (option2.equals(item.getTitle().toString())) {
 
         }
         return true;
     }
+
+
+    private void saveInProcess(View view) {
+        // edit text name
+        EditText employeeNameEdit = view.findViewById(R.id.empNameText);
+        // edit text part number
+        EditText partNumberEdit = view.findViewById(R.id.partNumText);
+        // edit text serial number
+        EditText serialNumberEdit = view.findViewById(R.id.serialNumText);
+        // edit text nomenclature
+        EditText nomenclatureEdit = view.findViewById(R.id.nomenText);
+        // edit text task
+        EditText taskEdit = view.findViewById(R.id.taskText);
+        // edit text techSpecifications
+        EditText techSpecificationsEdit = view.findViewById(R.id.techSpecText);
+        // edit text tooling
+        EditText toolingEdit = view.findViewById(R.id.toolingText);
+        // edit text shelfLife
+        EditText shelfLifeEdit = view.findViewById(R.id.shelfLifeText);
+        // edit text traceability
+        EditText traceEdit = view.findViewById(R.id.traceText);
+        // edit text reqTraining
+        EditText reqTrainingEdit = view.findViewById(R.id.reqTrainingText);
+        // edit text trainingDate
+        EditText trainingDateEdit = view.findViewById(R.id.dateText);
+
+        String employeeNameObj = employeeNameEdit.getText().toString();
+        String partNumberObj = partNumberEdit.getText().toString();
+        String serialNumberObj = serialNumberEdit.getText().toString();
+        String nomenclatureObj = nomenclatureEdit.getText().toString();
+        String taskObj = taskEdit.getText().toString();
+        String techSpecificationsObj = techSpecificationsEdit.getText().toString();
+        String toolingObj = toolingEdit.getText().toString();
+        String shelfLifeObj = shelfLifeEdit.getText().toString();
+        String traceObj = traceEdit.getText().toString();
+        String reqTrainingObj = reqTrainingEdit.getText().toString();
+        String trainingDateObj = trainingDateEdit.getText().toString();
+
+
+//        String inProcessRef = db.collection("Audit").document().getId();
+//        CollectionReference dbInProcessSheets = db.collection("Audit").document(inProcessRef).collection("in-process");
+//
+        CollectionReference dbInProcessSheets = db.collection("in-process");
+//        CollectionReference dbInProcessSheets = db.collection(title);
+
+        InProcessObject inProcess = new InProcessObject(
+                employeeNameObj,
+                partNumberObj,
+                serialNumberObj,
+                nomenclatureObj,
+                taskObj,
+                techSpecificationsObj,
+                toolingObj,
+                shelfLifeObj,
+                traceObj,
+                reqTrainingObj,
+                trainingDateObj
+        );
+
+        // save in firestore
+        dbInProcessSheets.add(inProcess).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(AuditActivity.this, "Data Added", Toast.LENGTH_LONG).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
 
 }

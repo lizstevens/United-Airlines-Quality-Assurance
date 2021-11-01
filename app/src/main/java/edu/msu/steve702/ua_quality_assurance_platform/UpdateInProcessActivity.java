@@ -62,8 +62,6 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
         inProcessIntent = (InProcessObject)getIntent().getSerializableExtra("in-process");
         db = FirebaseFirestore.getInstance();
 
-        // edit in process title
-        titleEdit = findViewById(R.id.edit_AuditTitle);
 
         // edit text name
         employeeNameEdit = findViewById(R.id.empNameText);
@@ -98,7 +96,7 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
         // edit text trainingDate
         trainingDateEdit  = findViewById(R.id.dateText);
 
-        titleEdit.setText(inProcessIntent.getTitleObj());
+
         employeeNameEdit.setText(inProcessIntent.getEmployeeNameObj());
         partNumberEdit.setText(inProcessIntent.getPartNumberObj());
         serialNumberEdit.setText(inProcessIntent.getSerialNumberObj());
@@ -119,10 +117,6 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
     }
 
     private void updateInProcess() {
-        String titleObj = ((EditText)titleEdit).getText().toString();
-        if (titleObj.isEmpty()) {
-            titleObj = "untitled_audit_";
-        }
         String employeeNameObj = employeeNameEdit.getText().toString();
         String partNumberObj = partNumberEdit.getText().toString();
         String serialNumberObj = serialNumberEdit.getText().toString();
@@ -136,7 +130,6 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
         String trainingDateObj = trainingDateEdit.getText().toString();
 
         InProcessObject inProcessUpdate = new InProcessObject(
-                titleObj,
                 employeeNameObj,
                 partNumberObj,
                 serialNumberObj,
