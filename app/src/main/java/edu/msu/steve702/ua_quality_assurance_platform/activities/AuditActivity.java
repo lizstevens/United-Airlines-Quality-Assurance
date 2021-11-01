@@ -1,24 +1,21 @@
-package edu.msu.steve702.ua_quality_assurance_platform;
+package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewParent;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+
+import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditPageAdapter;
 
 public class AuditActivity extends AppCompatActivity {
     Toolbar toolbar;

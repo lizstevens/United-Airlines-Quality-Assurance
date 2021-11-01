@@ -12,6 +12,8 @@ import android.content.Context;
 
 import java.util.List;
 
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TabularDataObject;
+
 public class TechnicalDataAdapter extends RecyclerView.Adapter<TechnicalDataAdapter.TechnicalDataViewHolder> {
 
     private Context mCtx;

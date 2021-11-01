@@ -5,18 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 //import android.graphics.pdf.PdfDocument;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,22 +17,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.colors.ColorConstants;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.Image;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TabularDataObject;
 
 public class TabularDataActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -66,9 +45,6 @@ public class TabularDataActivity extends AppCompatActivity implements View.OnCli
         tdRevDateEdit = findViewById(R.id.tdRevDateText);
         tdCommentsEdit = findViewById(R.id.tdCommentsText);
 
-        findViewById(R.id.save_btn).setOnClickListener(this);
-        findViewById(R.id.view_td).setOnClickListener(this);
-        findViewById(R.id.switch_to_in_process_btn).setOnClickListener(this);
     }
 
     // this function sets all the data objects
@@ -113,15 +89,7 @@ public class TabularDataActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.save_btn:
-                saveTechnicalData();
-                break;
-            case R.id.switch_to_in_process_btn:
-                startActivity(new Intent(this, InProcessActivity.class));
-                break;
-            case R.id.view_td:
-                startActivity(new Intent(this, TechnicalDataListActivity.class));
-                break;
+
         }
 
     }

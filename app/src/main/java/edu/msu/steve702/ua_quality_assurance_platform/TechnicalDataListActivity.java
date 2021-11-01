@@ -14,9 +14,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TabularDataObject;
 
 public class TechnicalDataListActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView recyclerView;

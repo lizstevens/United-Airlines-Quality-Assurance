@@ -1,4 +1,4 @@
-package edu.msu.steve702.ua_quality_assurance_platform;
+package edu.msu.steve702.ua_quality_assurance_platform.data_objects;
 
 public class AuditObject {
     private String auditNameObj;

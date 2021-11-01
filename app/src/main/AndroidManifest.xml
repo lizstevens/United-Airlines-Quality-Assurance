@@ -22,7 +22,7 @@
         <activity android:name=".InitialAuditActivity"></activity>
         <activity android:name=".TechnicalDataListActivity"></activity>
         <activity android:name=".UpdateTabularActvity"></activity>
-        <activity android:name=".AuditActivity"></activity>
+        <activity android:name=".activities.AuditActivity"></activity>
         <activity android:name=".CheckListListActivity"></activity>
 
         <activity android:name=".MainActivity">

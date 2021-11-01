@@ -1,4 +1,4 @@
-package edu.msu.steve702.ua_quality_assurance_platform;
+package edu.msu.steve702.ua_quality_assurance_platform.main_fragments;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

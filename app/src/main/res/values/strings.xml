@@ -99,4 +99,9 @@
     <string name="technical_operations_quality_assurance">Technical Operations Quality Assurance</string>
     <string name="current_technical_data">Current Technical Data</string>
     <string name="add_row">Add Row</string>
+    <string name="technical_data">Technical Data</string>
+    <string name="rom">ROM</string>
+    <string name="calibration">Calibration</string>
+    <string name="training">Training</string>
+    <string name="traceability">Traceability</string>
 </resources>

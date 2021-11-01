@@ -1,24 +1,21 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
 
 public class CheckListListActivity extends AppCompatActivity {
     private ListView listView;

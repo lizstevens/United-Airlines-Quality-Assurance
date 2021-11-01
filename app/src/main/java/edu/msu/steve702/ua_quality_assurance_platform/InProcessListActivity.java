@@ -1,20 +1,18 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 
 public class InProcessListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
