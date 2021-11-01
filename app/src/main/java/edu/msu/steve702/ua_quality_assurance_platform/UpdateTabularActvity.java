@@ -47,7 +47,7 @@ public class UpdateTabularActvity extends AppCompatActivity implements View.OnCl
         tdCommentsEdit.setText(techDataIntent.getTdCommentsObj());
 
 
-        findViewById(R.id.save_btn).setOnClickListener(this);
+//        findViewById(R.id.save_btn).setOnClickListener(this);
         findViewById(R.id.update_td).setOnClickListener(this);
         findViewById(R.id.switch_to_in_process_btn).setOnClickListener(this);
     }

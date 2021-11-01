@@ -1,107 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="50dp"
     android:layout_height="match_parent"
+    android:layout_margin="50dp"
     tools:context=".InitialAuditActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="20dp"
-        android:orientation="vertical">
-
-    <LinearLayout
-        android:id="@+id/auditInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
 
-
-        <TextView
-            android:id="@+id/nameText"
+        <LinearLayout
+            android:id="@+id/auditInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/auditor_name"
-            android:textColor="@color/UnitedBlue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <EditText
-            android:id="@+id/nameEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/auditor_name"
-            android:inputType="textPersonName" />
 
-        <TextView
-            android:id="@+id/dateText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/date"
-            android:textColor="@color/UnitedBlue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/nameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/auditor_name"
+                android:textColor="@color/UnitedBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/dateEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/date" />
+            <EditText
+                android:id="@+id/nameEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/auditor_name"
+                android:inputType="textPersonName" />
 
-        <TextView
-            android:id="@+id/vendorNameText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/vendor_name"
-            android:textColor="@color/UnitedBlue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textColor="@color/UnitedBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/vendorNameEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/vendor_name" />
+            <EditText
+                android:id="@+id/dateEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/date" />
 
-        <TextView
-            android:id="@+id/vendorNumText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/vendor_number"
-            android:textColor="@color/UnitedBlue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/locationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textColor="@color/UnitedBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/vendorNumEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/vendor_number" />
+            <EditText
+                android:id="@+id/locationEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/location" />
 
-        <TextView
-            android:id="@+id/descripText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/description"
-            android:textColor="@color/UnitedBlue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/auditNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/audit_title"
+                android:textColor="@color/UnitedBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/descripEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|top"
-            android:hint="@string/description"
-            android:inputType="textMultiLine" />
+            <EditText
+                android:id="@+id/auditTitleEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/audit_title" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/auditNumberText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/audit_number"
+                android:textColor="@color/UnitedBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/auditNumberEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/audit_number" />
+
+            <TextView
+                android:id="@+id/vendorNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/vendor_name"
+                android:textColor="@color/UnitedBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/vendorNameEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/vendor_name" />
+
+            <TextView
+                android:id="@+id/vendorNumText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/vendor_number"
+                android:textColor="@color/UnitedBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/vendorNumEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/vendor_number" />
+
+            <TextView
+                android:id="@+id/descripText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textColor="@color/UnitedBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/descripEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|top"
+                android:hint="@string/description"
+                android:inputType="textMultiLine" />
+
+            <ToggleButton
+                android:id="@+id/togglebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="@string/audit_status_open"
+                android:textOff="@string/audit_status_closed"
+                android:onClick="onToggleClicked"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

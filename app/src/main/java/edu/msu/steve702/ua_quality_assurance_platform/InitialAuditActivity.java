@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +35,7 @@ public class InitialAuditActivity extends AppCompatActivity implements View.OnCl
         auditDescrip = findViewById(R.id.descripEdit);
 
 
-        //findViewById(R.id.save_audit_info).setOnClickListener(this);
+        findViewById(R.id.togglebutton).setOnClickListener(this);
         //findViewById(R.id.start_in_process).setOnClickListener(this);
     }
 
@@ -64,17 +65,29 @@ public class InitialAuditActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+
+    public void onToggleClicked(View view) {
+        // Is the toggle on?
+        boolean on = ((ToggleButton) view).isChecked();
+
+        if (on) {
+            // Enable vibrate
+        } else {
+            // Disable vibrate
+        }
+    }
+
     @Override
     public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.save_audit_info:
-//                saveAuditInfo(view);
-//                break;
+        switch (view.getId()) {
+            case R.id.togglebutton:
+                onToggleClicked(view);
+                break;
 //            case R.id.start_in_process:
 //                startActivity(new Intent(this, InProcessActivity.class));
 //                break;
 //
-//        }
+        }
 
     }
 }

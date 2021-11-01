@@ -108,11 +108,11 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
         inProcessPdf = findViewById(R.id.inProcessPdf);
 
 
-        findViewById(R.id.save_btn).setOnClickListener(this);
-        findViewById(R.id.clear_data).setOnClickListener(this);
-        findViewById(R.id.generate_pdf_btn).setOnClickListener(this);
-        findViewById(R.id.switch_to_data_tables_btn).setOnClickListener(this);
-        findViewById(R.id.upload_image_btn).setOnClickListener(this);
+//        findViewById(R.id.save_btn).setOnClickListener(this);
+//        findViewById(R.id.clear_data).setOnClickListener(this);
+//        findViewById(R.id.generate_pdf_btn).setOnClickListener(this);
+//        findViewById(R.id.switch_to_data_tables_btn).setOnClickListener(this);
+//        findViewById(R.id.upload_image_btn).setOnClickListener(this);
     }
 
 
@@ -350,23 +350,23 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
 //    }
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.save_btn:
-                saveInProcess();
-                break;
-            case R.id.clear_data:
-                clearData();
-                break;
-            case R.id.generate_pdf_btn:
-                try {
-                    createPdf();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.switch_to_data_tables_btn:
-                startActivity(new Intent(this, TabularDataActivity.class));
-                break;
+//        switch (view.getId()) {
+//            case R.id.save_btn:
+//                saveInProcess();
+//                break;
+//            case R.id.clear_data:
+//                clearData();
+//                break;
+//            case R.id.generate_pdf_btn:
+//                try {
+//                    createPdf();
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case R.id.switch_to_data_tables_btn:
+//                startActivity(new Intent(this, TabularDataActivity.class));
+//                break;
 //            case R.id.upload_image_btn:
 //                chooseImage();
 //                break;
@@ -375,4 +375,4 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-}
+//}

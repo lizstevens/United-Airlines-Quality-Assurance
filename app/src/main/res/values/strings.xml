@@ -104,4 +104,10 @@
     <string name="calibration">Calibration</string>
     <string name="training">Training</string>
     <string name="traceability">Traceability</string>
+    <string name="audit_title">Audit Title</string>
+    <string name="audit_number">Audit Number</string>
+    <string name="location">Location</string>
+    <string name="audit_status">Audit Status</string>
+    <string name="audit_status_open">Audit Status: Open</string>
+    <string name="audit_status_closed">Audit Status: Closed</string>
 </resources>
