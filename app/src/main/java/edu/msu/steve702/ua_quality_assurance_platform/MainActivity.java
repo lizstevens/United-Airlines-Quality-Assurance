@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.os.FileObserver;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -206,11 +207,26 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(Uri.fromFile(files[finalI]),"application/pdf");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                        Intent intent = new Intent(Intent.ACTION_VIEW);
+//                        intent.setDataAndType(Uri.fromFile(files[finalI]),"application/pdf");
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//                        Intent viewer = Intent.createChooser(intent, "Open With");
+//
+//                        try {
+//                            view.getContext().startActivity(viewer);
+//                        }
+//                        catch (ActivityNotFoundException e) {
+//                            Toast.makeText(view.getContext(),
+//                                    "No Application Available to View PDF",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//
+//
+                        Intent intent = new Intent(MainActivity.this, pdfActivity.class);
+                        intent.putExtra("URI", Uri.fromFile(files[finalI]).toString());
+                        startActivity(intent);
 
-                        view.getContext().startActivity(intent);
 
 
                     }
