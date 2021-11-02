@@ -29,7 +29,7 @@ public class TabularDataActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tabular_data);
+        setContentView(R.layout.fragment_table_data_tabs);
 
         db = FirebaseFirestore.getInstance();
 

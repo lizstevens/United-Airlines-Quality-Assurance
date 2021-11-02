@@ -110,4 +110,6 @@
     <string name="audit_status">Audit Status</string>
     <string name="audit_status_open">Audit Status: Open</string>
     <string name="audit_status_closed">Audit Status: Closed</string>
+    <string name="edit_or_view_audit">Edit or View Audit</string>
+    <string name="select_name">Search by Auditor Name</string>
 </resources>

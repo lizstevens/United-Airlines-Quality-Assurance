@@ -1,19 +1,12 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
-import static java.util.logging.Logger.global;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -21,11 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 //import com.google.firebase.storage.FirebaseStorage;
 //import com.google.firebase.storage.OnProgressListener;
 //import com.google.firebase.storage.StorageReference;
@@ -33,7 +22,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.UUID;
+
+import edu.msu.steve702.ua_quality_assurance_platform.activities.CheckListListActivity;
+import edu.msu.steve702.ua_quality_assurance_platform.activities.EditAuditListActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -90,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startEditAuditActivity() {
-        startActivity(new Intent(this, CheckListListActivity.class));
+        startActivity(new Intent(this, EditAuditListActivity.class));
     }
 
     private void choosePicture() {

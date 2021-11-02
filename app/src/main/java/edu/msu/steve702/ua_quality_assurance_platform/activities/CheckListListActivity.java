@@ -1,4 +1,4 @@
-package edu.msu.steve702.ua_quality_assurance_platform;
+package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
+import edu.msu.steve702.ua_quality_assurance_platform.R;
 
 public class CheckListListActivity extends AppCompatActivity {
     private ListView listView;

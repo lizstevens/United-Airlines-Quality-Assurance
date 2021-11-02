@@ -2,6 +2,7 @@ package edu.msu.steve702.ua_quality_assurance_platform.main_fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +18,10 @@ import edu.msu.steve702.ua_quality_assurance_platform.R;
  * create an instance of this fragment.
  */
 public class AuditSpecFragment extends Fragment {
+
+    private AuditObject auditObject;
+
+    //getter for audit object
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,7 +67,13 @@ public class AuditSpecFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_create_audit, container, false);
+        return inflater.inflate(R.layout.fragment_audit_specs, container, false);
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+    }
 }

@@ -42,13 +42,14 @@ public class AuditActivity extends AppCompatActivity {
     TabItem tabTableData;
     String checklist_name;
 
-    private FirebaseFirestore db;
+    public FirebaseFirestore db;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audit);
+
 
         db = FirebaseFirestore.getInstance();
 

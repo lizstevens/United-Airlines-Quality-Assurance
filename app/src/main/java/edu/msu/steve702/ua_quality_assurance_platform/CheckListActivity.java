@@ -10,7 +10,7 @@ public class CheckListActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checklist);
+        setContentView(R.layout.fragment_checklist);
 
         checklist_name = getIntent().getStringExtra("checklistName");
 

@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 //import android.graphics.pdf.PdfDocument;
@@ -52,7 +51,7 @@ import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObje
 
 public class InProcessActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private FirebaseFirestore db;
+    public FirebaseFirestore db;
 
     private Button saveButton, generatePDFButton, addTableButton, updateButton;
     private EditText titleEdit, employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
@@ -71,7 +70,7 @@ public class InProcessActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_in_process);
+        setContentView(R.layout.fragment_in_process);
 //        firebaseStorage = FirebaseStorage.getInstance();
 //        storageRef = firebaseStorage.getReference();
 

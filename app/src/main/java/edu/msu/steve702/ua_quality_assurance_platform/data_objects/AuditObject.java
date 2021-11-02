@@ -1,6 +1,12 @@
 package edu.msu.steve702.ua_quality_assurance_platform.data_objects;
 
-public class AuditObject {
+import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
+
+public class AuditObject implements Serializable {
+
+    @Exclude String id;
 
     private String auditNameObj;
     private String auditDateObj;
@@ -22,6 +28,14 @@ public class AuditObject {
         this.vendorNameObj = vendorNameObj;
         this.vendorNumObj = vendorNumObj;
         this.auditDescripObj = auditDescripObj;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
     }
 
     public String getAuditNameObj() {

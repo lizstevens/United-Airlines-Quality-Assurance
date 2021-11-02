@@ -24,7 +24,7 @@ public class InitialAuditActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_audit);
+        setContentView(R.layout.fragment_audit_specs);
 
         db = FirebaseFirestore.getInstance();
 

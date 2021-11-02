@@ -23,7 +23,7 @@ import edu.msu.steve702.ua_quality_assurance_platform.table_data_sub_fragments.T
  * Use the {@link TableDataFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TableDataFragment extends Fragment implements View.OnClickListener {
+public class TableDataFragment extends Fragment{
 
     TabLayout tabs;
     ViewPager tableViewPager;
@@ -121,7 +121,7 @@ public class TableDataFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.table_data_tabs, container, false);
+        View view = inflater.inflate(R.layout.fragment_table_data_tabs, container, false);
         tabs = (TabLayout) view.findViewById(R.id.tableTabLayout);
         tableViewPager = (ViewPager) view.findViewById(R.id.viewPager_tables);
         tablePageAdapter = new TablePageAdapter(getChildFragmentManager(), tabs.getTabCount());
@@ -149,12 +149,4 @@ public class TableDataFragment extends Fragment implements View.OnClickListener 
         return view;
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.buttonTable1:
-                Toast.makeText(getContext(), "ID:" + v.getId(), Toast.LENGTH_LONG).show();
-        }
-    }
 }
