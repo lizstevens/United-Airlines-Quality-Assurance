@@ -1,5 +1,6 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -58,11 +59,17 @@ public class AuditActivity extends AppCompatActivity {
     private AuditObject auditObject;
     private InProcessObject inProcessObject;
 
-    private String auditSpecDoc;
+    private String audit_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audit);
+
+        //For pre populating data
+        Intent intent = getIntent();
+        if (intent.getExtras() != null && intent.getExtras().containsKey("audit_id")) {
+            audit_id = getIntent().getStringExtra("audit_id");
+        }
 
         if (savedInstanceState != null) {
             // Restore the fragment's instance
@@ -76,7 +83,7 @@ public class AuditActivity extends AppCompatActivity {
         auditSpecsSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveAuditSpecs(pageAdapter.getAuditSpecFragment().getView());
+                saveAuditSpecs(pageAdapter.getAuditSpecFragment().getAuditObject());
             }
         });
 
@@ -144,7 +151,7 @@ public class AuditActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         if (option1.equals(item.getTitle().toString())) {
-//            saveAuditSpecs(pageAdapter.getAuditSpecFragment().getView());
+            saveAuditSpecs(pageAdapter.getAuditSpecFragment().getAuditObject());
 //            saveInProcess(pageAdapter.getInProcessFragment().getView());
 
         } else if (option2.equals(item.getTitle().toString())) {
@@ -164,43 +171,43 @@ public class AuditActivity extends AppCompatActivity {
 
 
 
-    private void saveAuditSpecs(View view) {
-        EditText auditName = view.findViewById(R.id.nameEdit);
-        EditText auditDate = view.findViewById(R.id.dateEdit);
-        EditText location = view.findViewById(R.id.locationEdit);
-        EditText auditTitle = view.findViewById(R.id.auditTitleEdit);
-        EditText auditNumber = view.findViewById(R.id.auditNumberEdit);
-        EditText vendorName = view.findViewById(R.id.vendorNameEdit);
-        EditText vendorNum = view.findViewById(R.id.vendorNumEdit);
-        EditText auditDescrip = view.findViewById(R.id.descripEdit);
-
-        String auditNameObj = auditName.getText().toString();
-        String auditDateObj = auditDate.getText().toString();
-        String locationObj = location.getText().toString();
-        String auditTitleObj = auditTitle.getText().toString();
-        String auditNumberObj = auditNumber.getText().toString();
-        String vendorNameObj = vendorName.getText().toString();
-        String vendorNumObj = vendorNum.getText().toString();
-        String auditDescripObj = auditDescrip.getText().toString();
-
+    private void saveAuditSpecs(AuditObject auditObject) {
+//        EditText auditName = view.findViewById(R.id.nameEdit);
+//        EditText auditDate = view.findViewById(R.id.dateEdit);
+//        EditText location = view.findViewById(R.id.locationEdit);
+//        EditText auditTitle = view.findViewById(R.id.auditTitleEdit);
+//        EditText auditNumber = view.findViewById(R.id.auditNumberEdit);
+//        EditText vendorName = view.findViewById(R.id.vendorNameEdit);
+//        EditText vendorNum = view.findViewById(R.id.vendorNumEdit);
+//        EditText auditDescrip = view.findViewById(R.id.descripEdit);
+//
+//        String auditNameObj = auditName.getText().toString();
+//        String auditDateObj = auditDate.getText().toString();
+//        String locationObj = location.getText().toString();
+//        String auditTitleObj = auditTitle.getText().toString();
+//        String auditNumberObj = auditNumber.getText().toString();
+//        String vendorNameObj = vendorName.getText().toString();
+//        String vendorNumObj = vendorNum.getText().toString();
+//        String auditDescripObj = auditDescrip.getText().toString();
+//
         CollectionReference dbAuditSpecs = db.collection("Audit");
-
-        AuditObject auditObject = new AuditObject(
-                auditNameObj,
-                auditDateObj,
-                locationObj,
-                auditTitleObj,
-                auditNumberObj,
-                vendorNameObj,
-                vendorNumObj,
-                auditDescripObj
-        );
+//
+//        AuditObject auditObject = new AuditObject(
+//                auditNameObj,
+//                auditDateObj,
+//                locationObj,
+//                auditTitleObj,
+//                auditNumberObj,
+//                vendorNameObj,
+//                vendorNumObj,
+//                auditDescripObj
+//        );
 
         // save in firestore
         dbAuditSpecs.add(auditObject).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                auditSpecDoc = documentReference.getId();
+                audit_id = documentReference.getId();
                 Toast.makeText(AuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
 
             }
@@ -253,7 +260,7 @@ public class AuditActivity extends AppCompatActivity {
 
 
 //        String inProcessRef = db.collection("Audit").document().getId();
-        CollectionReference dbInProcessSheets = db.collection("Audit").document(auditSpecDoc).collection("in-process");
+        CollectionReference dbInProcessSheets = db.collection("Audit").document(audit_id).collection("in-process");
 
 
         InProcessObject inProcess = new InProcessObject(

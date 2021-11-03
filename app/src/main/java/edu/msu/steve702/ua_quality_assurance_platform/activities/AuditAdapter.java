@@ -82,7 +82,7 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
         public void onClick(View view) {
             AuditObject audit = auditList.get(getAbsoluteAdapterPosition());
             Intent intent = new Intent(mCtx, AuditActivity.class);
-            intent.putExtra("audit", audit);
+            intent.putExtra("audit_id", audit.getId());
 
             mCtx.startActivity(intent);
         }

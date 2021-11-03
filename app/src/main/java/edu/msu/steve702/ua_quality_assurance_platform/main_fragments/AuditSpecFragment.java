@@ -1,13 +1,19 @@
 package edu.msu.steve702.ua_quality_assurance_platform.main_fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.SearchView;
+
+import com.google.firebase.firestore.CollectionReference;
 
 import java.io.Serializable;
 
@@ -21,7 +27,14 @@ import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
  */
 public class AuditSpecFragment extends Fragment {
 
+
     private AuditObject auditObject;
+    private View fragmentView;
+
+    public AuditObject getAuditObject() { return this.auditObject; }
+
+    public void setAuditObject(final AuditObject auditObject) { this.auditObject = auditObject; }
+
 
     private static final String AUDIT_SPECS_KEY = "AUDIT_SPECS_KEY";
 
@@ -75,9 +88,57 @@ public class AuditSpecFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        fragmentView = view;
+
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(AUDIT_SPECS_KEY)) {
+            auditObject = (AuditObject) bundle.getSerializable(AUDIT_SPECS_KEY);
+        }
+
+        if (auditObject != null) {
+            //prepopulate views
+            //view.findViewById()
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        bundleObject();
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         // store audit specs data: key to access the audit specs object I store in the second argument
         outState.putSerializable(AUDIT_SPECS_KEY, (Serializable)auditObject);
     }
@@ -90,5 +151,39 @@ public class AuditSpecFragment extends Fragment {
             //probably orientation change
             auditObject = (AuditObject) savedInstanceState.getSerializable(AUDIT_SPECS_KEY);
         }
+    }
+
+    public void bundleObject(){
+        EditText auditName = fragmentView.findViewById(R.id.nameEdit);
+        EditText auditDate = fragmentView.findViewById(R.id.dateEdit);
+        EditText location = fragmentView.findViewById(R.id.locationEdit);
+        EditText auditTitle = fragmentView.findViewById(R.id.auditTitleEdit);
+        EditText auditNumber = fragmentView.findViewById(R.id.auditNumberEdit);
+        EditText vendorName = fragmentView.findViewById(R.id.vendorNameEdit);
+        EditText vendorNum = fragmentView.findViewById(R.id.vendorNumEdit);
+        EditText auditDescrip = fragmentView.findViewById(R.id.descripEdit);
+
+        String auditNameObj = auditName.getText().toString();
+        String auditDateObj = auditDate.getText().toString();
+        String locationObj = location.getText().toString();
+        String auditTitleObj = auditTitle.getText().toString();
+        String auditNumberObj = auditNumber.getText().toString();
+        String vendorNameObj = vendorName.getText().toString();
+        String vendorNumObj = vendorNum.getText().toString();
+        String auditDescripObj = auditDescrip.getText().toString();
+
+
+        AuditObject newObject = new AuditObject(
+                auditNameObj,
+                auditDateObj,
+                locationObj,
+                auditTitleObj,
+                auditNumberObj,
+                vendorNameObj,
+                vendorNumObj,
+                auditDescripObj
+        );
+
+        auditObject = newObject;
     }
 }
