@@ -22,7 +22,10 @@ import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.InitialAuditActivity;
@@ -30,6 +33,8 @@ import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditPageAdapter;
+import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditSpecFragment;
+import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.InProcessFragment;
 
 public class AuditActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -42,13 +47,45 @@ public class AuditActivity extends AppCompatActivity {
     TabItem tabTableData;
     String checklist_name;
 
+    private Button auditSpecsSaveBtn;
+    private Button inProcessSaveBtn;
+
     public FirebaseFirestore db;
 
+    private AuditSpecFragment auditSpecFragment;
+    private InProcessFragment inProcessFragment;
 
+    private AuditObject auditObject;
+    private InProcessObject inProcessObject;
+
+    private String auditSpecDoc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audit);
+
+        if (savedInstanceState != null) {
+            // Restore the fragment's instance
+            auditSpecFragment = (AuditSpecFragment) getSupportFragmentManager().getFragment(savedInstanceState, "auditSpecsFragment");
+            inProcessFragment = (InProcessFragment) getSupportFragmentManager().getFragment(savedInstanceState, "inProcessFragment");
+        }
+
+        auditSpecsSaveBtn = (Button) findViewById(R.id.saveAuditSpecs);
+        inProcessSaveBtn = (Button) findViewById(R.id.saveInProcess);
+
+        auditSpecsSaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveAuditSpecs(pageAdapter.getAuditSpecFragment().getView());
+            }
+        });
+
+        inProcessSaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveInProcess(pageAdapter.getInProcessFragment().getView());
+            }
+        });
 
 
         db = FirebaseFirestore.getInstance();
@@ -107,14 +144,25 @@ public class AuditActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         if (option1.equals(item.getTitle().toString())) {
-            saveAuditSpecs(pageAdapter.getAuditSpecFragment().getView());
-            saveInProcess(pageAdapter.getInProcessFragment().getView());
+//            saveAuditSpecs(pageAdapter.getAuditSpecFragment().getView());
+//            saveInProcess(pageAdapter.getInProcessFragment().getView());
 
         } else if (option2.equals(item.getTitle().toString())) {
 
         }
         return true;
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "auditSpecsFragment", auditSpecFragment);
+        getSupportFragmentManager().putFragment(outState, "inProcessFragment", inProcessFragment);
+    }
+
+
 
     private void saveAuditSpecs(View view) {
         EditText auditName = view.findViewById(R.id.nameEdit);
@@ -152,6 +200,7 @@ public class AuditActivity extends AppCompatActivity {
         dbAuditSpecs.add(auditObject).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
+                auditSpecDoc = documentReference.getId();
                 Toast.makeText(AuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
 
             }
@@ -203,8 +252,8 @@ public class AuditActivity extends AppCompatActivity {
         String trainingDateObj = trainingDateEdit.getText().toString();
 
 
-        String inProcessRef = db.collection("Audit").document().getId();
-        CollectionReference dbInProcessSheets = db.collection("Audit").document(inProcessRef).collection("in-process");
+//        String inProcessRef = db.collection("Audit").document().getId();
+        CollectionReference dbInProcessSheets = db.collection("Audit").document(auditSpecDoc).collection("in-process");
 
 
         InProcessObject inProcess = new InProcessObject(
@@ -238,5 +287,15 @@ public class AuditActivity extends AppCompatActivity {
 
     }
 
-
+//    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.saveAuditSpecs:
+//                saveAuditSpecs(pageAdapter.getAuditSpecFragment().getView());
+//                break;
+//            case R.id.saveInProcess:
+//                saveInProcess(pageAdapter.getInProcessFragment().getView());
+//                break;
+//        }
+//    }
 }

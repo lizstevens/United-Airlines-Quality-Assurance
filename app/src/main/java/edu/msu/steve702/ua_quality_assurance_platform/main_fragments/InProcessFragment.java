@@ -2,14 +2,19 @@ package edu.msu.steve702.ua_quality_assurance_platform.main_fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
+
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +22,10 @@ import edu.msu.steve702.ua_quality_assurance_platform.R;
  * create an instance of this fragment.
  */
 public class InProcessFragment extends Fragment {
+
+    InProcessObject inProcessObject;
+
+    private static final String IN_PROCESS_KEY = "IN_PROCESS_KEY";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,6 +73,24 @@ public class InProcessFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_in_process, container, false);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // store in-process data: key to access the in-process object I store in the second argument
+        outState.putSerializable(IN_PROCESS_KEY, (Serializable)inProcessObject);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            //probably orientation change
+            inProcessObject= (InProcessObject) savedInstanceState.getSerializable(IN_PROCESS_KEY);
+        }
     }
 
 }

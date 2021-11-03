@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
+
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 
@@ -20,6 +22,8 @@ import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 public class AuditSpecFragment extends Fragment {
 
     private AuditObject auditObject;
+
+    private static final String AUDIT_SPECS_KEY = "AUDIT_SPECS_KEY";
 
     //getter for audit object
 
@@ -74,6 +78,17 @@ public class AuditSpecFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        // store audit specs data: key to access the audit specs object I store in the second argument
+        outState.putSerializable(AUDIT_SPECS_KEY, (Serializable)auditObject);
+    }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            //probably orientation change
+            auditObject = (AuditObject) savedInstanceState.getSerializable(AUDIT_SPECS_KEY);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package edu.msu.steve702.ua_quality_assurance_platform.data_objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
@@ -101,4 +104,22 @@ public class AuditObject implements Serializable {
     public void setAuditDescripObj(final String auditDescripObj) {
         this.auditDescripObj = auditDescripObj;
     }
+
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel parcel, int i) {
+//        parcel.writeString(auditNameObj);
+//        parcel.writeString(auditDateObj);
+//        parcel.writeString(locationObj);
+//        parcel.writeString(auditTitleObj);
+//        parcel.writeString(auditNumberObj);
+//        parcel.writeString(vendorNumObj);
+//        parcel.writeString(auditDescripObj);
+//
+//
+//    }
 }
