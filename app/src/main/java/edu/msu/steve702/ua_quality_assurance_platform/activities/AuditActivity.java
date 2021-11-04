@@ -56,7 +56,7 @@ public class AuditActivity extends AppCompatActivity {
     private AuditSpecFragment auditSpecFragment;
     private InProcessFragment inProcessFragment;
 
-    private AuditObject auditObject;
+//    private AuditObject auditObject;
     private InProcessObject inProcessObject;
 
     private String audit_id;
@@ -83,7 +83,7 @@ public class AuditActivity extends AppCompatActivity {
         auditSpecsSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveAuditSpecs(pageAdapter.getAuditSpecFragment().getAuditObject());
+                saveAuditSpecs();
             }
         });
 
@@ -151,7 +151,7 @@ public class AuditActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         if (option1.equals(item.getTitle().toString())) {
-            saveAuditSpecs(pageAdapter.getAuditSpecFragment().getAuditObject());
+            saveAuditSpecs();
 //            saveInProcess(pageAdapter.getInProcessFragment().getView());
 
         } else if (option2.equals(item.getTitle().toString())) {
@@ -171,7 +171,10 @@ public class AuditActivity extends AppCompatActivity {
 
 
 
-    private void saveAuditSpecs(AuditObject auditObject) {
+    private void saveAuditSpecs() {
+        pageAdapter.getAuditSpecFragment().bundleObject();
+        AuditObject auditObject = pageAdapter.getAuditSpecFragment().getAuditObject();
+
 //        EditText auditName = view.findViewById(R.id.nameEdit);
 //        EditText auditDate = view.findViewById(R.id.dateEdit);
 //        EditText location = view.findViewById(R.id.locationEdit);
