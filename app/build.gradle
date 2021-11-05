@@ -50,6 +50,11 @@ dependencies {
     //implementation "org.apache.poi:poi:3.17"
     //implementation "org.apache.poi:poi-ooxml:3.17"
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation "com.github.SUPERCILEX.poi-android:poi:$poiVersion"
+
+
+
+
 
 }
 
