@@ -198,22 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-//                        Intent intent = new Intent(Intent.ACTION_VIEW);
-//                        intent.setDataAndType(Uri.fromFile(files[finalI]),"application/pdf");
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//
-//                        Intent viewer = Intent.createChooser(intent, "Open With");
-//
-//                        try {
-//                            view.getContext().startActivity(viewer);
-//                        }
-//                        catch (ActivityNotFoundException e) {
-//                            Toast.makeText(view.getContext(),
-//                                    "No Application Available to View PDF",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//
-//
+
                         Intent intent = new Intent(MainActivity.this, pdfActivity.class);
                         intent.putExtra("URI", Uri.fromFile(files[finalI]).toString());
                         startActivity(intent);
@@ -228,6 +213,24 @@ public class MainActivity extends AppCompatActivity {
 
                 Button button = new Button(this);
                 button.setText("Delete");
+
+                button.setOnClickListener(new View.OnClickListener(){
+
+                    @Override
+                    public void onClick(View view) {
+
+                        // Delete associated file in downloads directory
+                        File deleteFile = files[finalI];
+
+                        boolean deleted = deleteFile.delete();
+
+                        // Restart activity
+                        onResume();
+
+
+                    }
+                });
+
                 tableRow.addView(button);
 
                 tl.addView(tableRow);
