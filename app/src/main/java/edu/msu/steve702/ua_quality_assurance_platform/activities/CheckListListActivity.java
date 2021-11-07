@@ -12,9 +12,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 
 public class CheckListListActivity extends AppCompatActivity {
@@ -30,10 +32,16 @@ public class CheckListListActivity extends AppCompatActivity {
         listView = findViewById(R.id.checklist_listview);
         checklistList = new ArrayList<String>();
 
+
+
+
+
         Field[] fields = R.raw.class.getFields();
         for (int i=0; i < fields.length; i++) {
             Log.d("Files", "FileName: " + fields[i].getName());
             checklistList.add(i, fields[i].getName());
+
+
         }
 
         adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, checklistList);
@@ -49,6 +57,15 @@ public class CheckListListActivity extends AppCompatActivity {
     }
 
     public void openAuditActivity(String checklistName) {
+
+        try{
+            ExcelParser parser = new ExcelParser(this);
+
+            parser.readXLSXFile(checklistName);
+        }catch(IOException e){
+            Log.e("Failed to Parse XML", "Error message: " + e.getMessage());
+        }
+
         Intent intent = new Intent(this, AuditActivity.class);
         intent.putExtra("checklistName", checklistName);
         startActivity(intent);

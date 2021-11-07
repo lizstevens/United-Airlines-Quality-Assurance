@@ -1,7 +1,11 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.IOException;
 
 public class CheckListActivity extends AppCompatActivity {
 
@@ -13,6 +17,8 @@ public class CheckListActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_checklist);
 
         checklist_name = getIntent().getStringExtra("checklistName");
+
+
 
     }
 }
