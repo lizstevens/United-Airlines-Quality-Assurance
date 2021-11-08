@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Trace;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -108,6 +109,21 @@ public class AuditActivity extends AppCompatActivity {
             pageAdapter.getInProcessFragment().setInProcessList((List<InProcessObject>) getIntent().getSerializableExtra("InProcessList"));
             if (getIntent().getExtras().containsKey("TechnicalDataTable")) {
                 pageAdapter.getTableDataFragment().setTechnicalTableDataObject((TechnicalTableDataObject) getIntent().getSerializableExtra("TechnicalDataTable"));
+            }
+            if (getIntent().getExtras().containsKey("ROMTableData")) {
+                pageAdapter.getTableDataFragment().setRomTableDataObject((ROMTableDataObject) getIntent().getSerializableExtra("ROMTableData"));
+            }
+            if (getIntent().getExtras().containsKey("CalibrationTableData")) {
+                pageAdapter.getTableDataFragment().setCalibrationTableDataObject((CalibrationTableDataObject) getIntent().getSerializableExtra("CalibrationTableData"));
+            }
+            if (getIntent().getExtras().containsKey("TrainingTableData")) {
+                pageAdapter.getTableDataFragment().setTrainingTableDataObject((TrainingTableDataObject) getIntent().getSerializableExtra("TrainingTableData"));
+            }
+            if (getIntent().getExtras().containsKey("TraceabilityTableData")) {
+                pageAdapter.getTableDataFragment().setTraceabilityTableDataObject((TraceabilityTableDataObject) getIntent().getSerializableExtra("TraceabilityTableData"));
+            }
+            if (getIntent().getExtras().containsKey("ShelfLifeTableData")) {
+                pageAdapter.getTableDataFragment().setShelfLifeTableDataObject((ShelfLifeTableDataObject) getIntent().getSerializableExtra("ShelfLifeTableData"));
             }
         }
 

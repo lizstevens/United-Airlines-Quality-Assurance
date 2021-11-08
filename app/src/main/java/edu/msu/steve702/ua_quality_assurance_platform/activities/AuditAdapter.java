@@ -28,8 +28,13 @@ import edu.msu.steve702.ua_quality_assurance_platform.InProcessListActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.UpdateInProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.CalibrationTableDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ROMTableDataObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ShelfLifeTableDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TechnicalTableDataObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TraceabilityTableDataObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TrainingTableDataObject;
 
 import static android.content.ContentValues.TAG;
 
@@ -165,13 +170,134 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
                         if (list.size() == 1) {
                             intent.putExtra("TechnicalDataTable", list.get(0));
                         }
-                        mCtx.startActivity(intent);
+
+                        queryROMTable();
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 }
             });
 
+        }
+
+        public void queryROMTable() {
+            db.collection("Audit").document(this_audit_id).collection("ROMTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<ROMTableDataObject> list = new ArrayList<>();
+
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            ROMTableDataObject p = doc.toObject(ROMTableDataObject.class);
+                            p.setId(doc.getId());
+                            list.add(p);
+                        }
+
+                        if (list.size() == 1) {
+                            intent.putExtra("ROMTableData", list.get(0));
+                        }
+                        queryCalibrationTable();
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        public void queryCalibrationTable() {
+            db.collection("Audit").document(this_audit_id).collection("CalibrationTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<CalibrationTableDataObject> list = new ArrayList<>();
+
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            CalibrationTableDataObject p = doc.toObject(CalibrationTableDataObject.class);
+                            p.setId(doc.getId());
+                            list.add(p);
+                        }
+
+                        if (list.size() == 1) {
+                            intent.putExtra("CalibrationTableData", list.get(0));
+                        }
+                        queryTrainingTable();
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        public void queryTrainingTable() {
+            db.collection("Audit").document(this_audit_id).collection("TrainingTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<TrainingTableDataObject> list = new ArrayList<>();
+
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            TrainingTableDataObject p = doc.toObject(TrainingTableDataObject.class);
+                            p.setId(doc.getId());
+                            list.add(p);
+                        }
+
+                        if (list.size() == 1) {
+                            intent.putExtra("TrainingTableData", list.get(0));
+                        }
+                        queryTraceabilityTable();
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        public void queryTraceabilityTable() {
+            db.collection("Audit").document(this_audit_id).collection("TraceabilityTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<TraceabilityTableDataObject> list = new ArrayList<>();
+
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            TraceabilityTableDataObject p = doc.toObject(TraceabilityTableDataObject.class);
+                            p.setId(doc.getId());
+                            list.add(p);
+                        }
+
+                        if (list.size() == 1) {
+                            intent.putExtra("TraceabilityTableData", list.get(0));
+                        }
+                        queryShelfLifeTable();
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        public void queryShelfLifeTable() {
+            db.collection("Audit").document(this_audit_id).collection("ShelfLifeTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<ShelfLifeTableDataObject> list = new ArrayList<>();
+
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            ShelfLifeTableDataObject p = doc.toObject(ShelfLifeTableDataObject.class);
+                            p.setId(doc.getId());
+                            list.add(p);
+                        }
+
+                        if (list.size() == 1) {
+                            intent.putExtra("ShelfLifeTableData", list.get(0));
+                        }
+                        mCtx.startActivity(intent);
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
         }
     }
 

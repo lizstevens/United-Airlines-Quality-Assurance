@@ -60,10 +60,15 @@ public class TableDataFragment extends Fragment{
     public TechnicalTableDataObject getTechnicalTableDataObject() { return this.technicalTableDataObject; }
     public void setTechnicalTableDataObject(final TechnicalTableDataObject technicalTableDataObject) { this.technicalTableDataObject = technicalTableDataObject; }
     public ROMTableDataObject getRomTableDataObject() { return this.romTableDataObject; }
+    public void setRomTableDataObject(final ROMTableDataObject romTableDataObject) { this.romTableDataObject = romTableDataObject; }
     public CalibrationTableDataObject getCalibrationTableDataObject() { return this.calibrationTableDataObject; }
+    public void setCalibrationTableDataObject(final CalibrationTableDataObject calibrationTableDataObject) { this.calibrationTableDataObject = calibrationTableDataObject; }
     public TrainingTableDataObject getTrainingTableDataObject() { return this.trainingTableDataObject; }
+    public void setTrainingTableDataObject(final TrainingTableDataObject trainingTableDataObject) { this.trainingTableDataObject = trainingTableDataObject; }
     public TraceabilityTableDataObject getTraceabilityTableDataObject() { return this.traceabilityTableDataObject; }
+    public void setTraceabilityTableDataObject(final TraceabilityTableDataObject traceabilityTableDataObject) { this.traceabilityTableDataObject = traceabilityTableDataObject; }
     public ShelfLifeTableDataObject getShelfLifeTableDataObject() { return this.shelfLifeTableDataObject; }
+    public void setShelfLifeTableDataObject(final ShelfLifeTableDataObject shelfLifeTableDataObject) { this.shelfLifeTableDataObject = shelfLifeTableDataObject; }
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -136,6 +141,12 @@ public class TableDataFragment extends Fragment{
         tableViewPager.setAdapter(tablePageAdapter);
 
         tablePageAdapter.getTechDataFragment().setTechnicalTableDataObject(technicalTableDataObject);
+        tablePageAdapter.getRomTableFragment().setRomTableDataObject(romTableDataObject);
+        tablePageAdapter.getCalTableFragment().setCalibrationTableDataObject(calibrationTableDataObject);
+        tablePageAdapter.getTrainTableFragment().setTrainingTableDataObject(trainingTableDataObject);
+        tablePageAdapter.getTraceTableFragment().setTraceabilityTableDataObject(traceabilityTableDataObject);
+        tablePageAdapter.getShelfTableFragment().setShelfLifeTableDataObject(shelfLifeTableDataObject);
+
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

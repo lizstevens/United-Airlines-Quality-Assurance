@@ -32,6 +32,11 @@ public class CalibrationTableFragment extends Fragment {
     private View fragmentView;
     public View getFragmentView() { return this.fragmentView; }
 
+    private CalibrationTableDataObject calibrationTableDataObject;
+    public CalibrationTableDataObject getCalibrationTableDataObject() { return this.calibrationTableDataObject; }
+    public void setCalibrationTableDataObject(final CalibrationTableDataObject calibrationTableDataObject) { this.calibrationTableDataObject = calibrationTableDataObject; }
+
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

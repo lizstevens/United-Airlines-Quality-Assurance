@@ -32,6 +32,10 @@ public class ShelfLifeTableFragment extends Fragment {
     private View fragmentView;
     public View getFragmentView() { return this.fragmentView; }
 
+    private ShelfLifeTableDataObject shelfLifeTableDataObject;
+    public ShelfLifeTableDataObject getShelfLifeTableDataObject() { return this.shelfLifeTableDataObject; }
+    public void setShelfLifeTableDataObject(final ShelfLifeTableDataObject shelfLifeTableDataObject) { this.shelfLifeTableDataObject = shelfLifeTableDataObject; }
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

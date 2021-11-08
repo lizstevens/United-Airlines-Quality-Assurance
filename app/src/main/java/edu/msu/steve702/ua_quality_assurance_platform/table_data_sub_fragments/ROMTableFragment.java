@@ -32,6 +32,11 @@ public class ROMTableFragment extends Fragment {
     private View fragmentView;
     public View getFragmentView() { return this.fragmentView; }
 
+    private ROMTableDataObject romTableDataObject;
+    public ROMTableDataObject getRomTableDataObject() { return this.romTableDataObject; }
+    public void setRomTableDataObject(final ROMTableDataObject romTableDataObject) { this.romTableDataObject = romTableDataObject; }
+
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
