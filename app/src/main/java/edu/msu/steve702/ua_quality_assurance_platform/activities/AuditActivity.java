@@ -1,5 +1,8 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,10 +59,10 @@ public class AuditActivity extends AppCompatActivity {
     private AuditSpecFragment auditSpecFragment;
     private InProcessFragment inProcessFragment;
 
-//    private AuditObject auditObject;
-    private InProcessObject inProcessObject;
-
     private String audit_id;
+    private Context context;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,22 +80,22 @@ public class AuditActivity extends AppCompatActivity {
             inProcessFragment = (InProcessFragment) getSupportFragmentManager().getFragment(savedInstanceState, "inProcessFragment");
         }
 
-        auditSpecsSaveBtn = (Button) findViewById(R.id.saveAuditSpecs);
-        inProcessSaveBtn = (Button) findViewById(R.id.saveInProcess);
-
-        auditSpecsSaveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveAuditSpecs();
-            }
-        });
-
-        inProcessSaveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveInProcess(pageAdapter.getInProcessFragment().getView());
-            }
-        });
+//        auditSpecsSaveBtn = (Button) findViewById(R.id.saveAuditSpecs);
+//        inProcessSaveBtn = (Button) findViewById(R.id.saveInProcess);
+//
+//        auditSpecsSaveBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                saveAuditSpecs();
+//            }
+//        });
+//
+//        inProcessSaveBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                saveInProcess();
+//            }
+//        });
 
 
         db = FirebaseFirestore.getInstance();
@@ -152,8 +155,6 @@ public class AuditActivity extends AppCompatActivity {
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         if (option1.equals(item.getTitle().toString())) {
             saveAuditSpecs();
-//            saveInProcess(pageAdapter.getInProcessFragment().getView());
-
         } else if (option2.equals(item.getTitle().toString())) {
 
         }
@@ -175,36 +176,7 @@ public class AuditActivity extends AppCompatActivity {
         pageAdapter.getAuditSpecFragment().bundleObject();
         AuditObject auditObject = pageAdapter.getAuditSpecFragment().getAuditObject();
 
-//        EditText auditName = view.findViewById(R.id.nameEdit);
-//        EditText auditDate = view.findViewById(R.id.dateEdit);
-//        EditText location = view.findViewById(R.id.locationEdit);
-//        EditText auditTitle = view.findViewById(R.id.auditTitleEdit);
-//        EditText auditNumber = view.findViewById(R.id.auditNumberEdit);
-//        EditText vendorName = view.findViewById(R.id.vendorNameEdit);
-//        EditText vendorNum = view.findViewById(R.id.vendorNumEdit);
-//        EditText auditDescrip = view.findViewById(R.id.descripEdit);
-//
-//        String auditNameObj = auditName.getText().toString();
-//        String auditDateObj = auditDate.getText().toString();
-//        String locationObj = location.getText().toString();
-//        String auditTitleObj = auditTitle.getText().toString();
-//        String auditNumberObj = auditNumber.getText().toString();
-//        String vendorNameObj = vendorName.getText().toString();
-//        String vendorNumObj = vendorNum.getText().toString();
-//        String auditDescripObj = auditDescrip.getText().toString();
-//
         CollectionReference dbAuditSpecs = db.collection("Audit");
-//
-//        AuditObject auditObject = new AuditObject(
-//                auditNameObj,
-//                auditDateObj,
-//                locationObj,
-//                auditTitleObj,
-//                auditNumberObj,
-//                vendorNameObj,
-//                vendorNumObj,
-//                auditDescripObj
-//        );
 
         // save in firestore
         dbAuditSpecs.add(auditObject).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -212,7 +184,7 @@ public class AuditActivity extends AppCompatActivity {
             public void onSuccess(DocumentReference documentReference) {
                 audit_id = documentReference.getId();
                 Toast.makeText(AuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
-
+                saveInProcess();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -225,60 +197,11 @@ public class AuditActivity extends AppCompatActivity {
     }
 
 
-    private void saveInProcess(View view) {
-        // edit text name
-        EditText employeeNameEdit = view.findViewById(R.id.empNameText);
-        // edit text part number
-        EditText partNumberEdit = view.findViewById(R.id.partNumText);
-        // edit text serial number
-        EditText serialNumberEdit = view.findViewById(R.id.serialNumText);
-        // edit text nomenclature
-        EditText nomenclatureEdit = view.findViewById(R.id.nomenText);
-        // edit text task
-        EditText taskEdit = view.findViewById(R.id.taskText);
-        // edit text techSpecifications
-        EditText techSpecificationsEdit = view.findViewById(R.id.techSpecText);
-        // edit text tooling
-        EditText toolingEdit = view.findViewById(R.id.toolingText);
-        // edit text shelfLife
-        EditText shelfLifeEdit = view.findViewById(R.id.shelfLifeText);
-        // edit text traceability
-        EditText traceEdit = view.findViewById(R.id.traceText);
-        // edit text reqTraining
-        EditText reqTrainingEdit = view.findViewById(R.id.reqTrainingText);
-        // edit text trainingDate
-        EditText trainingDateEdit = view.findViewById(R.id.dateText);
+    private void saveInProcess() {
+        pageAdapter.getInProcessFragment().bundleObject();
+        InProcessObject inProcess = pageAdapter.getInProcessFragment().getInProcessObject();
 
-        String employeeNameObj = employeeNameEdit.getText().toString();
-        String partNumberObj = partNumberEdit.getText().toString();
-        String serialNumberObj = serialNumberEdit.getText().toString();
-        String nomenclatureObj = nomenclatureEdit.getText().toString();
-        String taskObj = taskEdit.getText().toString();
-        String techSpecificationsObj = techSpecificationsEdit.getText().toString();
-        String toolingObj = toolingEdit.getText().toString();
-        String shelfLifeObj = shelfLifeEdit.getText().toString();
-        String traceObj = traceEdit.getText().toString();
-        String reqTrainingObj = reqTrainingEdit.getText().toString();
-        String trainingDateObj = trainingDateEdit.getText().toString();
-
-
-//        String inProcessRef = db.collection("Audit").document().getId();
         CollectionReference dbInProcessSheets = db.collection("Audit").document(audit_id).collection("in-process");
-
-
-        InProcessObject inProcess = new InProcessObject(
-                employeeNameObj,
-                partNumberObj,
-                serialNumberObj,
-                nomenclatureObj,
-                taskObj,
-                techSpecificationsObj,
-                toolingObj,
-                shelfLifeObj,
-                traceObj,
-                reqTrainingObj,
-                trainingDateObj
-        );
 
         // save in firestore
         dbInProcessSheets.add(inProcess).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
