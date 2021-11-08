@@ -17,33 +17,6 @@
         app:title="Quality Assurance Technical Operations Audit"
         app:titleTextColor="#FFFFFF" />
 
-    <LinearLayout
-        android:id="@+id/audi_specs_options"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-
-        <Button
-            android:id="@+id/saveAuditSpecs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/UnitedBlue"
-            android:text="@string/save_audit_specs"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/saveInProcess"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/UnitedBlue"
-            android:text="Save In Process"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/auditTabLayout"
         android:layout_width="match_parent"
