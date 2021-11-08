@@ -27,8 +27,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
+
 
 public class ExcelParser {
+
+    private static ChecklistDataObject data;
+    private static boolean firstRow = true;
 
 
     private static Context ctx;
@@ -52,10 +57,16 @@ public class ExcelParser {
 
         Iterator rows = sheet.rowIterator();
 
+
         while (rows.hasNext())
         {
             row=(HSSFRow) rows.next();
             Iterator cells = row.cellIterator();
+
+            if(row.getRowNum() == 0){
+                // Skip first row
+                continue;
+            }
 
             while (cells.hasNext())
             {
@@ -67,7 +78,7 @@ public class ExcelParser {
                 }
                 else if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
                 {
-                    System.out.print(cell.getNumericCellValue()+" ");
+                    data.setId((int)cell.getNumericCellValue());
                 }
                 else
                 {
@@ -104,6 +115,12 @@ public class ExcelParser {
             while (rows.hasNext())
             {
                 row=(XSSFRow) rows.next();
+
+                if(row.getRowNum() == 0){
+                    // Skip first row
+                    continue;
+                }
+
                 Iterator cells = row.cellIterator();
                 while (cells.hasNext())
                 {
@@ -115,7 +132,12 @@ public class ExcelParser {
                     }
                     else if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC)
                     {
-                        System.out.print(cell.getNumericCellValue()+" ");
+                        if(firstRow){
+                            data.setId((int)cell.getNumericCellValue());
+
+                            firstRow = false;
+                        }
+
                     }
                     else
                     {

@@ -7,14 +7,18 @@ public class ChecklistDataObject implements Serializable {
 
 
     // Checklist number
-    private String checklist_id;
+    private int checklist_id;
 
     // Mapping between
-    private Map<String, >
+    //private Map<String, >
 
 
     public ChecklistDataObject(){
 
+    }
+
+    public void setId(int id){
+        this.checklist_id = id;
     }
 
 }
