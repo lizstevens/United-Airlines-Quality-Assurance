@@ -3,14 +3,24 @@ package edu.msu.steve702.ua_quality_assurance_platform.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessAdapter;
@@ -19,15 +29,24 @@ import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.UpdateInProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TechnicalTableDataObject;
+
+import static android.content.ContentValues.TAG;
 
 public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHolder>  {
 
     private Context mCtx;
     private List<AuditObject> auditList;
+    public FirebaseFirestore db;
+    private Intent intent;
+    private String this_audit_id;
 
     public AuditAdapter(Context mCtx, List<AuditObject> auditList) {
         this.mCtx = mCtx;
         this.auditList = auditList;
+
+        db = FirebaseFirestore.getInstance();
+        intent = new Intent(mCtx, AuditActivity.class);
     }
 
     @NonNull
@@ -82,10 +101,77 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
         @Override
         public void onClick(View view) {
             AuditObject audit = auditList.get(getAbsoluteAdapterPosition());
-            Intent intent = new Intent(mCtx, InProcessListActivity.class);
-            intent.putExtra("audit_id", audit.getId());
+            queryDB(audit);
+        }
 
-            mCtx.startActivity(intent);
+        private void queryDB(AuditObject audit) {
+            this_audit_id = audit.getId();
+            db.collection("Audit").document(this_audit_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot doc = task.getResult();
+                        AuditObject auditObject = doc.toObject(AuditObject.class);
+
+                        Toast.makeText(mCtx, "Query Audit Specs", Toast.LENGTH_SHORT).show();
+
+                        intent.putExtra("audit_id", this_audit_id);
+                        intent.putExtra("auditObject", auditObject);
+                        queryInProcess();
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        private void queryInProcess() {
+            db.collection("Audit").document(this_audit_id).collection("in-process").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<InProcessObject> inProcessObjectList = new ArrayList<>();
+
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            InProcessObject p = doc.toObject(InProcessObject.class);
+                            p.setId(doc.getId());
+                            inProcessObjectList.add(p);
+                        }
+
+                        intent.putExtra("InProcessList", (Serializable) inProcessObjectList);
+
+                        queryTechDataTable();
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
+        }
+
+        private void queryTechDataTable() {
+            db.collection("Audit").document(this_audit_id).collection("TechnicalDataTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<TechnicalTableDataObject> list = new ArrayList<>();
+
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            TechnicalTableDataObject p = doc.toObject(TechnicalTableDataObject.class);
+                            p.setId(doc.getId());
+                            list.add(p);
+                        }
+
+                        if (list.size() == 1) {
+                            intent.putExtra("TechnicalDataTable", list.get(0));
+                        }
+                        mCtx.startActivity(intent);
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
         }
     }
 

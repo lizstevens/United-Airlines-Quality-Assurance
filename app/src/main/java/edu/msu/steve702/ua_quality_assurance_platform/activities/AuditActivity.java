@@ -82,20 +82,6 @@ public class AuditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audit);
         context = getApplicationContext();
-
-        //For pre populating data
-        Intent intent = getIntent();
-        if (intent.getExtras() != null && intent.getExtras().containsKey("audit_id")) {
-            audit_id = getIntent().getStringExtra("audit_id");
-        }
-
-        if (savedInstanceState != null) {
-            // Restore the fragment's instance
-            auditSpecFragment = (AuditSpecFragment) getSupportFragmentManager().getFragment(savedInstanceState, "auditSpecsFragment");
-            inProcessFragment = (InProcessFragment) getSupportFragmentManager().getFragment(savedInstanceState, "inProcessFragment");
-        }
-
-
         db = FirebaseFirestore.getInstance();
 
         toolbar = findViewById(R.id.toolbar);
@@ -113,6 +99,23 @@ public class AuditActivity extends AppCompatActivity {
         checklist_name = getIntent().getStringExtra("checklistName");
         pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), checklist_name, context);
         viewPager.setAdapter(pageAdapter);
+
+        //For pre populating data
+        Intent intent = getIntent();
+        if (intent.getExtras() != null && intent.getExtras().containsKey("audit_id")) {
+            audit_id = getIntent().getStringExtra("audit_id");
+            pageAdapter.getAuditSpecFragment().setAuditObject((AuditObject) getIntent().getSerializableExtra("auditObject"));
+            pageAdapter.getInProcessFragment().setInProcessList((List<InProcessObject>) getIntent().getSerializableExtra("InProcessList"));
+            if (getIntent().getExtras().containsKey("TechnicalDataTable")) {
+                pageAdapter.getTableDataFragment().setTechnicalTableDataObject((TechnicalTableDataObject) getIntent().getSerializableExtra("TechnicalDataTable"));
+            }
+        }
+
+//        if (savedInstanceState != null) {
+//            // Restore the fragment's instance
+//            auditSpecFragment = (AuditSpecFragment) getSupportFragmentManager().getFragment(savedInstanceState, "auditSpecsFragment");
+//            inProcessFragment = (InProcessFragment) getSupportFragmentManager().getFragment(savedInstanceState, "inProcessFragment");
+//        }
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -135,6 +138,7 @@ public class AuditActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -58,6 +58,7 @@ public class TableDataFragment extends Fragment{
     private ShelfLifeTableDataObject shelfLifeTableDataObject;
 
     public TechnicalTableDataObject getTechnicalTableDataObject() { return this.technicalTableDataObject; }
+    public void setTechnicalTableDataObject(final TechnicalTableDataObject technicalTableDataObject) { this.technicalTableDataObject = technicalTableDataObject; }
     public ROMTableDataObject getRomTableDataObject() { return this.romTableDataObject; }
     public CalibrationTableDataObject getCalibrationTableDataObject() { return this.calibrationTableDataObject; }
     public TrainingTableDataObject getTrainingTableDataObject() { return this.trainingTableDataObject; }
@@ -133,6 +134,8 @@ public class TableDataFragment extends Fragment{
         tableViewPager = (ViewPager) view.findViewById(R.id.viewPager_tables);
         tablePageAdapter = new TablePageAdapter(getChildFragmentManager(), tabs.getTabCount(), context);
         tableViewPager.setAdapter(tablePageAdapter);
+
+        tablePageAdapter.getTechDataFragment().setTechnicalTableDataObject(technicalTableDataObject);
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

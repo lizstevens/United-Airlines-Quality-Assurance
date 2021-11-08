@@ -33,6 +33,10 @@ public class TechDataTableFragment extends Fragment {
     private View fragmentView;
     public View getFragmentView() { return this.fragmentView; }
 
+    private TechnicalTableDataObject technicalTableDataObject;
+    public TechnicalTableDataObject getTechnicalTableDataObject() { return this.technicalTableDataObject; }
+    public void setTechnicalTableDataObject(final TechnicalTableDataObject technicalTableDataObject) { this.technicalTableDataObject = technicalTableDataObject; }
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -84,6 +88,10 @@ public class TechDataTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentView = view;
+
+        if (technicalTableDataObject != null) {
+            populate();
+        }
     }
 
     public TechnicalTableDataObject bundleObject() {
@@ -119,7 +127,8 @@ public class TechDataTableFragment extends Fragment {
                 row14
         );
 
-        return newObject;
+        technicalTableDataObject = newObject;
+        return technicalTableDataObject;
     }
 
     public List<String> getRow(Integer rowNum) {
@@ -131,6 +140,19 @@ public class TechDataTableFragment extends Fragment {
             row.add(cell.getText().toString());
         }
         return row;
+    }
+
+    public void setRow(Integer rowNum, List<String> row) {
+        for (int i=1; i<7; i++) {
+            String rowName = "row" + rowNum + "_col" + i;
+            int cellId = context.getResources().getIdentifier(rowName, "id", context.getPackageName());
+            EditText cell = fragmentView.findViewById(cellId);
+            cell.setText(row.get(i-1));
+        }
+    }
+
+    public void populate() {
+        setRow(1, technicalTableDataObject.getRow1());
     }
 
 

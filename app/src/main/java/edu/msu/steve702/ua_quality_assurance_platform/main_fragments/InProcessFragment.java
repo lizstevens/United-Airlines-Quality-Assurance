@@ -14,18 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.firebase.firestore.CollectionReference;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
-import edu.msu.steve702.ua_quality_assurance_platform.InProcessFragmentAdapter;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
-import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
-import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditAdapter;
-import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 
 /**
@@ -39,7 +33,7 @@ public class InProcessFragment extends Fragment {
     private View fragmentView;
     private RecyclerView recyclerView;
     private InProcessFragmentAdapter adapter;
-    private List<InProcessObject> inProcessList;
+    private List<InProcessObject> inProcessList = new ArrayList<>();
     private Button addButton;
 
     public List<InProcessObject> getInProcessList() { return this.inProcessList; }
@@ -121,7 +115,6 @@ public class InProcessFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        inProcessList = new ArrayList<>();
         adapter = new InProcessFragmentAdapter(this.getContext(), inProcessList, this);
 
         recyclerView.setAdapter(adapter);
