@@ -5,18 +5,26 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.firestore.CollectionReference;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
+import edu.msu.steve702.ua_quality_assurance_platform.InProcessFragmentAdapter;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
+import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditAdapter;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 
@@ -29,10 +37,14 @@ public class InProcessFragment extends Fragment {
 
     private InProcessObject inProcessObject;
     private View fragmentView;
+    private RecyclerView recyclerView;
+    private InProcessFragmentAdapter adapter;
+    private List<InProcessObject> inProcessList;
+    private Button addButton;
 
-    public InProcessObject getInProcessObject() { return this.inProcessObject; }
+    public List<InProcessObject> getInProcessList() { return this.inProcessList; }
 
-    public void setInProcessObject(final InProcessObject inProcessObject) { this.inProcessObject = inProcessObject; }
+    public void setInProcessList(final List<InProcessObject> list) { this.inProcessList = list; }
 
     private static final String IN_PROCESS_KEY = "IN_PROCESS_KEY";
 
@@ -105,6 +117,25 @@ public class InProcessFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        recyclerView = view.findViewById(R.id.inProcessFragmentRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        inProcessList = new ArrayList<>();
+        adapter = new InProcessFragmentAdapter(this.getContext(), inProcessList, this);
+
+        recyclerView.setAdapter(adapter);
+
+        addButton = view.findViewById(R.id.view_in_process_sheets);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bundleObject();
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         fragmentView = view;
     }
 
@@ -159,7 +190,60 @@ public class InProcessFragment extends Fragment {
                 trainingDateObj
         );
 
-        inProcessObject = inProcess;
+        inProcessList.add(inProcess);
+
+        employeeNameEdit.setText("");
+        partNumberEdit.setText("");
+        serialNumberEdit.setText("");
+        nomenclatureEdit.setText("");
+        taskEdit.setText("");
+        techSpecificationsEdit.setText("");
+        toolingEdit.setText("");
+        shelfLifeEdit.setText("");
+        traceEdit.setText("");
+        reqTrainingEdit.setText("");
+        trainingDateEdit.setText("");
+    }
+
+    public void setInProcessTable(Integer listPosition, InProcessObject object) {
+        inProcessList.remove(listPosition);
+
+        // edit text name
+        EditText employeeNameEdit = fragmentView.findViewById(R.id.empNameText);
+        // edit text part number
+        EditText partNumberEdit = fragmentView.findViewById(R.id.partNumText);
+        // edit text serial number
+        EditText serialNumberEdit = fragmentView.findViewById(R.id.serialNumText);
+        // edit text nomenclature
+        EditText nomenclatureEdit = fragmentView.findViewById(R.id.nomenText);
+        // edit text task
+        EditText taskEdit = fragmentView.findViewById(R.id.taskText);
+        // edit text techSpecifications
+        EditText techSpecificationsEdit = fragmentView.findViewById(R.id.techSpecText);
+        // edit text tooling
+        EditText toolingEdit = fragmentView.findViewById(R.id.toolingText);
+        // edit text shelfLife
+        EditText shelfLifeEdit = fragmentView.findViewById(R.id.shelfLifeText);
+        // edit text traceability
+        EditText traceEdit = fragmentView.findViewById(R.id.traceText);
+        // edit text reqTraining
+        EditText reqTrainingEdit = fragmentView.findViewById(R.id.reqTrainingText);
+        // edit text trainingDate
+        EditText trainingDateEdit = fragmentView.findViewById(R.id.dateText);
+
+        employeeNameEdit.setText(object.getEmployeeNameObj());
+        partNumberEdit.setText(object.getPartNumberObj());
+        serialNumberEdit.setText(object.getSerialNumberObj());
+        nomenclatureEdit.setText(object.getNomenclatureObj());
+        taskEdit.setText(object.getTaskObj());
+        techSpecificationsEdit.setText(object.getTechSpecificationsObj());
+        toolingEdit.setText(object.getToolingObj());
+        shelfLifeEdit.setText(object.getShelfLifeObj());
+        traceEdit.setText(object.getTraceObj());
+        reqTrainingEdit.setText(object.getReqTrainingObj());
+        trainingDateEdit.setText(object.getTrainingDateObj());
+
+        adapter.notifyDataSetChanged();
     }
 
 }

@@ -20,8 +20,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -30,6 +32,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.InitialAuditActivity;
@@ -39,6 +44,8 @@ import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObje
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditPageAdapter;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditSpecFragment;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.InProcessFragment;
+
+import static android.content.ContentValues.TAG;
 
 public class AuditActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -178,45 +185,83 @@ public class AuditActivity extends AppCompatActivity {
 
         CollectionReference dbAuditSpecs = db.collection("Audit");
 
-        // save in firestore
-        dbAuditSpecs.add(auditObject).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                audit_id = documentReference.getId();
-                Toast.makeText(AuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
-                saveInProcess();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        if (audit_id != null) {
+            // save to existing audit in firestore
+            dbAuditSpecs.document(audit_id).set(auditObject, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void avoid) {
+                    Toast.makeText(AuditActivity.this, "Audit Information Updated", Toast.LENGTH_LONG).show();
 
-            }
-        });
+                    CollectionReference dbInProcessSheets = db.collection("Audit").document(audit_id).collection("in-process");
+
+                    if (audit_id != null) {
+                        dbInProcessSheets.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+
+                                    for (DocumentSnapshot doc: task.getResult()) {
+                                        doc.getReference().delete();
+                                    }
+                                    
+                                    saveInProcess();
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+        } else {
+            // save new audit in firestore
+            dbAuditSpecs.add(auditObject).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    audit_id = documentReference.getId();
+                    Toast.makeText(AuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
+                    saveInProcess();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }
 
     }
 
 
     private void saveInProcess() {
-        pageAdapter.getInProcessFragment().bundleObject();
-        InProcessObject inProcess = pageAdapter.getInProcessFragment().getInProcessObject();
+        //pageAdapter.getInProcessFragment().bundleObject();
+        List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
 
         CollectionReference dbInProcessSheets = db.collection("Audit").document(audit_id).collection("in-process");
 
         // save in firestore
-        dbInProcessSheets.add(inProcess).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(AuditActivity.this, "In-Process Data Added", Toast.LENGTH_LONG).show();
+        for (InProcessObject inProcess: inProcessList) {
+            dbInProcessSheets.add(inProcess).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Toast.makeText(AuditActivity.this, "In-Process Data Added", Toast.LENGTH_LONG).show();
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
-            }
-        });
+                }
+            });
+        }
 
     }
 

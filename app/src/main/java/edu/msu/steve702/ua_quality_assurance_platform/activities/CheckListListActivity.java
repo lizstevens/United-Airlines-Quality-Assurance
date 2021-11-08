@@ -58,13 +58,13 @@ public class CheckListListActivity extends AppCompatActivity {
 
     public void openAuditActivity(String checklistName) {
 
-        try{
-            ExcelParser parser = new ExcelParser(this);
-
-            parser.readXLSXFile(checklistName);
-        }catch(IOException e){
-            Log.e("Failed to Parse XML", "Error message: " + e.getMessage());
-        }
+//        try{
+////            ExcelParser parser = new ExcelParser(this);
+////
+////            parser.readXLSXFile(checklistName);
+////        }catch(IOException e){
+////            Log.e("Failed to Parse XML", "Error message: " + e.getMessage());
+////        }
 
         Intent intent = new Intent(this, AuditActivity.class);
         intent.putExtra("checklistName", checklistName);

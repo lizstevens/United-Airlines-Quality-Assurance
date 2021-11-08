@@ -407,10 +407,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/UnitedBlue"
-                android:text="@string/view_in_process_sheets"
+                android:text="@string/add_in_process"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/inProcessFragmentRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
