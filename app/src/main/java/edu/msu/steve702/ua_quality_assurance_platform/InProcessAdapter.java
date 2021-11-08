@@ -12,16 +12,20 @@ import android.content.Context;
 
 import java.util.List;
 
+import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditAdapter;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 
 public class InProcessAdapter extends RecyclerView.Adapter<InProcessAdapter.InProcessViewHolder> {
 
     private Context mCtx;
     private List<InProcessObject> inProcessList;
+    private String audit_id;
 
-    public InProcessAdapter(Context mCtx, List<InProcessObject> inProcessList) {
+    public InProcessAdapter(Context mCtx, List<InProcessObject> inProcessList, String audit_id) {
         this.mCtx = mCtx;
         this.inProcessList = inProcessList;
+        this.audit_id = audit_id;
     }
 
     @NonNull
@@ -82,9 +86,12 @@ public class InProcessAdapter extends RecyclerView.Adapter<InProcessAdapter.InPr
         @Override
         public void onClick(View view) {
             InProcessObject inProcess = inProcessList.get(getAbsoluteAdapterPosition());
-            Intent intent = new Intent(mCtx, UpdateInProcessActivity.class);
-            intent.putExtra("in-process", inProcess);
 
+            Intent intent = new Intent(mCtx, UpdateInProcessActivity.class);
+
+            intent.putExtra("audit_id", audit_id);
+            intent.putExtra("in-process", inProcess.getId());
+            intent.putExtra("in-process", inProcess);
             mCtx.startActivity(intent);
         }
     }

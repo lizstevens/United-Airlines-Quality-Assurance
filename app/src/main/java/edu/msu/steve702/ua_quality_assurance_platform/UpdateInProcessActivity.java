@@ -37,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 
 
@@ -52,12 +53,25 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
     private Button clearButton;
     private Button goBackToCreateAudit;
 
-
+    private String in_process_id;
+    private String audit_id;
+    private AuditObject auditObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_process_update);
+
+        //For pre populating data
+//        Intent intent = getIntent();
+//        if (intent.getExtras() != null && intent.getExtras().containsKey("in-process")) {
+//            in_process_id = getIntent().getStringExtra("in-process");
+//        }
+
+        Intent intent = getIntent();
+        if (intent.getExtras() != null && intent.getExtras().containsKey("audit_id")) {
+            audit_id = getIntent().getStringExtra("audit_id");
+        }
 
         inProcessIntent = (InProcessObject)getIntent().getSerializableExtra("in-process");
         db = FirebaseFirestore.getInstance();
@@ -143,8 +157,10 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
                 trainingDateObj
         );
 
+//        String inProcessRef = auditObject.getId();
+
         // override existing data using id
-        db.collection("in-process").document(inProcessIntent.getId()).set(inProcessUpdate)
+        db.collection("Audit").document(audit_id).collection("in-process").document(inProcessIntent.getId()).set(inProcessUpdate)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -262,7 +278,7 @@ public class UpdateInProcessActivity extends AppCompatActivity implements View.O
     }
 
     private void deleteInProcess() {
-        db.collection("in-process").document(inProcessIntent.getId()).delete()
+        db.collection("Audit").document(audit_id).collection("in-process").document(inProcessIntent.getId()).delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

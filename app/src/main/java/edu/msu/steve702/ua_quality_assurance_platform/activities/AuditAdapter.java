@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessAdapter;
+import edu.msu.steve702.ua_quality_assurance_platform.InProcessListActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.UpdateInProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
@@ -81,7 +82,7 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
         @Override
         public void onClick(View view) {
             AuditObject audit = auditList.get(getAbsoluteAdapterPosition());
-            Intent intent = new Intent(mCtx, AuditActivity.class);
+            Intent intent = new Intent(mCtx, InProcessListActivity.class);
             intent.putExtra("audit_id", audit.getId());
 
             mCtx.startActivity(intent);
