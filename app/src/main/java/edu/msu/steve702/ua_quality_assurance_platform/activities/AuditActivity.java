@@ -40,6 +40,7 @@ import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.InitialAuditActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditPageAdapter;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditSpecFragment;
@@ -68,6 +69,7 @@ public class AuditActivity extends AppCompatActivity {
 
     private String audit_id;
     private Context context;
+    ChecklistDataObject data;
 
 
     @Override
@@ -79,7 +81,16 @@ public class AuditActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.getExtras() != null && intent.getExtras().containsKey("audit_id")) {
             audit_id = getIntent().getStringExtra("audit_id");
+
+            try{
+                data = (ChecklistDataObject) getIntent().getSerializableExtra("CheckListDataObject");
+
+            }catch(NullPointerException e){
+                return;
+            }
         }
+
+
 
         if (savedInstanceState != null) {
             // Restore the fragment's instance

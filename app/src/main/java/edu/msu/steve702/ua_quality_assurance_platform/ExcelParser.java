@@ -83,12 +83,9 @@ public class ExcelParser {
                 {
                     data.setId((int)cell.getNumericCellValue());
                 }
-                else
-                {
-                    //U Can Handel Boolean, Formula, Errors
-                }
+
             }
-            System.out.println();
+
         }
 
 
@@ -171,12 +168,9 @@ public class ExcelParser {
                         break;
 
                     }
-                    else
-                    {
-                        //U Can Handel Boolean, Formula, Errors
-                    }
+
                 }
-                System.out.println();
+
             }
 
         }catch(InvalidFormatException e){

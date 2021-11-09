@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
@@ -63,7 +64,7 @@ public class CheckListListActivity extends AppCompatActivity {
         try{
             ExcelParser parser = new ExcelParser(this);
 
-            obj = parser.readXLSXFile("audit_checklist_and_logic_engine");
+            obj = parser.readXLSXFile(checklistName);
         }catch(IOException e){
             Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
         }
@@ -72,9 +73,7 @@ public class CheckListListActivity extends AppCompatActivity {
         intent.putExtra("checklistName", checklistName);
 
         if(obj != null){
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("value", obj);
-            intent.putExtra("ChecklistDataObject", bundle);
+            intent.putExtra("checklistDataObject", obj);
         }
         startActivity(intent);
     }
