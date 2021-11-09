@@ -4,6 +4,7 @@ package edu.msu.steve702.ua_quality_assurance_platform;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.util.Pair;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -43,6 +44,8 @@ public class ExcelParser {
 
         this.ctx = context;
 
+        this.data = new ChecklistDataObject();
+
 
     }
 
@@ -80,17 +83,16 @@ public class ExcelParser {
                 {
                     data.setId((int)cell.getNumericCellValue());
                 }
-                else
-                {
-                    //U Can Handel Boolean, Formula, Errors
-                }
+
             }
-            System.out.println();
+
         }
+
+
 
     }
 
-    public static void readXLSXFile(String fileName) throws IOException
+    public static ChecklistDataObject readXLSXFile(String fileName) throws IOException
     {
 
 
@@ -126,30 +128,57 @@ public class ExcelParser {
                 {
                     cell=(XSSFCell) cells.next();
 
-                    if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING)
-                    {
-                        System.out.print(cell.getStringCellValue()+" ");
-                    }
-                    else if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC)
+//                    if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING)
+//                    {
+//                        //System.out.print(cell.getStringCellValue()+" ");
+//
+//                        // Retrieve question text
+//
+//                    }
+                    if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC)
                     {
                         if(firstRow){
                             data.setId((int)cell.getNumericCellValue());
 
+
                             firstRow = false;
                         }
 
+                        int key = (int)row.getCell(1).getNumericCellValue();
+
+                        // Retrieve question category
+                        if(!data.hasKey(key)){
+                            data.add(key);
+
+                        }
+
+
+                        // Retrieve question number
+                        String cellTxt = row.getCell(3).getStringCellValue();
+                        Boolean status = null;
+
+                        Pair<String, Boolean> pair = new Pair<String, Boolean>(cellTxt, status);
+
+
+
+
+                        data.get(key).put((int)row.getCell(2).getNumericCellValue(), pair);
+
+
+                        break;
+
                     }
-                    else
-                    {
-                        //U Can Handel Boolean, Formula, Errors
-                    }
+
                 }
-                System.out.println();
+
             }
 
         }catch(InvalidFormatException e){
-            return;
+            return null;
         }
+
+
+        return data;
 
 
 

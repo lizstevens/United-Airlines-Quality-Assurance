@@ -13,11 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
 
 public class CheckListListActivity extends AppCompatActivity {
     private ListView listView;
@@ -58,16 +60,21 @@ public class CheckListListActivity extends AppCompatActivity {
 
     public void openAuditActivity(String checklistName) {
 
-//        try{
-////            ExcelParser parser = new ExcelParser(this);
-////
-////            parser.readXLSXFile(checklistName);
-////        }catch(IOException e){
-////            Log.e("Failed to Parse XML", "Error message: " + e.getMessage());
-////        }
+        ChecklistDataObject obj = null;
+        try{
+            ExcelParser parser = new ExcelParser(this);
+
+            obj = parser.readXLSXFile(checklistName);
+        }catch(IOException e){
+            Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
+        }
 
         Intent intent = new Intent(this, AuditActivity.class);
         intent.putExtra("checklistName", checklistName);
+
+        if(obj != null){
+            intent.putExtra("checklistDataObject", obj);
+        }
         startActivity(intent);
     }
 

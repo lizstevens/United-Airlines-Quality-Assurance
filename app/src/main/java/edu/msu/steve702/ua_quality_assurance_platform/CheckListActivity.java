@@ -7,9 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
+
 public class CheckListActivity extends AppCompatActivity {
 
     String checklist_name;
+
+    ChecklistDataObject data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -17,6 +21,13 @@ public class CheckListActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_checklist);
 
         checklist_name = getIntent().getStringExtra("checklistName");
+
+        try{
+            data = (ChecklistDataObject) getIntent().getSerializableExtra("CheckListDataObject");
+
+        }catch(NullPointerException e){
+            return;
+        }
 
 
 
