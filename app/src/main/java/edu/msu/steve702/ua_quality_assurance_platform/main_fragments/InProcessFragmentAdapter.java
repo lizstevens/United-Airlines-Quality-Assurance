@@ -1,7 +1,6 @@
-package edu.msu.steve702.ua_quality_assurance_platform;
+package edu.msu.steve702.ua_quality_assurance_platform.main_fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
-import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.InProcessFragment;
 
 public class InProcessFragmentAdapter extends RecyclerView.Adapter<InProcessFragmentAdapter.InProcessViewHolder>{
     private Context mCtx;

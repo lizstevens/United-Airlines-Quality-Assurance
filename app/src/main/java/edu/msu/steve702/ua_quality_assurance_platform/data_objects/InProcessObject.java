@@ -1,5 +1,6 @@
 package edu.msu.steve702.ua_quality_assurance_platform.data_objects;
 
+import android.os.Parcelable;
 import android.widget.EditText;
 
 import com.google.firebase.firestore.Exclude;

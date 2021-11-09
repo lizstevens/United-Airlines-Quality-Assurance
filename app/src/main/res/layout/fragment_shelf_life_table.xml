@@ -190,12 +190,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row1_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -238,12 +232,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row2_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -286,12 +274,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row3_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -334,12 +316,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row4_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -382,12 +358,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row5_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -430,12 +400,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row6_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -478,12 +442,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row7_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -526,12 +484,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row8_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -574,12 +526,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row9_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -622,12 +568,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row10_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -670,12 +610,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row11_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -718,12 +652,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row12_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -766,12 +694,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row13_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                         <TableRow
@@ -814,12 +736,6 @@
                                 android:layout_marginEnd="1dp"
                                 android:importantForAutofill="no" />
 
-                            <EditText
-                                android:id="@+id/row14_col6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="1dp"
-                                android:importantForAutofill="no" />
                         </TableRow>
 
                     </TableLayout>

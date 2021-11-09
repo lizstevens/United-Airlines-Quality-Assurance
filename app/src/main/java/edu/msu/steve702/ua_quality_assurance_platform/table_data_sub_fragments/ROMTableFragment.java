@@ -1,14 +1,23 @@
 package edu.msu.steve702.ua_quality_assurance_platform.table_data_sub_fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.CalibrationTableDataObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ROMTableDataObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +25,17 @@ import edu.msu.steve702.ua_quality_assurance_platform.R;
  * create an instance of this fragment.
  */
 public class ROMTableFragment extends Fragment {
+    private Context context;
+    public Context getContext() { return this.context; }
+    public void setContext(final Context context) { this.context = context; }
+
+    private View fragmentView;
+    public View getFragmentView() { return this.fragmentView; }
+
+    private ROMTableDataObject romTableDataObject;
+    public ROMTableDataObject getRomTableDataObject() { return this.romTableDataObject; }
+    public void setRomTableDataObject(final ROMTableDataObject romTableDataObject) { this.romTableDataObject = romTableDataObject; }
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,5 +82,50 @@ public class ROMTableFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_r_o_m_table, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        fragmentView = view;
+    }
+
+    public ROMTableDataObject bundleObject() {
+        List<String> row1 = getRow(1);
+        List<String> row2 = getRow(2);
+        List<String> row3 = getRow(3);
+        List<String> row4 = getRow(4);
+        List<String> row5 = getRow(5);
+        List<String> row6 = getRow(6);
+        List<String> row7 = getRow(7);
+        List<String> row8 = getRow(8);
+        List<String> row9 = getRow(9);
+        List<String> row10 = getRow(10);
+
+        ROMTableDataObject newObject = new ROMTableDataObject(
+                row1,
+                row2,
+                row3,
+                row4,
+                row5,
+                row6,
+                row7,
+                row8,
+                row9,
+                row10
+        );
+
+        return newObject;
+    }
+
+    public List<String> getRow(Integer rowNum) {
+        List<String> row = new ArrayList<>();
+        for (int i=1; i<7; i++) {
+            String rowName = "row" + rowNum + "_col" + i;
+            int cellId = context.getResources().getIdentifier(rowName, "id", context.getPackageName());
+            EditText cell = fragmentView.findViewById(cellId);
+            row.add(cell.getText().toString());
+        }
+        return row;
     }
 }

@@ -1,5 +1,7 @@
 package edu.msu.steve702.ua_quality_assurance_platform.main_fragments;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,7 +22,7 @@ public class AuditPageAdapter extends FragmentPagerAdapter {
     public InProcessFragment getInProcessFragment() { return this.inProcessFragment; }
     public TableDataFragment getTableDataFragment() { return this.tableDataFragment; }
 
-    public AuditPageAdapter(@NonNull FragmentManager fm, int numOfTabs, String checklist_name) {
+    public AuditPageAdapter(@NonNull FragmentManager fm, int numOfTabs, String checklist_name, Context context) {
         super(fm);
         this.numOfTabs = numOfTabs;
 
@@ -28,6 +30,7 @@ public class AuditPageAdapter extends FragmentPagerAdapter {
         checklistFragment = new ChecklistFragment();
         inProcessFragment = new InProcessFragment();
         tableDataFragment = new TableDataFragment();
+        tableDataFragment.setContext(context);
 
         checklistFragment.changeChecklistTitleText(checklist_name);
     }

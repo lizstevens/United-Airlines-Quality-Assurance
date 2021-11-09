@@ -93,14 +93,14 @@ public class AuditSpecFragment extends Fragment {
 
         fragmentView = view;
 
-        Bundle bundle = getArguments();
-        if (bundle != null && bundle.containsKey(AUDIT_SPECS_KEY)) {
-            auditObject = (AuditObject) bundle.getSerializable(AUDIT_SPECS_KEY);
-        }
+//        Bundle bundle = getArguments();
+//        if (bundle != null && bundle.containsKey(AUDIT_SPECS_KEY)) {
+//            auditObject = (AuditObject) bundle.getSerializable(AUDIT_SPECS_KEY);
+//        }
 
         if (auditObject != null) {
             //prepopulate views
-            //view.findViewById()
+            populate();
         }
     }
 
@@ -153,5 +153,25 @@ public class AuditSpecFragment extends Fragment {
         );
 
         auditObject = newObject;
+    }
+
+    public void populate() {
+        EditText auditName = fragmentView.findViewById(R.id.nameEdit);
+        EditText auditDate = fragmentView.findViewById(R.id.dateEdit);
+        EditText location = fragmentView.findViewById(R.id.locationEdit);
+        EditText auditTitle = fragmentView.findViewById(R.id.auditTitleEdit);
+        EditText auditNumber = fragmentView.findViewById(R.id.auditNumberEdit);
+        EditText vendorName = fragmentView.findViewById(R.id.vendorNameEdit);
+        EditText vendorNum = fragmentView.findViewById(R.id.vendorNumEdit);
+        EditText auditDescrip = fragmentView.findViewById(R.id.descripEdit);
+
+        auditName.setText(auditObject.getAuditNameObj());
+        auditDate.setText(auditObject.getAuditDateObj());
+        location.setText(auditObject.getLocationObj());
+        auditTitle.setText(auditObject.getAuditTitleObj());
+        auditNumber.setText(auditObject.getAuditNumberObj());
+        vendorName.setText(auditObject.getVendorNameObj());
+        vendorNum.setText(auditObject.getVendorNumObj());
+        auditDescrip.setText(auditObject.getAuditDescripObj());
     }
 }
