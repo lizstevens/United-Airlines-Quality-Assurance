@@ -88,6 +88,10 @@ public class CalibrationTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentView = view;
+
+        if (calibrationTableDataObject != null) {
+            populate();
+        }
     }
 
     public CalibrationTableDataObject bundleObject() {
@@ -137,5 +141,32 @@ public class CalibrationTableFragment extends Fragment {
             row.add(cell.getText().toString());
         }
         return row;
+    }
+
+    public void setRow(Integer rowNum, List<String> row) {
+        for (int i=1; i<6; i++) {
+            String rowName = "row" + rowNum + "_col" + i;
+            int cellId = context.getResources().getIdentifier(rowName, "id", context.getPackageName());
+            EditText cell = fragmentView.findViewById(cellId);
+            cell.setText(row.get(i-1));
+        }
+    }
+
+    public void populate() {
+        setRow(1, calibrationTableDataObject.getRow1());
+        setRow(2, calibrationTableDataObject.getRow2());
+        setRow(3, calibrationTableDataObject.getRow3());
+        setRow(4, calibrationTableDataObject.getRow4());
+        setRow(5, calibrationTableDataObject.getRow5());
+        setRow(6, calibrationTableDataObject.getRow6());
+        setRow(7, calibrationTableDataObject.getRow7());
+        setRow(8, calibrationTableDataObject.getRow8());
+        setRow(9, calibrationTableDataObject.getRow9());
+        setRow(10, calibrationTableDataObject.getRow10());
+        setRow(11, calibrationTableDataObject.getRow11());
+        setRow(12, calibrationTableDataObject.getRow12());
+        setRow(13, calibrationTableDataObject.getRow13());
+        setRow(14, calibrationTableDataObject.getRow14());
+        setRow(15, calibrationTableDataObject.getRow15());
     }
 }

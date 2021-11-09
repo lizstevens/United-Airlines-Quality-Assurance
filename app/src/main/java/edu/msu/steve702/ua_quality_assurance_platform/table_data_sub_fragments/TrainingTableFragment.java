@@ -87,6 +87,10 @@ public class TrainingTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentView = view;
+
+        if (trainingTableDataObject != null) {
+            populate();
+        }
     }
 
     public TrainingTableDataObject bundleObject() {
@@ -126,5 +130,27 @@ public class TrainingTableFragment extends Fragment {
             row.add(cell.getText().toString());
         }
         return row;
+    }
+
+    public void setRow(Integer rowNum, List<String> row) {
+        for (int i=1; i<5; i++) {
+            String rowName = "row" + rowNum + "_col" + i;
+            int cellId = context.getResources().getIdentifier(rowName, "id", context.getPackageName());
+            EditText cell = fragmentView.findViewById(cellId);
+            cell.setText(row.get(i-1));
+        }
+    }
+
+    public void populate() {
+        setRow(1, trainingTableDataObject.getRow1());
+        setRow(2, trainingTableDataObject.getRow2());
+        setRow(3, trainingTableDataObject.getRow3());
+        setRow(4, trainingTableDataObject.getRow4());
+        setRow(5, trainingTableDataObject.getRow5());
+        setRow(6, trainingTableDataObject.getRow6());
+        setRow(7, trainingTableDataObject.getRow7());
+        setRow(8, trainingTableDataObject.getRow8());
+        setRow(9, trainingTableDataObject.getRow9());
+        setRow(10, trainingTableDataObject.getRow10());
     }
 }

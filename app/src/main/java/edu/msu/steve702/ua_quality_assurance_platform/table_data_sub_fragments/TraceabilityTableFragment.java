@@ -87,6 +87,10 @@ public class TraceabilityTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentView = view;
+
+        if (traceabilityTableDataObject != null) {
+            populate();
+        }
     }
 
     public TraceabilityTableDataObject bundleObject() {
@@ -126,5 +130,27 @@ public class TraceabilityTableFragment extends Fragment {
             row.add(cell.getText().toString());
         }
         return row;
+    }
+
+    public void setRow(Integer rowNum, List<String> row) {
+        for (int i=1; i<6; i++) {
+            String rowName = "row" + rowNum + "_col" + i;
+            int cellId = context.getResources().getIdentifier(rowName, "id", context.getPackageName());
+            EditText cell = fragmentView.findViewById(cellId);
+            cell.setText(row.get(i-1));
+        }
+    }
+
+    public void populate() {
+        setRow(1, traceabilityTableDataObject.getRow1());
+        setRow(2, traceabilityTableDataObject.getRow2());
+        setRow(3, traceabilityTableDataObject.getRow3());
+        setRow(4, traceabilityTableDataObject.getRow4());
+        setRow(5, traceabilityTableDataObject.getRow5());
+        setRow(6, traceabilityTableDataObject.getRow6());
+        setRow(7, traceabilityTableDataObject.getRow7());
+        setRow(8, traceabilityTableDataObject.getRow8());
+        setRow(9, traceabilityTableDataObject.getRow9());
+        setRow(10, traceabilityTableDataObject.getRow10());
     }
 }

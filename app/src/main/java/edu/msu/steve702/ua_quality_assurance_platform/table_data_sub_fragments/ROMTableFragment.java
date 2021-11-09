@@ -88,6 +88,10 @@ public class ROMTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentView = view;
+
+        if (romTableDataObject != null) {
+            populate();
+        }
     }
 
     public ROMTableDataObject bundleObject() {
@@ -127,5 +131,27 @@ public class ROMTableFragment extends Fragment {
             row.add(cell.getText().toString());
         }
         return row;
+    }
+
+    public void setRow(Integer rowNum, List<String> row) {
+        for (int i=1; i<7; i++) {
+            String rowName = "row" + rowNum + "_col" + i;
+            int cellId = context.getResources().getIdentifier(rowName, "id", context.getPackageName());
+            EditText cell = fragmentView.findViewById(cellId);
+            cell.setText(row.get(i-1));
+        }
+    }
+
+    public void populate() {
+        setRow(1, romTableDataObject.getRow1());
+        setRow(2, romTableDataObject.getRow2());
+        setRow(3, romTableDataObject.getRow3());
+        setRow(4, romTableDataObject.getRow4());
+        setRow(5, romTableDataObject.getRow5());
+        setRow(6, romTableDataObject.getRow6());
+        setRow(7, romTableDataObject.getRow7());
+        setRow(8, romTableDataObject.getRow8());
+        setRow(9, romTableDataObject.getRow9());
+        setRow(10, romTableDataObject.getRow10());
     }
 }

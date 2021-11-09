@@ -153,6 +153,19 @@ public class TechDataTableFragment extends Fragment {
 
     public void populate() {
         setRow(1, technicalTableDataObject.getRow1());
+        setRow(2, technicalTableDataObject.getRow2());
+        setRow(3, technicalTableDataObject.getRow3());
+        setRow(4, technicalTableDataObject.getRow4());
+        setRow(5, technicalTableDataObject.getRow5());
+        setRow(6, technicalTableDataObject.getRow6());
+        setRow(7, technicalTableDataObject.getRow7());
+        setRow(8, technicalTableDataObject.getRow8());
+        setRow(9, technicalTableDataObject.getRow9());
+        setRow(10, technicalTableDataObject.getRow10());
+        setRow(11, technicalTableDataObject.getRow11());
+        setRow(12, technicalTableDataObject.getRow12());
+        setRow(13, technicalTableDataObject.getRow13());
+        setRow(14, technicalTableDataObject.getRow14());
     }
 
 

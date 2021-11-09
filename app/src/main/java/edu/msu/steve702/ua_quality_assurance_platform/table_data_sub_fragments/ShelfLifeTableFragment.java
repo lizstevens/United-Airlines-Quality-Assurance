@@ -87,6 +87,10 @@ public class ShelfLifeTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentView = view;
+
+        if (shelfLifeTableDataObject != null) {
+            populate();
+        }
     }
 
     public ShelfLifeTableDataObject bundleObject() {
@@ -134,5 +138,31 @@ public class ShelfLifeTableFragment extends Fragment {
             row.add(cell.getText().toString());
         }
         return row;
+    }
+
+    public void setRow(Integer rowNum, List<String> row) {
+        for (int i=1; i<6; i++) {
+            String rowName = "row" + rowNum + "_col" + i;
+            int cellId = context.getResources().getIdentifier(rowName, "id", context.getPackageName());
+            EditText cell = fragmentView.findViewById(cellId);
+            cell.setText(row.get(i-1));
+        }
+    }
+
+    public void populate() {
+        setRow(1, shelfLifeTableDataObject.getRow1());
+        setRow(2, shelfLifeTableDataObject.getRow2());
+        setRow(3, shelfLifeTableDataObject.getRow3());
+        setRow(4, shelfLifeTableDataObject.getRow4());
+        setRow(5, shelfLifeTableDataObject.getRow5());
+        setRow(6, shelfLifeTableDataObject.getRow6());
+        setRow(7, shelfLifeTableDataObject.getRow7());
+        setRow(8, shelfLifeTableDataObject.getRow8());
+        setRow(9, shelfLifeTableDataObject.getRow9());
+        setRow(10, shelfLifeTableDataObject.getRow10());
+        setRow(11, shelfLifeTableDataObject.getRow11());
+        setRow(12, shelfLifeTableDataObject.getRow12());
+        setRow(13, shelfLifeTableDataObject.getRow13());
+        setRow(14, shelfLifeTableDataObject.getRow14());
     }
 }
