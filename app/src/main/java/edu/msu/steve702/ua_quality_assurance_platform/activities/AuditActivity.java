@@ -552,7 +552,7 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
-    // Todo
+
     // Save checklist to firestore database
     public void saveChecklist() {
         if (checklist != null) {

@@ -35,6 +35,11 @@ public class ChecklistDataObject implements Serializable {
     public boolean hasKey(int key) {return dataMap.containsKey(key);}
 
 
+    public Pair<String, Boolean> getQuestion(int category, int question){
+        return dataMap.get(category).get(question);
+    }
+
+
 
 
 
