@@ -13,7 +13,9 @@ public class CheckListActivity extends AppCompatActivity {
 
     String checklist_name;
 
-    ChecklistDataObject data;
+    ChecklistDataObject obj;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,12 +24,6 @@ public class CheckListActivity extends AppCompatActivity {
 
         checklist_name = getIntent().getStringExtra("checklistName");
 
-        try{
-            data = (ChecklistDataObject) getIntent().getSerializableExtra("CheckListDataObject");
-
-        }catch(NullPointerException e){
-            return;
-        }
 
 
 

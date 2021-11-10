@@ -16,6 +16,7 @@ public class ChecklistDataObject implements Serializable {
     private int checklist_id;
 
     // Mapping between
+
     transient private HashMap<Integer, HashMap<Integer, Pair<String, Boolean>>> dataMap;
 
 
@@ -28,6 +29,8 @@ public class ChecklistDataObject implements Serializable {
     public void setId(int id){
         checklist_id = id;
     }
+
+    public int getId(){return checklist_id;}
 
     public boolean hasKey(int key) {return dataMap.containsKey(key);}
 

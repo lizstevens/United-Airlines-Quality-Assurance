@@ -35,13 +35,16 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.io.IOException;
 import java.util.List;
 
+import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.InitialAuditActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.CalibrationTableDataObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ROMTableDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ShelfLifeTableDataObject;
@@ -77,6 +80,8 @@ public class AuditActivity extends AppCompatActivity {
     private String audit_id;
     private Context context;
 
+    private ChecklistDataObject checklist;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +103,14 @@ public class AuditActivity extends AppCompatActivity {
 
         //name of the checklist that was selected from the previous view
         checklist_name = getIntent().getStringExtra("checklistName");
+        try{
+            ExcelParser parser = new ExcelParser(this);
+
+            checklist = parser.readXLSXFile(checklist_name);
+        }catch(IOException e){
+            Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
+        }
+
         pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), checklist_name, context);
         viewPager.setAdapter(pageAdapter);
 
@@ -210,6 +223,7 @@ public class AuditActivity extends AppCompatActivity {
                     CollectionReference dbTrainingTable = db.collection("Audit").document(audit_id).collection("TrainingTable");
                     CollectionReference dbTraceabilityTable = db.collection("Audit").document(audit_id).collection("TraceabilityTable");
                     CollectionReference dbShelfLifeTable = db.collection("Audit").document(audit_id).collection("ShelfLifeTable");
+                    CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
 
                     //If audit_id is not null we have to adjust the data by deleting existing data and updating with new data from the fragments
                     if (audit_id != null) {
@@ -327,6 +341,22 @@ public class AuditActivity extends AppCompatActivity {
                                 }
                             }
                         });
+
+                        dbChecklist.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+
+                                    for (DocumentSnapshot doc: task.getResult()) {
+                                        doc.getReference().delete();
+                                    }
+
+                                    saveChecklist();
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -352,6 +382,7 @@ public class AuditActivity extends AppCompatActivity {
                     saveTrainingTable();
                     saveTraceabilityTable();
                     saveShelfLifeTable();
+                    saveChecklist();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -520,6 +551,31 @@ public class AuditActivity extends AppCompatActivity {
             });
         }
     }
+
+    // Todo
+    // Save checklist to firestore database
+    public void saveChecklist() {
+        if (checklist != null) {
+
+
+            CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
+
+            // save in firestore
+            dbChecklist.add(checklist).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Toast.makeText(AuditActivity.this, "Shelf Life Table Added", Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }
+    }
+
 
 //    @Override
 //    public void onClick(View view) {

@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_pdf.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/layout/activity_tabular_data.xml" value="0.12447916666666667" />
+        <entry key="app/src/main/res/layout/fragment_checklist.xml" value="0.11141304347826086" />
       </map>
     </option>
   </component>
