@@ -13,7 +13,6 @@ public class CheckListActivity extends AppCompatActivity {
 
     String checklist_name;
 
-    ChecklistDataObject obj;
 
 
 

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TechnicalTableDataObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +27,8 @@ public class ChecklistFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String checklistTitle;
+
+    private ChecklistDataObject obj;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -82,4 +86,8 @@ public class ChecklistFragment extends Fragment {
     public void changeChecklistTitleText(String checklist_name) {
         checklistTitle = checklist_name;
     }
+
+    public ChecklistDataObject getCheclistDataObject() { return this.obj; }
+    public void setChecklistDataObject(final ChecklistDataObject checklist) { this.obj = checklist; }
+
 }

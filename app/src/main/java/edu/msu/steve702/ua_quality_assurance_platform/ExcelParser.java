@@ -155,14 +155,17 @@ public class ExcelParser {
 
                         // Retrieve question number
                         String cellTxt = row.getCell(3).getStringCellValue();
-                        Boolean status = null;
+//                        Boolean status = null;
+//
+//                        Pair<String, Boolean> pair = new Pair<String, Boolean>(cellTxt, status);
+//
 
-                        Pair<String, Boolean> pair = new Pair<String, Boolean>(cellTxt, status);
+                        String[] arr = {cellTxt, ctx.getString((R.string.no_answer))};
 
 
 
 
-                        data.get(key).put((int)row.getCell(2).getNumericCellValue(), pair);
+                        data.get(key).put((int)row.getCell(2).getNumericCellValue(), arr);
 
 
                         break;

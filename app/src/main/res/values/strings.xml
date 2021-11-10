@@ -114,4 +114,7 @@
     <string name="select_name">Search by Auditor Name</string>
     <string name="save_audit_specs">Save Audit Specs</string>
     <string name="add_in_process">Add In-Process</string>
+    <string name="no_answer">N/A</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

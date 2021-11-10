@@ -26,6 +26,7 @@ public class CheckListListActivity extends AppCompatActivity {
     private ArrayList<String> checklistList;
     private ArrayAdapter<String> adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,7 @@ public class CheckListListActivity extends AppCompatActivity {
     }
 
     public void openAuditActivity(String checklistName) {
+
         Intent intent = new Intent(this, AuditActivity.class);
         intent.putExtra("checklistName", checklistName);
 

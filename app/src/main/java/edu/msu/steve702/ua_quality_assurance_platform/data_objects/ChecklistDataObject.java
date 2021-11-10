@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 //import java.util.Map;
 
 public class ChecklistDataObject implements Serializable {
@@ -17,7 +18,7 @@ public class ChecklistDataObject implements Serializable {
 
     // Mapping between
 
-    transient private HashMap<Integer, HashMap<Integer, Pair<String, Boolean>>> dataMap;
+    private Map<Integer, Map<Integer, String[]>> dataMap;
 
 
     public ChecklistDataObject(){
@@ -35,20 +36,14 @@ public class ChecklistDataObject implements Serializable {
     public boolean hasKey(int key) {return dataMap.containsKey(key);}
 
 
-    public Pair<String, Boolean> getQuestion(int category, int question){
+    public String[] getQuestion(int category, int question){
         return dataMap.get(category).get(question);
     }
 
 
-
-
-
-
-
-
     public void add(int key){dataMap.put(key, new HashMap()); }
 
-    public HashMap<Integer, Pair<String, Boolean>> get(int key){
+    public Map<Integer, String[]> get(int key){
         return dataMap.get(key);
     }
 

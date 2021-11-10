@@ -36,6 +36,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
@@ -564,7 +565,7 @@ public class AuditActivity extends AppCompatActivity {
             dbChecklist.add(checklist).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
-                    Toast.makeText(AuditActivity.this, "Shelf Life Table Added", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AuditActivity.this, "Checklist Added", Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
