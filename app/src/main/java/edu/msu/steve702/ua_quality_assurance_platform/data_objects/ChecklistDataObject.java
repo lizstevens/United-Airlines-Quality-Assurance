@@ -13,6 +13,7 @@ import java.util.Map;
 public class ChecklistDataObject implements Serializable {
 
 
+
     // Checklist number
     private int checklist_id;
 

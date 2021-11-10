@@ -137,7 +137,9 @@ public class TableDataFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_table_data_tabs, container, false);
         tabs = (TabLayout) view.findViewById(R.id.tableTabLayout);
         tableViewPager = (ViewPager) view.findViewById(R.id.viewPager_tables);
-        tablePageAdapter = new TablePageAdapter(getChildFragmentManager(), tabs.getTabCount(), context);
+        if (tablePageAdapter == null) {
+            tablePageAdapter = new TablePageAdapter(getChildFragmentManager(), 6, context);
+        }
         tableViewPager.setAdapter(tablePageAdapter);
 
         tablePageAdapter.getTechDataFragment().setTechnicalTableDataObject(technicalTableDataObject);
