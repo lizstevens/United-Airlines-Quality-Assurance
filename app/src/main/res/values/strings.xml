@@ -117,4 +117,7 @@
     <string name="no_answer">N/A</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="default_question">Default Question</string>
+    <string name="n_a">N/A</string>
+    <string name="comment">Comment</string>
 </resources>
