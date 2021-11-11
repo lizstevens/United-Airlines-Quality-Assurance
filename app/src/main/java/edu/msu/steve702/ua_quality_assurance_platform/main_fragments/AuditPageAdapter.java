@@ -28,6 +28,7 @@ public class AuditPageAdapter extends FragmentPagerAdapter {
 
         auditSpecFragment = new AuditSpecFragment();
         checklistFragment = new ChecklistFragment();
+        checklistFragment.setContext(context);
         inProcessFragment = new InProcessFragment();
         tableDataFragment = new TableDataFragment();
         tableDataFragment.setContext(context);

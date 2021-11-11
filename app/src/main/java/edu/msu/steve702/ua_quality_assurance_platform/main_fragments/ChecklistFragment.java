@@ -1,5 +1,6 @@
 package edu.msu.steve702.ua_quality_assurance_platform.main_fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,11 +10,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import edu.msu.steve702.ua_quality_assurance_platform.R;
+import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
-import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TechnicalTableDataObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,9 +33,18 @@ public class ChecklistFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
     private String checklistTitle;
 
+    private Spinner spinner;
+
     private ChecklistDataObject obj;
+
+    private Context context;
+    @Nullable
+    @Override
+    public Context getContext() { return this.context; }
+    public void setContext(final Context context) { this.context = context; }
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -77,6 +93,26 @@ public class ChecklistFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TextView checklistTitleTextview = view.findViewById(R.id.checklistTitle);
         checklistTitleTextview.setText(checklistTitle);
+        spinner = view.findViewById(R.id.section_spinner);
+        ArrayList<String> section_list = new ArrayList<>();
+
+        section_list.add("Section 1");
+        section_list.add("Section 2");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, section_list);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(context, "Item selected:" + parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     /**
