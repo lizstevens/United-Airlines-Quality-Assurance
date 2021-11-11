@@ -18,7 +18,7 @@ public class ChecklistDataObject implements Serializable {
     private int checklist_id;
 
     // Mapping between
-
+    //<section number, <question number, [question, answer]>
     private Map<Integer, Map<Integer, String[]>> dataMap;
 
 

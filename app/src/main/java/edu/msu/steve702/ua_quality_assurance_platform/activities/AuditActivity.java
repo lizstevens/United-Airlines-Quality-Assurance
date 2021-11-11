@@ -112,7 +112,7 @@ public class AuditActivity extends AppCompatActivity {
             Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
         }
 
-        pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), checklist_name, context);
+        pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), checklist_name, context, checklist);
         viewPager.setAdapter(pageAdapter);
 
         //For pre populating data

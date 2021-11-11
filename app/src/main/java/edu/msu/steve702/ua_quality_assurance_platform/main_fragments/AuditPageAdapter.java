@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
+
 public class AuditPageAdapter extends FragmentPagerAdapter {
     private int numOfTabs;
 
@@ -22,12 +24,12 @@ public class AuditPageAdapter extends FragmentPagerAdapter {
     public InProcessFragment getInProcessFragment() { return this.inProcessFragment; }
     public TableDataFragment getTableDataFragment() { return this.tableDataFragment; }
 
-    public AuditPageAdapter(@NonNull FragmentManager fm, int numOfTabs, String checklist_name, Context context) {
+    public AuditPageAdapter(@NonNull FragmentManager fm, int numOfTabs, String checklist_name, Context context, ChecklistDataObject checklist) {
         super(fm);
         this.numOfTabs = numOfTabs;
 
         auditSpecFragment = new AuditSpecFragment();
-        checklistFragment = new ChecklistFragment();
+        checklistFragment = new ChecklistFragment(checklist);
         checklistFragment.setContext(context);
         inProcessFragment = new InProcessFragment();
         tableDataFragment = new TableDataFragment();

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
@@ -43,6 +44,9 @@ public class ChecklistFragment extends Fragment {
     private ArrayList<String> section_list;
     private List<Integer> sectionNums;
     private List<String> section1_questions;
+    private Map<Integer, String[]> subMap;
+    private Integer currentSection;
+
     private ChecklistDataObject obj;
     RecyclerView checklistSectionRecyclerView;
     LinearLayoutManager layoutManager;
@@ -54,12 +58,19 @@ public class ChecklistFragment extends Fragment {
     public Context getContext() { return this.context; }
     public void setContext(final Context context) { this.context = context; }
 
+    public ChecklistDataObject getObj() { return this.obj; }
+    public void setObj(final ChecklistDataObject obj) { this.obj = obj; }
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public ChecklistFragment() {
         // Required empty public constructor
+    }
+
+    public ChecklistFragment(ChecklistDataObject obj) {
+        this.obj = obj;
     }
 
     /**
@@ -103,17 +114,23 @@ public class ChecklistFragment extends Fragment {
         checklistTitleTextview.setText(checklistTitle);
         spinner = view.findViewById(R.id.section_spinner);
         section_list = new ArrayList<>();
-        sectionNums = new ArrayList<>();
         section1_questions = new ArrayList<>();
+        currentSection = 1;
 
-        section_list.add("Section 1");
-        section_list.add("Section 2");
+        for (Map.Entry<Integer, String[]> entry : obj.get(currentSection).entrySet()) {
+            if (entry.getKey() == 0) {
+                section_list.add("Section:" + entry.getValue()[0]);
 
-        sectionNums.add(1);
-        sectionNums.add(2);
+            }else {
+                section1_questions.add(entry.getKey() - 1, entry.getValue()[0]);
+            }
+        }
 
-        section1_questions.add("Question 1");
-        section1_questions.add("Question 2");
+//        section_list.add("Section 1");
+//        section_list.add("Section 2");
+
+//        section1_questions.add("Question 1");
+//        section1_questions.add("Question 2");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, section_list);
         spinner.setAdapter(adapter);
@@ -129,7 +146,7 @@ public class ChecklistFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(context, "Item selected:" + parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
-                questionAdapter.setCurrentSection(sectionNums.get(position));
+                //questionAdapter.setCurrentSection(sectionNums.get(position));
                 questionAdapter.setQuestionList(section1_questions);
                 questionAdapter.notifyDataSetChanged();
             }
