@@ -557,8 +557,6 @@ public class AuditActivity extends AppCompatActivity {
     // Save checklist to firestore database
     public void saveChecklist() {
         if (checklist != null) {
-
-
             CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
 
             // save in firestore

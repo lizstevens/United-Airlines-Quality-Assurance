@@ -35,21 +35,21 @@
                 android:textStyle="bold" />
 
             <CheckBox
-                android:id="@+id/checkBox_yes3"
+                android:id="@+id/checkBox_yes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:text="@string/yes" />
 
             <CheckBox
-                android:id="@+id/checkBox_no3"
+                android:id="@+id/checkBox_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:text="@string/no" />
 
             <CheckBox
-                android:id="@+id/checkBox_na3"
+                android:id="@+id/checkBox_na"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
@@ -57,6 +57,7 @@
 
             <EditText
                 android:id="@+id/editText_Comment"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
