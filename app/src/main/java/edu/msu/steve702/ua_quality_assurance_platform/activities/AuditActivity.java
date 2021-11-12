@@ -376,13 +376,15 @@ public class AuditActivity extends AppCompatActivity {
                     Toast.makeText(AuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
                     saveInProcess();
 
-                    pageAdapter.getTableDataFragment().bundleObjects();
-                    saveTechnicalDataTable();
-                    saveROMTable();
-                    saveCalibrationTable();
-                    saveTrainingTable();
-                    saveTraceabilityTable();
-                    saveShelfLifeTable();
+                    if (pageAdapter.getTableDataFragment().getTablePageAdapter() != null) {
+                        pageAdapter.getTableDataFragment().bundleObjects();
+                        saveTechnicalDataTable();
+                        saveROMTable();
+                        saveCalibrationTable();
+                        saveTrainingTable();
+                        saveTraceabilityTable();
+                        saveShelfLifeTable();
+                    }
                     saveChecklist();
                 }
             }).addOnFailureListener(new OnFailureListener() {

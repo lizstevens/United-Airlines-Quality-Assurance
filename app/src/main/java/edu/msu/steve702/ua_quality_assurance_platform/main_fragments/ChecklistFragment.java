@@ -216,7 +216,7 @@ public class ChecklistFragment extends Fragment {
                 }
             }
         }
-        questionAdapter = new ChecklistQuestionAdapter(context, 1, section_questions);
+        questionAdapter = new ChecklistQuestionAdapter(context, 1, section_questions, this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, section_list);
         spinner.setAdapter(adapter);
 

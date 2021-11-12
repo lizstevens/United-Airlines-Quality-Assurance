@@ -9,6 +9,7 @@ import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 //import java.util.Map;
 
@@ -23,13 +24,17 @@ public class ChecklistDataObject implements Serializable {
 
     // Mapping between
     //<section number, <question number, [question, answer]>
+    // List<Map<questionNum, question>>
+    //List<Map<questionNum, answer>>
+    private List<Map<Integer, String[]>> datamap1;
     private Map<Integer, Map<Integer, String[]>> dataMap;
 
     public ChecklistDataObject(){}
 
-    public ChecklistDataObject(Integer id, Map<Integer, Map<Integer, String[]>> map) {
+    public ChecklistDataObject(Integer id, Map<Integer, Map<Integer, String[]>> map, List<Map<Integer, String[]>> newlist) {
         this.checklist_id = id;
         this.dataMap = map;
+        this.datamap1 = newlist;
     }
 
 
@@ -40,7 +45,9 @@ public class ChecklistDataObject implements Serializable {
 
     public int getChecklistId(){return checklist_id;}
 
-    public boolean hasKey(int key) {return dataMap.containsKey(key);}
+    public boolean hasKey(int key) {
+        return dataMap.containsKey(key);
+    }
 
 
     public String[] getQuestion(int category, int question){
@@ -48,10 +55,14 @@ public class ChecklistDataObject implements Serializable {
     }
 
 
-    public void add(int key){dataMap.put(key, new HashMap()); }
+    public void add(int key){
+        dataMap.put(key, new HashMap());
+        datamap1.add(key-1, new HashMap());
+    }
 
     public Map<Integer, String[]> get(int key){
-        return dataMap.get(key);
+        return datamap1.get(key-1);
+        //return dataMap.get(key);
     }
 
 

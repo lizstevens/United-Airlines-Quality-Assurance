@@ -38,16 +38,19 @@ public class ChecklistQuestionAdapter extends RecyclerView.Adapter<ChecklistQues
 
     private List<ChecklistDataObject> checklistDataObjects;
 
+    private ChecklistFragment fragment;
+
     public Integer getCurrentSection() { return this.currentSection; }
     public void setCurrentSection(final Integer currentSection) { this.currentSection = currentSection; }
 
     public List<String> getQuestionList() { return this.questionList; }
     public void setQuestionList(final List<String> questionList) { this.questionList = questionList; }
 
-    public ChecklistQuestionAdapter(Context mCtx, Integer currentSection, List<String> questionList) {
+    public ChecklistQuestionAdapter(Context mCtx, Integer currentSection, List<String> questionList, ChecklistFragment fragment) {
         this.mCtx = mCtx;
         this.currentSection = currentSection;
         this.questionList = questionList;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -60,7 +63,15 @@ public class ChecklistQuestionAdapter extends RecyclerView.Adapter<ChecklistQues
     @Override
     public void onBindViewHolder(@NonNull CheckListQuestionViewHolder checkListQuestionViewHolder, int position){
         String questionString = questionList.get(position);
+        String currentAnswer = fragment.getCheclistDataObject().get(currentSection).get(position)[1];
         checkListQuestionViewHolder.question.setText(questionString);
+        if (currentAnswer == "Yes") {
+            checkListQuestionViewHolder.yes.setChecked(true);
+        } else if (currentAnswer == "No") {
+            checkListQuestionViewHolder.no.setChecked(true);
+        } else if (currentAnswer == "N/A") {
+            checkListQuestionViewHolder.na.setChecked(true);
+        }
     }
 
     class CheckListQuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -74,8 +85,11 @@ public class ChecklistQuestionAdapter extends RecyclerView.Adapter<ChecklistQues
             super(itemView);
             question = itemView.findViewById(R.id.textView_question);
             yes = itemView.findViewById(R.id.checkBox_yes);
+            yes.setChecked(false);
             no = itemView.findViewById(R.id.checkBox_no);
+            no.setChecked(false);
             na = itemView.findViewById(R.id.checkBox_na);
+            na.setChecked(false);
 
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
@@ -90,13 +104,20 @@ public class ChecklistQuestionAdapter extends RecyclerView.Adapter<ChecklistQues
             int currentQuestion = getAbsoluteAdapterPosition() + 1;
             Boolean checkBoxState = false;
             if (view == yes) {
-                checkBoxState = yes.isChecked();
+                //checkBoxState = yes.isChecked();
+                if (yes.isChecked()) {
+                    fragment.getCheclistDataObject().get(currentSection).get(currentQuestion)[1] = "Yes";
+                }
             }
             if (view == no) {
-                checkBoxState = no.isChecked();
+                if (no.isChecked()) {
+                    fragment.getCheclistDataObject().get(currentSection).get(currentQuestion)[1] = "No";
+                }
             }
             if (view == na) {
-                checkBoxState = na.isChecked();
+                if (na.isChecked()) {
+                    fragment.getCheclistDataObject().get(currentSection).get(currentQuestion)[1] = "N/A";
+                }
             }
 
         }

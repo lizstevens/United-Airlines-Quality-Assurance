@@ -26,8 +26,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
@@ -49,8 +51,9 @@ public class ExcelParser {
         this.ctx = context;
 
         Map<Integer, Map<Integer, String[]>> map = new HashMap<>();
+        List<Map<Integer, String[]>> newmap = new ArrayList<>();
 
-        this.data = new ChecklistDataObject(null, map);
+        this.data = new ChecklistDataObject(null, map, newmap);
 
 
     }

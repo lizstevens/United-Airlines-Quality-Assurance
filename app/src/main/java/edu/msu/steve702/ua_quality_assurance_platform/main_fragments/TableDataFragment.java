@@ -173,23 +173,37 @@ public class TableDataFragment extends Fragment{
     }
 
     public void bundleObjects() {
-        if (tablePageAdapter.getTechDataFragment().getFragmentView() != null) {
-            technicalTableDataObject = tablePageAdapter.getTechDataFragment().bundleObject();
-        }
-        if (tablePageAdapter.getCalTableFragment().getFragmentView() != null) {
-            calibrationTableDataObject = tablePageAdapter.getCalTableFragment().bundleObject();
-        }
-        if (tablePageAdapter.getRomTableFragment().getFragmentView() != null) {
-            romTableDataObject = tablePageAdapter.getRomTableFragment().bundleObject();
-        }
-        if (tablePageAdapter.getTrainTableFragment().getFragmentView() != null) {
-            trainingTableDataObject = tablePageAdapter.getTrainTableFragment().bundleObject();
-        }
-        if (tablePageAdapter.getTraceTableFragment().getFragmentView() != null) {
-            traceabilityTableDataObject = tablePageAdapter.getTraceTableFragment().bundleObject();
-        }
-        if (tablePageAdapter.getShelfTableFragment().getFragmentView() != null) {
-            shelfLifeTableDataObject = tablePageAdapter.getShelfTableFragment().bundleObject();
+        if (tablePageAdapter != null) {
+            if (tablePageAdapter.getTechDataFragment() != null) {
+                if (tablePageAdapter.getTechDataFragment().getFragmentView() != null) {
+                    technicalTableDataObject = tablePageAdapter.getTechDataFragment().bundleObject();
+                }
+            }
+            if (tablePageAdapter.getCalTableFragment() != null) {
+                if (tablePageAdapter.getCalTableFragment().getFragmentView() != null) {
+                    calibrationTableDataObject = tablePageAdapter.getCalTableFragment().bundleObject();
+                }
+            }
+            if (tablePageAdapter.getRomTableFragment() != null) {
+                if (tablePageAdapter.getRomTableFragment().getFragmentView() != null) {
+                    romTableDataObject = tablePageAdapter.getRomTableFragment().bundleObject();
+                }
+            }
+            if (tablePageAdapter.getTrainTableFragment() != null) {
+                if (tablePageAdapter.getTrainTableFragment().getFragmentView() != null) {
+                    trainingTableDataObject = tablePageAdapter.getTrainTableFragment().bundleObject();
+                }
+            }
+            if (tablePageAdapter.getTraceTableFragment() != null) {
+                if (tablePageAdapter.getTraceTableFragment().getFragmentView() != null) {
+                    traceabilityTableDataObject = tablePageAdapter.getTraceTableFragment().bundleObject();
+                }
+            }
+            if (tablePageAdapter.getShelfTableFragment() != null) {
+                if (tablePageAdapter.getShelfTableFragment().getFragmentView() != null) {
+                    shelfLifeTableDataObject = tablePageAdapter.getShelfTableFragment().bundleObject();
+                }
+            }
         }
     }
 
