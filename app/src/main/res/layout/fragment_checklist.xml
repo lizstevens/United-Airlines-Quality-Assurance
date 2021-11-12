@@ -22,14 +22,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/checklistTitle"
-        android:paddingTop="10sp"
-        android:paddingBottom="10sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:textSize="30sp"
         android:textAlignment="viewStart" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_sections"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/section_spinner" />
+        android:layout_below="@id/section_spinner"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+         />
 
 </RelativeLayout>
