@@ -5,6 +5,8 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,25 +16,29 @@ public class ChecklistDataObject implements Serializable {
 
 
 
+    @Exclude private String id;
+
     // Checklist number
-    private int checklist_id;
+    private Integer checklist_id;
 
     // Mapping between
     //<section number, <question number, [question, answer]>
     private Map<Integer, Map<Integer, String[]>> dataMap;
 
+    public ChecklistDataObject(){}
 
-    public ChecklistDataObject(){
-
-        dataMap = new HashMap<>();
-
+    public ChecklistDataObject(Integer id, Map<Integer, Map<Integer, String[]>> map) {
+        this.checklist_id = id;
+        this.dataMap = map;
     }
 
-    public void setId(int id){
+
+
+    public void setChecklistId(int id){
         checklist_id = id;
     }
 
-    public int getId(){return checklist_id;}
+    public int getChecklistId(){return checklist_id;}
 
     public boolean hasKey(int key) {return dataMap.containsKey(key);}
 

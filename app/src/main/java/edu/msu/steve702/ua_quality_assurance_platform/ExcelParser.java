@@ -26,7 +26,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
 
@@ -39,12 +41,16 @@ public class ExcelParser {
 
     private static Context ctx;
 
+    public ExcelParser(){}
+
 
     public ExcelParser(Context context) throws IOException {
 
         this.ctx = context;
 
-        this.data = new ChecklistDataObject();
+        Map<Integer, Map<Integer, String[]>> map = new HashMap<>();
+
+        this.data = new ChecklistDataObject(null, map);
 
 
     }
@@ -81,7 +87,7 @@ public class ExcelParser {
                 }
                 else if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
                 {
-                    data.setId((int)cell.getNumericCellValue());
+                    data.setChecklistId((int)cell.getNumericCellValue());
                 }
 
             }
@@ -138,7 +144,7 @@ public class ExcelParser {
                     if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC)
                     {
                         if(firstRow){
-                            data.setId((int)cell.getNumericCellValue());
+                            data.setChecklistId((int)cell.getNumericCellValue());
 
 
                             firstRow = false;
