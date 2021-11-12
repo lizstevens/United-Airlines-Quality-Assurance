@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
@@ -18,14 +18,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:layout_height="match_parent"
+            android:layout_gravity="fill"
+            android:padding="10dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
 
             <TextView
                 android:id="@+id/textView_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="6"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="5"
+                android:gravity="fill"
                 android:text="@string/default_question"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -56,10 +60,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
+                android:autofillHints=""
                 android:ems="10"
-                android:hint="@string/comment" />
+                android:gravity="clip_horizontal|center|center_horizontal"
+                android:hint="@string/comment"
+                android:inputType="textImeMultiLine" />
 
         </LinearLayout>
+
 
     </androidx.cardview.widget.CardView>
 
