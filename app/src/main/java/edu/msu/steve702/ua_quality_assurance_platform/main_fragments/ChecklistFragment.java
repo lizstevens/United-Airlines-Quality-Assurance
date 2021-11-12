@@ -43,7 +43,7 @@ public class ChecklistFragment extends Fragment {
     private Spinner spinner;
     private ArrayList<String> section_list;
     private List<Integer> sectionNums;
-    private List<String> section_questions;
+    private List<String> section_questions, section2_questions;
     private Map<Integer, String[]> subMap;
     private Integer currentSection;
     private Integer totalSizeFor8 = 21;
@@ -116,8 +116,10 @@ public class ChecklistFragment extends Fragment {
         spinner = view.findViewById(R.id.section_spinner);
         section_list = new ArrayList<>();
         section_questions = new ArrayList<>();
-        currentSection = 1;
+
+
         for (int i = totalSizeFor8; i >= 1; i--) {
+            currentSection = i;
             for (Map.Entry<Integer, String[]> entry : obj.get(i).entrySet()) {
                 if (entry.getKey() == 0) {
                     section_list.add("Section " + i + ": " + entry.getValue()[0]);
@@ -125,34 +127,44 @@ public class ChecklistFragment extends Fragment {
                 } else {
                     section_questions.add(entry.getKey() - 1, entry.getValue()[0]);
                 }
+                questionAdapter = new ChecklistQuestionAdapter(context, i, section_questions);
             }
-
-//            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, section_list);
-//            spinner.setAdapter(adapter);
-
-            checklistSectionRecyclerView = view.findViewById(R.id.recyclerView_sections);
-            layoutManager = new LinearLayoutManager(context);
-            questionAdapter = new ChecklistQuestionAdapter(context, i, section_questions);
-            checklistSectionRecyclerView.setHasFixedSize(true);
-            checklistSectionRecyclerView.setAdapter(questionAdapter);
-            checklistSectionRecyclerView.setLayoutManager(layoutManager);
         }
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, section_list);
+        spinner.setAdapter(adapter);
 
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        checklistSectionRecyclerView = view.findViewById(R.id.recyclerView_sections);
+        layoutManager = new LinearLayoutManager(context);
+        checklistSectionRecyclerView.setHasFixedSize(true);
+        checklistSectionRecyclerView.setAdapter(questionAdapter);
+        checklistSectionRecyclerView.setLayoutManager(layoutManager);
+
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(context, "Item selected:" + position, Toast.LENGTH_LONG).show();
-//                questionAdapter.setCurrentSection(sectionNums.get(position));
-//                questionAdapter.setQuestionList(section_questions);
-//                questionAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+//                if (position == 0) {
+//                    questionAdapter.setCurrentSection(sectionNums.get(0));
+//                    questionAdapter.setQuestionList(section_questions);
+//                    questionAdapter.notifyDataSetChanged();
+//                }
+//                else if (position == 1) {
+//                    questionAdapter.setCurrentSection(sectionNums.get(1));
+//                    questionAdapter.setQuestionList(section2_questions);
+//                    questionAdapter.notifyDataSetChanged();
+//                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
