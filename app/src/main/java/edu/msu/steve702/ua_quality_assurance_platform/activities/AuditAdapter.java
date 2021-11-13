@@ -29,6 +29,7 @@ import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.UpdateInProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.CalibrationTableDataObject;
+import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ROMTableDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ShelfLifeTableDataObject;
@@ -299,6 +300,32 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
                 }
             });
         }
+
+        public void queryChecklist() {
+            db.collection("Audit").document(this_audit_id).collection("Checklist").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<ChecklistDataObject> list = new ArrayList<>();
+
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            ChecklistDataObject checklistDataObject = doc.toObject(ChecklistDataObject.class);
+                            checklistDataObject.setId(doc.getId());
+                            list.add(checklistDataObject);
+                        }
+
+                        if (list.size() == 1) {
+                            intent.putExtra("ChecklistData", list.get(0));
+                        }
+                        mCtx.startActivity(intent);
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+
     }
 
 }

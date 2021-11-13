@@ -24,6 +24,7 @@ import java.util.List;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
+import edu.msu.steve702.ua_quality_assurance_platform.table_data_sub_fragments.ShelfLifeTableFragment;
 
 import static android.content.ContentValues.TAG;
 
@@ -39,6 +40,8 @@ public class ChecklistQuestionAdapter extends RecyclerView.Adapter<ChecklistQues
     private List<ChecklistDataObject> checklistDataObjects;
 
     private ChecklistFragment fragment;
+
+    public ChecklistFragment getChecklistFragment() { return this.fragment; }
 
     public Integer getCurrentSection() { return this.currentSection; }
     public void setCurrentSection(final Integer currentSection) { this.currentSection = currentSection; }
@@ -63,7 +66,7 @@ public class ChecklistQuestionAdapter extends RecyclerView.Adapter<ChecklistQues
     @Override
     public void onBindViewHolder(@NonNull CheckListQuestionViewHolder checkListQuestionViewHolder, int position){
         String questionString = questionList.get(position);
-        String currentAnswer = fragment.getCheclistDataObject().get(currentSection).get(position)[1];
+        String currentAnswer = fragment.getChecklistDataObject().get(currentSection).get(position)[1];
         checkListQuestionViewHolder.question.setText(questionString);
         if (currentAnswer == "Yes") {
             checkListQuestionViewHolder.yes.setChecked(true);
@@ -106,17 +109,17 @@ public class ChecklistQuestionAdapter extends RecyclerView.Adapter<ChecklistQues
             if (view == yes) {
                 //checkBoxState = yes.isChecked();
                 if (yes.isChecked()) {
-                    fragment.getCheclistDataObject().get(currentSection).get(currentQuestion)[1] = "Yes";
+                    fragment.getChecklistDataObject().get(currentSection).get(currentQuestion)[1] = "Yes";
                 }
             }
             if (view == no) {
                 if (no.isChecked()) {
-                    fragment.getCheclistDataObject().get(currentSection).get(currentQuestion)[1] = "No";
+                    fragment.getChecklistDataObject().get(currentSection).get(currentQuestion)[1] = "No";
                 }
             }
             if (view == na) {
                 if (na.isChecked()) {
-                    fragment.getCheclistDataObject().get(currentSection).get(currentQuestion)[1] = "N/A";
+                    fragment.getChecklistDataObject().get(currentSection).get(currentQuestion)[1] = "N/A";
                 }
             }
 

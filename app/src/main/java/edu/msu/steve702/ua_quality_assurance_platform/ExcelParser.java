@@ -51,9 +51,9 @@ public class ExcelParser {
         this.ctx = context;
 
         Map<Integer, Map<Integer, String[]>> map = new HashMap<>();
-        List<Map<Integer, String[]>> newmap = new ArrayList<>();
+//        List<Map<Integer, String[]>> newmap = new ArrayList<>();
 
-        this.data = new ChecklistDataObject(null, map, newmap);
+        this.data = new ChecklistDataObject(null, map);
 
 
     }

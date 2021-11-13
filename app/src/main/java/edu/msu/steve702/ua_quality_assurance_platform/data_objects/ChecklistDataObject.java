@@ -31,10 +31,10 @@ public class ChecklistDataObject implements Serializable {
 
     public ChecklistDataObject(){}
 
-    public ChecklistDataObject(Integer id, Map<Integer, Map<Integer, String[]>> map, List<Map<Integer, String[]>> newlist) {
+    public ChecklistDataObject(Integer id, Map<Integer, Map<Integer, String[]>> map) {
         this.checklist_id = id;
         this.dataMap = map;
-        this.datamap1 = newlist;
+//        this.datamap1 = newlist;
     }
 
 
@@ -57,13 +57,22 @@ public class ChecklistDataObject implements Serializable {
 
     public void add(int key){
         dataMap.put(key, new HashMap());
-        datamap1.add(key-1, new HashMap());
+//        datamap1.add(key-1, new HashMap());
     }
 
     public Map<Integer, String[]> get(int key){
-        return datamap1.get(key-1);
-        //return dataMap.get(key);
+//        return datamap1.get(key-1);
+        return dataMap.get(key);
     }
+
+    public String getId() {
+        return this.id;
+    }
+    public void setId(final String id) {
+        this.id = id;
+    }
+
+
 
 
 

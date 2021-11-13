@@ -1,16 +1,16 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Trace;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,17 +31,28 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.OutputStream;
 import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
-import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
-import edu.msu.steve702.ua_quality_assurance_platform.InitialAuditActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.CalibrationTableDataObject;
@@ -55,7 +66,6 @@ import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TrainingTable
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditPageAdapter;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditSpecFragment;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.InProcessFragment;
-import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.TableDataFragment;
 
 import static android.content.ContentValues.TAG;
 
@@ -82,6 +92,9 @@ public class AuditActivity extends AppCompatActivity {
     private Context context;
 
     private ChecklistDataObject checklist;
+
+    private EditText titleEdit, employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
+    private EditText techSpecificationsEdit , toolingEdit , shelfLifeEdit, traceEdit, reqTrainingEdit, trainingDateEdit;
 
 
     @Override
@@ -139,6 +152,9 @@ public class AuditActivity extends AppCompatActivity {
             if (getIntent().getExtras().containsKey("ShelfLifeTableData")) {
                 pageAdapter.getTableDataFragment().setShelfLifeTableDataObject((ShelfLifeTableDataObject) getIntent().getSerializableExtra("ShelfLifeTableData"));
             }
+            if (getIntent().getExtras().containsKey("ChecklistData")) {
+                pageAdapter.getChecklistFragment().setChecklistDataObject((ChecklistDataObject) getIntent().getSerializableExtra("ChecklistData"));
+            }
         }
 
 //        if (savedInstanceState != null) {
@@ -188,6 +204,11 @@ public class AuditActivity extends AppCompatActivity {
         if (option1.equals(item.getTitle().toString())) {
             saveAuditSpecs();
         } else if (option2.equals(item.getTitle().toString())) {
+//            try {
+//                createPdf();
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
 
         }
         return true;
@@ -375,7 +396,7 @@ public class AuditActivity extends AppCompatActivity {
                     audit_id = documentReference.getId();
                     Toast.makeText(AuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
                     saveInProcess();
-
+                    saveChecklist();
                     if (pageAdapter.getTableDataFragment().getTablePageAdapter() != null) {
                         pageAdapter.getTableDataFragment().bundleObjects();
                         saveTechnicalDataTable();
@@ -385,7 +406,7 @@ public class AuditActivity extends AppCompatActivity {
                         saveTraceabilityTable();
                         saveShelfLifeTable();
                     }
-                    saveChecklist();
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -421,6 +442,12 @@ public class AuditActivity extends AppCompatActivity {
                 }
             });
         }
+
+//        try {
+//            createPdf(inProcessList);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -558,11 +585,13 @@ public class AuditActivity extends AppCompatActivity {
 
     // Save checklist to firestore database
     public void saveChecklist() {
-        if (checklist != null) {
+//        if (checklist != null) {
+        if(pageAdapter.getChecklistFragment().getQuestionAdapter() != null) {
+            ChecklistDataObject checklistDataObject = pageAdapter.getChecklistFragment().getChecklistDataObject();
             CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
 
             // save in firestore
-            dbChecklist.add(checklist).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            dbChecklist.add(checklistDataObject).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     Toast.makeText(AuditActivity.this, "Checklist Added", Toast.LENGTH_LONG).show();
@@ -577,16 +606,97 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    // this function allows user to create a pdf to store locally
+    public void createPdf(List<InProcessObject> inProcessList) throws FileNotFoundException {
+//        InProcessObject test = inProcessList.get(0);
+        // edit text name
+        employeeNameEdit = findViewById(R.id.empNameText);
+        // edit text part number
+        partNumberEdit = findViewById(R.id.partNumText);
+        // edit text serial number
+        serialNumberEdit = findViewById(R.id.serialNumText);
+        // edit text nomenclature
+        nomenclatureEdit = findViewById(R.id.nomenText);
+        // edit text task
+        taskEdit = findViewById(R.id.taskText);
+        // edit text techSpecifications
+        techSpecificationsEdit = findViewById(R.id.techSpecText);
+        // edit text tooling
+        toolingEdit = findViewById(R.id.toolingText);
+        // edit text shelfLife
+        shelfLifeEdit = findViewById(R.id.shelfLifeText);
+        // edit text traceability
+        traceEdit = findViewById(R.id.traceText);
+        // edit text reqTraining
+        reqTrainingEdit = findViewById(R.id.reqTrainingText);
+        // edit text trainingDate
+        trainingDateEdit = findViewById(R.id.dateText);
 
-//    @Override
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.saveAuditSpecs:
-//                saveAuditSpecs(pageAdapter.getAuditSpecFragment().getView());
-//                break;
-//            case R.id.saveInProcess:
-//                saveInProcess(pageAdapter.getInProcessFragment().getView());
-//                break;
-//        }
-//    }
+        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+        File file = new File(pdfPath, titleEdit.getText() + ".pdf");
+
+        OutputStream outputStream = new FileOutputStream(file);
+
+        PdfWriter writer = new PdfWriter(file);
+        PdfDocument pdfDocument = new PdfDocument(writer);
+        Document document = new Document(pdfDocument);
+
+        Drawable drawable = getDrawable(R.drawable.united_airlines_quality_assurance_logo);
+        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bitmapData = stream.toByteArray();
+
+        ImageData imageData = ImageDataFactory.create(bitmapData);
+        Image image = new Image(imageData);
+        image.setHeight(80);
+        image.setWidth(500);
+
+        Paragraph paragraph = new Paragraph("Technical Operations Quality Assurance");
+
+        float columnWidth[] = {200f, 200f};
+        Table table = new Table(columnWidth);
+
+        // add cell
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Employee Name: ")));
+        table.addCell(employeeNameEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number: ")));
+        table.addCell(partNumberEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Serial Number: ")));
+        table.addCell(serialNumberEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Nomeclature: ")));
+        table.addCell(nomenclatureEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Task: ")));
+        table.addCell(taskEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technical Specifications: ")));
+        table.addCell(techSpecificationsEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tooling: ")));
+        table.addCell(toolingEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Shelf Life: ")));
+        table.addCell(shelfLifeEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Traceability: ")));
+        table.addCell(traceEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training: ")));
+        table.addCell(reqTrainingEdit.getText().toString());
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date Qualified: ")));
+        table.addCell(trainingDateEdit.getText().toString());
+
+
+        document.add(image);
+        document.add(paragraph);
+        document.add(table);
+
+        document.close();
+        Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
+    }
 }

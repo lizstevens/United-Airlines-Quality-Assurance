@@ -25,6 +25,7 @@ import java.util.Map;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
+import edu.msu.steve702.ua_quality_assurance_platform.table_data_sub_fragments.TablePageAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +55,12 @@ public class ChecklistFragment extends Fragment {
     private ChecklistDataObject obj;
     RecyclerView checklistSectionRecyclerView;
     LinearLayoutManager layoutManager;
+
     ChecklistQuestionAdapter questionAdapter;
+    ChecklistSectionAdapter checklistSectionAdapter;
+
+    private View fragmentView;
+    public View getFragmentView() { return this.fragmentView; }
 
     private Context context;
     @Nullable
@@ -76,6 +82,8 @@ public class ChecklistFragment extends Fragment {
     public ChecklistFragment(ChecklistDataObject obj) {
         this.obj = obj;
     }
+
+    public ChecklistQuestionAdapter getQuestionAdapter() { return this.questionAdapter; }
 
     /**
      * Use this factory method to create a new instance of
@@ -224,7 +232,7 @@ public class ChecklistFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Currently section 21 is at position 0
-                Toast.makeText(context, "Item selected:" + position, Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Item selected:" + position, Toast.LENGTH_LONG).show();
 
                 if (position == 0) {
                     questionAdapter.setQuestionList(section_questions);
@@ -335,7 +343,7 @@ public class ChecklistFragment extends Fragment {
         checklistTitle = checklist_name;
     }
 
-    public ChecklistDataObject getCheclistDataObject() { return this.obj; }
+    public ChecklistDataObject getChecklistDataObject() { return this.obj; }
     public void setChecklistDataObject(final ChecklistDataObject checklist) { this.obj = checklist; }
 
 }
