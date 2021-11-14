@@ -3,14 +3,14 @@
 
 
     <item android:id = "@+id/option1"
-        android:title="@string/save"/>
+        android:title="@string/generate_pdf"/>
 
     <item android:id = "@+id/option2"
-        android:title="@string/generate_pdf" />
-
-    <item android:id = "@+id/option3"
         android:title="@string/take_photo" />
 
-    <item android:id = "@+id/option4"
+    <item android:id = "@+id/option3"
         android:title="@string/upload_photo" />
+
+    <item android:id = "@+id/option4"
+        android:title="@string/return_to_dashboard" />
 </menu>

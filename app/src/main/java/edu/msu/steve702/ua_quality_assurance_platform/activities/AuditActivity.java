@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
+import edu.msu.steve702.ua_quality_assurance_platform.MainActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.CalibrationTableDataObject;
@@ -83,6 +85,7 @@ public class AuditActivity extends AppCompatActivity {
     TabItem tabInProcess;
     TabItem tabTableData;
     String checklist_name;
+    Button save_button;
 
     private Button auditSpecsSaveBtn;
     private Button inProcessSaveBtn;
@@ -109,8 +112,16 @@ public class AuditActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         toolbar = findViewById(R.id.toolbar);
+        save_button = findViewById(R.id.saveButton);
         toolbar.setTitle(R.string.title);
         setSupportActionBar(toolbar);
+
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveAuditSpecs();
+            }
+        });
 
         tabLayout = findViewById(R.id.auditTabLayout);
         tabAuditSpecs = findViewById(R.id.auditSpecsTabItem);
@@ -121,12 +132,14 @@ public class AuditActivity extends AppCompatActivity {
 
         //name of the checklist that was selected from the previous view
         checklist_name = getIntent().getStringExtra("checklistName");
-        try{
-            ExcelParser parser = new ExcelParser(this);
+        if (getIntent().getExtras() != null & !getIntent().getExtras().containsKey("editing")) {
+            try {
+                ExcelParser parser = new ExcelParser(this);
 
-            checklist = parser.readXLSXFile(checklist_name);
-        }catch(IOException e){
-            Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
+                checklist = parser.readXLSXFile(checklist_name);
+            } catch (IOException e) {
+                Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
+            }
         }
 
         pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), checklist_name, context, checklist);
@@ -201,15 +214,21 @@ public class AuditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         switch (item.getItemId()){
+            //generate pdf
             case R.id.option1:
+                //saveAuditSpecs();
                 return true;
+            //upload photo
             case R.id.option2:
                 return true;
+            //take photo
             case R.id.option3:
 
                 return true;
+            //return home
             case R.id.option4:
-
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -221,8 +240,8 @@ public class AuditActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's instance
-        getSupportFragmentManager().putFragment(outState, "auditSpecsFragment", auditSpecFragment);
-        getSupportFragmentManager().putFragment(outState, "inProcessFragment", inProcessFragment);
+        //getSupportFragmentManager().putFragment(outState, "auditSpecsFragment", auditSpecFragment);
+        //getSupportFragmentManager().putFragment(outState, "inProcessFragment", inProcessFragment);
     }
 
 
@@ -587,13 +606,25 @@ public class AuditActivity extends AppCompatActivity {
 
     // Save checklist to firestore database
     public void saveChecklist() {
-//        if (checklist != null) {
         if(pageAdapter.getChecklistFragment().getQuestionAdapter() != null) {
             ChecklistDataObject checklistDataObject = pageAdapter.getChecklistFragment().getChecklistDataObject();
 
-
-
             CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
+
+            Map<String, String> map = new HashMap<>();
+            map.put("checklistName", checklist_name);
+            dbChecklist.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
+                }
+
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
 
             for(int i=1; i < checklistDataObject.size() + 1; i++){
 
@@ -601,7 +632,7 @@ public class AuditActivity extends AppCompatActivity {
 
                 //checklistDataObject.setMapString(json_str);
 
-                Map<String, String> map = new HashMap<>();
+                map = new HashMap<>();
                 map.put("Section " + i, json_str);
 
                 // save in firestore

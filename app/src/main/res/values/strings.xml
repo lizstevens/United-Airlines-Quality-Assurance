@@ -120,4 +120,6 @@
     <string name="default_question">Default Question</string>
     <string name="n_a">N/A</string>
     <string name="comment">Comment</string>
+    <string name="quality_assurance_technical_operations_audit">Quality Assurance Technical Operations Audit</string>
+    <string name="return_to_dashboard">Return to Dashboard</string>
 </resources>

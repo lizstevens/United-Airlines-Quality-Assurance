@@ -150,9 +150,8 @@ public class ChecklistFragment extends Fragment {
         section20_questions = new ArrayList<>();
         section21_questions = new ArrayList<>();
 
-
+        currentSection = 1;
         for (int i = 1; i <= totalSizeFor8; i++) {
-            currentSection = i;
             for (Map.Entry<Integer, String[]> entry : obj.get(i).entrySet()) {
                 if (entry.getKey() == 0) {
                     section_list.add("Section " + i + ": " + entry.getValue()[0]);
@@ -224,7 +223,7 @@ public class ChecklistFragment extends Fragment {
                 }
             }
         }
-        questionAdapter = new ChecklistQuestionAdapter(context, 1, section_questions, this);
+        questionAdapter = new ChecklistQuestionAdapter(context, currentSection, section_questions, this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, section_list);
         spinner.setAdapter(adapter);
 
@@ -233,7 +232,7 @@ public class ChecklistFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Currently section 21 is at position 0
 //                Toast.makeText(context, "Item selected:" + position, Toast.LENGTH_LONG).show();
-
+                questionAdapter.setCurrentSection(position + 1);
                 if (position == 0) {
                     questionAdapter.setQuestionList(section_questions);
                     questionAdapter.notifyDataSetChanged();

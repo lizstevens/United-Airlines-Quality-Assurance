@@ -112,6 +112,7 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
 
         private void queryDB(AuditObject audit) {
             this_audit_id = audit.getId();
+            intent.putExtra("editing", true);
             db.collection("Audit").document(this_audit_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -293,6 +294,8 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
                         if (list.size() == 1) {
                             intent.putExtra("ShelfLifeTableData", list.get(0));
                         }
+                        //temporary
+                        intent.putExtra("checklistName", "");
                         mCtx.startActivity(intent);
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
@@ -314,9 +317,12 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
                             list.add(checklistDataObject);
                         }
 
-                        if (list.size() == 1) {
-                            intent.putExtra("ChecklistData", list.get(0));
-                        }
+
+                        intent.putExtra("ChecklistData", list.get(0));
+
+
+                        //TODO must be changed to reflect the actual checklist name.
+                        intent.putExtra("checklistName", "default checklist name");
                         mCtx.startActivity(intent);
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
