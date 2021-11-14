@@ -15,13 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+
+import org.dom4j.dtd.InternalEntityDecl;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessAdapter;
 import edu.msu.steve702.ua_quality_assurance_platform.InProcessListActivity;
@@ -294,9 +302,7 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
                         if (list.size() == 1) {
                             intent.putExtra("ShelfLifeTableData", list.get(0));
                         }
-                        //temporary
-                        intent.putExtra("checklistName", "");
-                        mCtx.startActivity(intent);
+                        queryChecklist();
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
@@ -309,20 +315,32 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-                        List<ChecklistDataObject> list = new ArrayList<>();
+                        Map<Integer, Map<Integer, String[]>> map = new HashMap<>();
+                        ChecklistDataObject obj = new ChecklistDataObject(null, map);
+                        String checklistName = "";
+                        Type mapType = new TypeToken<Map<Integer, String[]>>(){}.getType();
 
                         for (DocumentSnapshot doc: task.getResult()) {
-                            ChecklistDataObject checklistDataObject = doc.toObject(ChecklistDataObject.class);
-                            checklistDataObject.setId(doc.getId());
-                            list.add(checklistDataObject);
+                            Map<String, Object> docMap = doc.getData();
+                            for(Map.Entry<String, Object> entry : docMap.entrySet()) {
+                                String section = entry.getKey();
+                                if (section.equals("checklistName")) {
+                                    checklistName = entry.getValue().toString();
+                                } else {
+                                    Integer sectionNum = Integer.valueOf(section);
+                                    Map<Integer, String[]> subMap = new Gson().fromJson(entry.getValue().toString(), mapType);
+                                    // Retrieve question category
+                                    if(!obj.hasKey(sectionNum)){
+                                        obj.add(sectionNum);
+                                        obj.put(sectionNum, subMap);
+                                    }
+                                }
+                            }
                         }
 
 
-                        intent.putExtra("ChecklistData", list.get(0));
-
-
-                        //TODO must be changed to reflect the actual checklist name.
-                        intent.putExtra("checklistName", "default checklist name");
+                        intent.putExtra("ChecklistData", obj);
+                        intent.putExtra("checklistName", checklistName);
                         mCtx.startActivity(intent);
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
@@ -332,6 +350,10 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
         }
 
 
+        class ThisMap extends HashMap<String, String> {
+            ThisMap() {
+            }
+        }
     }
 
 }

@@ -48,9 +48,10 @@ public class ChecklistFragment extends Fragment {
             , section7_questions, section8_questions, section9_questions, section10_questions, section11_questions, section12_questions
             , section13_questions, section14_questions, section15_questions, section16_questions, section17_questions, section18_questions
             , section19_questions, section20_questions, section21_questions;
+    private List<List<String>> section_questions_list;
     private Map<Integer, String[]> subMap;
     private Integer currentSection;
-    private Integer totalSizeFor8 = 21;
+    private Integer totalSizeFor8;
 
     private ChecklistDataObject obj;
     RecyclerView checklistSectionRecyclerView;
@@ -125,105 +126,26 @@ public class ChecklistFragment extends Fragment {
         TextView checklistTitleTextview = view.findViewById(R.id.checklistTitle);
         checklistTitleTextview.setText(checklistTitle);
         spinner = view.findViewById(R.id.section_spinner);
+        totalSizeFor8 = obj.size();
 
 
         section_list = new ArrayList<>();
-        section_questions = new ArrayList<>();
-        section2_questions = new ArrayList<>();
-        section3_questions = new ArrayList<>();
-        section4_questions = new ArrayList<>();
-        section5_questions = new ArrayList<>();
-        section6_questions = new ArrayList<>();
-        section7_questions = new ArrayList<>();
-        section8_questions = new ArrayList<>();
-        section9_questions = new ArrayList<>();
-        section10_questions = new ArrayList<>();
-        section11_questions = new ArrayList<>();
-        section12_questions = new ArrayList<>();
-        section13_questions = new ArrayList<>();
-        section14_questions = new ArrayList<>();
-        section15_questions = new ArrayList<>();
-        section16_questions = new ArrayList<>();
-        section17_questions = new ArrayList<>();
-        section18_questions = new ArrayList<>();
-        section19_questions = new ArrayList<>();
-        section20_questions = new ArrayList<>();
-        section21_questions = new ArrayList<>();
+        section_questions_list = new ArrayList<>();
 
         currentSection = 1;
         for (int i = 1; i <= totalSizeFor8; i++) {
+            List<String> section_questions = new ArrayList<>();
             for (Map.Entry<Integer, String[]> entry : obj.get(i).entrySet()) {
                 if (entry.getKey() == 0) {
                     section_list.add("Section " + i + ": " + entry.getValue()[0]);
 
                 } else {
-                    if (i == 1) {
-                        section_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 2) {
-                        section2_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 3) {
-                        section3_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 4) {
-                        section4_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 5) {
-                        section5_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 6) {
-                        section6_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 7) {
-                        section7_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 8) {
-                        section8_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 9) {
-                        section9_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 10) {
-                        section10_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 11) {
-                        section11_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 12) {
-                        section12_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 13) {
-                        section13_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 14) {
-                        section14_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 15) {
-                        section15_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 16) {
-                        section16_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 17) {
-                        section17_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 18) {
-                        section18_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 19) {
-                        section19_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 20) {
-                        section20_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
-                    if (i == 21) {
-                        section21_questions.add(entry.getKey() - 1, entry.getValue()[0]);
-                    }
+                    section_questions.add(entry.getKey() - 1, entry.getValue()[0]);
                 }
             }
+            section_questions_list.add(i - 1, section_questions);
         }
-        questionAdapter = new ChecklistQuestionAdapter(context, currentSection, section_questions, this);
+        questionAdapter = new ChecklistQuestionAdapter(context, currentSection, section_questions_list.get(currentSection), this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, section_list);
         spinner.setAdapter(adapter);
 
@@ -233,90 +155,8 @@ public class ChecklistFragment extends Fragment {
                 // Currently section 21 is at position 0
 //                Toast.makeText(context, "Item selected:" + position, Toast.LENGTH_LONG).show();
                 questionAdapter.setCurrentSection(position + 1);
-                if (position == 0) {
-                    questionAdapter.setQuestionList(section_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 1) {
-                    questionAdapter.setQuestionList(section2_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 2) {
-                    questionAdapter.setQuestionList(section3_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 3) {
-                    questionAdapter.setQuestionList(section4_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 4) {
-                    questionAdapter.setQuestionList(section5_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 5) {
-                    questionAdapter.setQuestionList(section6_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 6) {
-                    questionAdapter.setQuestionList(section7_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 7) {
-                    questionAdapter.setQuestionList(section8_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 8) {
-                    questionAdapter.setQuestionList(section9_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 9) {
-                    questionAdapter.setQuestionList(section10_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 10) {
-                    questionAdapter.setQuestionList(section11_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 11) {
-                    questionAdapter.setQuestionList(section12_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 12) {
-                    questionAdapter.setQuestionList(section13_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 13) {
-                    questionAdapter.setQuestionList(section14_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 14) {
-                    questionAdapter.setQuestionList(section15_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 15) {
-                    questionAdapter.setQuestionList(section16_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 16) {
-                    questionAdapter.setQuestionList(section17_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 17) {
-                    questionAdapter.setQuestionList(section18_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 18) {
-                    questionAdapter.setQuestionList(section19_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 19) {
-                    questionAdapter.setQuestionList(section20_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
-                if (position == 20) {
-                    questionAdapter.setQuestionList(section21_questions);
-                    questionAdapter.notifyDataSetChanged();
-                }
+                questionAdapter.setQuestionList(section_questions_list.get(position));
+                questionAdapter.notifyDataSetChanged();
 
             }
 

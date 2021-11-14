@@ -633,7 +633,7 @@ public class AuditActivity extends AppCompatActivity {
                 //checklistDataObject.setMapString(json_str);
 
                 map = new HashMap<>();
-                map.put("Section " + i, json_str);
+                map.put(String.valueOf(i), json_str);
 
                 // save in firestore
                 dbChecklist.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
