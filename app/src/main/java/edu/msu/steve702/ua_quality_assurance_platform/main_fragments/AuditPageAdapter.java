@@ -36,6 +36,7 @@ public class AuditPageAdapter extends FragmentPagerAdapter {
         tableDataFragment.setContext(context);
 
         checklistFragment.changeChecklistTitleText(checklist_name);
+        checklistFragment.setChecklistDataObject(checklist);
     }
 
     @NonNull

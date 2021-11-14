@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         File[] files = f.listFiles(new FilenameFilter(){
             @Override
             public boolean accept(File file, String s) {
-                return s.matches("[0-9]{4}-[0-3][0-9]-[0-9]{2}.pdf");
+                return s.matches("[0-9]{4}-[0-3][0-9]-[0-9]{2}[R0-9]*.pdf");
             }
         });
 

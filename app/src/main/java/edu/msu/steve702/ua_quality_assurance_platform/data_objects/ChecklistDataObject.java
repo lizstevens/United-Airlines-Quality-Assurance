@@ -19,8 +19,14 @@ public class ChecklistDataObject implements Serializable {
 
     @Exclude private String id;
 
+    private String mapString;
+
     // Checklist number
     private Integer checklist_id;
+
+
+
+
 
     // Mapping between
     //<section number, <question number, [question, answer]>
@@ -28,6 +34,8 @@ public class ChecklistDataObject implements Serializable {
     //List<Map<questionNum, answer>>
     private List<Map<Integer, String[]>> datamap1;
     private Map<Integer, Map<Integer, String[]>> dataMap;
+
+
 
     public ChecklistDataObject(){}
 
@@ -71,6 +79,12 @@ public class ChecklistDataObject implements Serializable {
     public void setId(final String id) {
         this.id = id;
     }
+
+    public int size(){
+        return dataMap.size();
+    }
+
+    public void setMapString(String str){mapString = str;}
 
 
 

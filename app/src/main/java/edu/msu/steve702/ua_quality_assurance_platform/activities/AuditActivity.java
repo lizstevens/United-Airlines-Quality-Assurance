@@ -30,9 +30,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.gson.Gson;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -50,7 +52,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
@@ -588,21 +592,40 @@ public class AuditActivity extends AppCompatActivity {
 //        if (checklist != null) {
         if(pageAdapter.getChecklistFragment().getQuestionAdapter() != null) {
             ChecklistDataObject checklistDataObject = pageAdapter.getChecklistFragment().getChecklistDataObject();
+
+
+
             CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
 
-            // save in firestore
-            dbChecklist.add(checklistDataObject).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    Toast.makeText(AuditActivity.this, "Checklist Added", Toast.LENGTH_LONG).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            for(int i=1; i < checklistDataObject.size() + 1; i++){
 
-                }
-            });
+                String json_str = new Gson().toJson(checklistDataObject.get(i));
+
+                //checklistDataObject.setMapString(json_str);
+
+                Map<String, String> map = new HashMap<>();
+                map.put("Section " + i, json_str);
+
+                // save in firestore
+                dbChecklist.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+            }
+
+
+
+
         }
     }
 
