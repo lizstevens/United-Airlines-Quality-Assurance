@@ -73,6 +73,10 @@ public class ChecklistDataObject implements Serializable {
         return dataMap.get(key);
     }
 
+    public void put(int key, Map<Integer,String[]> newMap) {
+        dataMap.put(key, newMap);
+    }
+
     public String getId() {
         return this.id;
     }

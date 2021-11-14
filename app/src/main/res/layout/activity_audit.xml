@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:backgroundTint="#FFFFFF"
+                android:backgroundTint="#2B2B2B"
                 android:text="@string/save"
                 android:textColor="@color/UnitedBlue" />
         </RelativeLayout>
