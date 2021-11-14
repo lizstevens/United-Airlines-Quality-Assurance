@@ -1,5 +1,6 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,6 +39,10 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -56,6 +64,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
 import edu.msu.steve702.ua_quality_assurance_platform.MainActivity;
@@ -86,12 +95,13 @@ public class AuditActivity extends AppCompatActivity {
     TabItem tabTableData;
     String checklist_name;
     Button save_button;
-
+    private ProgressDialog progressDialog;
     private Button auditSpecsSaveBtn;
     private Button inProcessSaveBtn;
 
     public FirebaseFirestore db;
-
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageRef;
     private AuditSpecFragment auditSpecFragment;
     private InProcessFragment inProcessFragment;
 
@@ -115,7 +125,7 @@ public class AuditActivity extends AppCompatActivity {
         save_button = findViewById(R.id.saveButton);
         toolbar.setTitle(R.string.title);
         setSupportActionBar(toolbar);
-
+        storageRef = firebaseStorage.getReference();
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,6 +230,7 @@ public class AuditActivity extends AppCompatActivity {
                 return true;
             //upload photo
             case R.id.option2:
+                takePhoto();
                 return true;
             //take photo
             case R.id.option3:
@@ -233,6 +244,59 @@ public class AuditActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+            onCaptureImageResult(data);
+        }
+    }
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, 2);
+    }
+
+    private void onCaptureImageResult(Intent data){
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+        byte bb[] = bytes.toByteArray();
+        uploadPhoto(bb);
+    }
+
+    private void uploadPhoto(byte[] bb) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading File....");
+        progressDialog.show();
+
+        final String randomKey = UUID.randomUUID().toString();
+        // Create a reference
+        StorageReference imageRef = storageRef.child("image/" + randomKey);
+
+        imageRef.putBytes(bb)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                        progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
+                    }
+                });
+
     }
 
     @Override
