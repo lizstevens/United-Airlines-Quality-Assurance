@@ -199,23 +199,21 @@ public class AuditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String option1 = getString(R.string.save);
-        String option2 = getString(R.string.generate_pdf);
-        String option3 = getString(R.string.take_photo);
-        String option4 = getString(R.string.upload_photo);
-
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
-        if (option1.equals(item.getTitle().toString())) {
-            saveAuditSpecs();
-        } else if (option2.equals(item.getTitle().toString())) {
-//            try {
-//                createPdf();
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
+        switch (item.getItemId()){
+            case R.id.option1:
+                return true;
+            case R.id.option2:
+                return true;
+            case R.id.option3:
 
+                return true;
+            case R.id.option4:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 
     @Override
