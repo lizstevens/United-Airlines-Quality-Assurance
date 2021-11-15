@@ -1229,7 +1229,7 @@ public class AuditActivity extends AppCompatActivity {
             Paragraph calib_data_header = new Paragraph("CALIBRATION");
             document.add(calib_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
@@ -1320,7 +1320,7 @@ public class AuditActivity extends AppCompatActivity {
             Paragraph calib_data_header = new Paragraph("CALIBRATION");
             document.add(calib_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
@@ -1332,37 +1332,37 @@ public class AuditActivity extends AppCompatActivity {
 
             List<String> row1 = calibrationTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(" ");
+                table.addCell(addRow1);
             }
 
             List<String> row2 = calibrationTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(" ");
+                table.addCell(addRow2);
             }
 
             List<String> row3 = calibrationTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(" ");
+                table.addCell(addRow3);
             }
 
             List<String> row4 = calibrationTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(" ");
+                table.addCell(addRow4);
             }
 
             List<String> row5 = calibrationTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(" ");
+                table.addCell(addRow5);
             }
 
             List<String> row6 = calibrationTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(" ");
+                table.addCell(addRow6);
             }
 
             List<String> row7 = calibrationTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(" ");
+                table.addCell(addRow7);
             }
 
             List<String> row8 = calibrationTableDataObject.getRow8();
@@ -1372,37 +1372,37 @@ public class AuditActivity extends AppCompatActivity {
 
             List<String> row9 = calibrationTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(" ");
+                table.addCell(addRow9);
             }
 
             List<String> row10 = calibrationTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(" ");
+                table.addCell(addRow10);
             }
 
             List<String> row11 = calibrationTableDataObject.getRow11();
             for(String addRow11 : row11) {
-                table.addCell(" ");
+                table.addCell(addRow11);
             }
 
             List<String> row12 = calibrationTableDataObject.getRow12();
             for(String addRow12 : row12) {
-                table.addCell(" ");
+                table.addCell(addRow12);
             }
 
             List<String> row13 = calibrationTableDataObject.getRow13();
             for(String addRow13 : row13) {
-                table.addCell(" ");
+                table.addCell(addRow13);
             }
 
             List<String> row14 = calibrationTableDataObject.getRow14();
             for(String addRow14 : row14) {
-                table.addCell(" ");
+                table.addCell(addRow14);
             }
 
             List<String> row15 = calibrationTableDataObject.getRow15();
             for(String addRow15 : row15) {
-                table.addCell(" ");
+                table.addCell(addRow15);
             }
 
             document.add(table);
@@ -1414,7 +1414,7 @@ public class AuditActivity extends AppCompatActivity {
             Paragraph training_data_header = new Paragraph("TRAINING (Non-Interviewed Personnel)");
             document.add(training_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
@@ -1479,7 +1479,7 @@ public class AuditActivity extends AppCompatActivity {
             Paragraph training_data_header = new Paragraph("TRAINING (Non-Interviewed Personnel)");
             document.add(training_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
@@ -1547,7 +1547,7 @@ public class AuditActivity extends AppCompatActivity {
             Paragraph trace_data_header = new Paragraph("TRACEABILITY");
             document.add(trace_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
@@ -1613,7 +1613,7 @@ public class AuditActivity extends AppCompatActivity {
             Paragraph trace_data_header = new Paragraph("TRACEABILITY");
             document.add(trace_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
@@ -1682,7 +1682,7 @@ public class AuditActivity extends AppCompatActivity {
             Paragraph shelf_life_data_header = new Paragraph("SHELF LIFE");
             document.add(shelf_life_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
@@ -1768,7 +1768,7 @@ public class AuditActivity extends AppCompatActivity {
             Paragraph shelf_life_data_header = new Paragraph("SHELF LIFE");
             document.add(shelf_life_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
