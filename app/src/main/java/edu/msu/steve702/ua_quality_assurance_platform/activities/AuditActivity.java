@@ -248,16 +248,7 @@ public class AuditActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 return true;
-            // upload photo
             case R.id.option2:
-                //takePhoto();
-                return true;
-            //take photo
-            case R.id.option3:
-
-                return true;
-            //return home
-            case R.id.option4:
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
                 return true;
