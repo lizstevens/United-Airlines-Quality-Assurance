@@ -128,7 +128,7 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
                         DocumentSnapshot doc = task.getResult();
                         AuditObject auditObject = doc.toObject(AuditObject.class);
 
-                        Toast.makeText(mCtx, "Query Audit Specs", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mCtx, "Loading Audit", Toast.LENGTH_SHORT).show();
 
                         intent.putExtra("audit_id", this_audit_id);
                         intent.putExtra("auditObject", auditObject);

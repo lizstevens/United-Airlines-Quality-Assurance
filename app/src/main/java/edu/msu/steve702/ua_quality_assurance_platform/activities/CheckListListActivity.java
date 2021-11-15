@@ -53,7 +53,7 @@ public class CheckListListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 Log.d("CheckListListActivity", "onItemClick:" + checklistList.get(i));
-                Toast.makeText(CheckListListActivity.this, checklistList.get(i), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckListListActivity.this, "Loading Checklist", Toast.LENGTH_SHORT).show();
                 openAuditActivity(checklistList.get(i));
             }
         });

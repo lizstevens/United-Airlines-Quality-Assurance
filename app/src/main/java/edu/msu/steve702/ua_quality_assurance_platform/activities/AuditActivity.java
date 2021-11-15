@@ -227,11 +227,10 @@ public class AuditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         switch (item.getItemId()){
             // generate pdf
             case R.id.option1:
-                saveAuditSpecs();
+                Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
                 try {
                     createInProcessPdf(inProcessList);
@@ -716,7 +715,7 @@ public class AuditActivity extends AppCompatActivity {
                 dbChecklist.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
+                        //Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
