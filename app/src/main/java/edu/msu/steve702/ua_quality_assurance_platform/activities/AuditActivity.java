@@ -1,5 +1,6 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -229,16 +230,19 @@ public class AuditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         switch (item.getItemId()){
+            // generate pdf
             case R.id.option1:
                 saveAuditSpecs();
-                return true;
-            case R.id.option2:
                 List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
                 try {
                     createInProcessPdf(inProcessList);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
+                return true;
+            // upload photo
+            case R.id.option2:
+                takePhoto();
                 return true;
             //take photo
             case R.id.option3:
