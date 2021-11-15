@@ -45,9 +45,9 @@ public class ChecklistFragment extends Fragment {
     private ArrayList<String> section_list;
     private List<Integer> sectionNums;
     private List<String> section_questions, section2_questions, section3_questions, section4_questions, section5_questions, section6_questions
-            , section7_questions, section8_questions, section9_questions, section10_questions, section11_questions, section12_questions
-            , section13_questions, section14_questions, section15_questions, section16_questions, section17_questions, section18_questions
-            , section19_questions, section20_questions, section21_questions;
+            ,section7_questions, section8_questions, section9_questions, section10_questions, section11_questions, section12_questions
+            ,section13_questions, section14_questions, section15_questions, section16_questions, section17_questions, section18_questions
+            ,section19_questions, section20_questions, section21_questions;
     private Map<Integer, String[]> subMap;
     private Integer currentSection;
     private Integer totalSizeFor8 = 21;

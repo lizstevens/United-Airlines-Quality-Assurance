@@ -1,7 +1,9 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -99,9 +102,7 @@ public class AuditActivity extends AppCompatActivity {
     private Context context;
 
     private ChecklistDataObject checklist;
-
-    private EditText titleEdit, employeeNameEdit, partNumberEdit , serialNumberEdit ,nomenclatureEdit ,taskEdit;
-    private EditText techSpecificationsEdit , toolingEdit , shelfLifeEdit, traceEdit, reqTrainingEdit, trainingDateEdit;
+    private AuditObject auditObject;
 
 
     @Override
@@ -132,14 +133,12 @@ public class AuditActivity extends AppCompatActivity {
 
         //name of the checklist that was selected from the previous view
         checklist_name = getIntent().getStringExtra("checklistName");
-        if (getIntent().getExtras() != null & !getIntent().getExtras().containsKey("editing")) {
-            try {
-                ExcelParser parser = new ExcelParser(this);
+        try{
+            ExcelParser parser = new ExcelParser(this);
 
-                checklist = parser.readXLSXFile(checklist_name);
-            } catch (IOException e) {
-                Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
-            }
+            checklist = parser.readXLSXFile(checklist_name);
+        }catch(IOException e){
+            Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
         }
 
         pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), checklist_name, context, checklist);
@@ -200,6 +199,10 @@ public class AuditActivity extends AppCompatActivity {
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+        // request permissions
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+
     }
 
 
@@ -214,21 +217,22 @@ public class AuditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
         switch (item.getItemId()){
-            //generate pdf
             case R.id.option1:
-                //saveAuditSpecs();
+                saveAuditSpecs();
                 return true;
-            //upload photo
             case R.id.option2:
+                List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
+                try {
+                    createInProcessPdf(inProcessList);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 return true;
-            //take photo
             case R.id.option3:
 
                 return true;
-            //return home
             case R.id.option4:
-                Intent intent = new Intent(context, MainActivity.class);
-                startActivity(intent);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -240,8 +244,8 @@ public class AuditActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's instance
-        //getSupportFragmentManager().putFragment(outState, "auditSpecsFragment", auditSpecFragment);
-        //getSupportFragmentManager().putFragment(outState, "inProcessFragment", inProcessFragment);
+        getSupportFragmentManager().putFragment(outState, "auditSpecsFragment", auditSpecFragment);
+        getSupportFragmentManager().putFragment(outState, "inProcessFragment", inProcessFragment);
     }
 
 
@@ -606,25 +610,13 @@ public class AuditActivity extends AppCompatActivity {
 
     // Save checklist to firestore database
     public void saveChecklist() {
+//        if (checklist != null) {
         if(pageAdapter.getChecklistFragment().getQuestionAdapter() != null) {
             ChecklistDataObject checklistDataObject = pageAdapter.getChecklistFragment().getChecklistDataObject();
 
+
+
             CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
-
-            Map<String, String> map = new HashMap<>();
-            map.put("checklistName", checklist_name);
-            dbChecklist.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
-                }
-
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
 
             for(int i=1; i < checklistDataObject.size() + 1; i++){
 
@@ -632,7 +624,7 @@ public class AuditActivity extends AppCompatActivity {
 
                 //checklistDataObject.setMapString(json_str);
 
-                map = new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 map.put("Section " + i, json_str);
 
                 // save in firestore
@@ -659,96 +651,84 @@ public class AuditActivity extends AppCompatActivity {
     }
 
     // this function allows user to create a pdf to store locally
-    public void createPdf(List<InProcessObject> inProcessList) throws FileNotFoundException {
-//        InProcessObject test = inProcessList.get(0);
-        // edit text name
-        employeeNameEdit = findViewById(R.id.empNameText);
-        // edit text part number
-        partNumberEdit = findViewById(R.id.partNumText);
-        // edit text serial number
-        serialNumberEdit = findViewById(R.id.serialNumText);
-        // edit text nomenclature
-        nomenclatureEdit = findViewById(R.id.nomenText);
-        // edit text task
-        taskEdit = findViewById(R.id.taskText);
-        // edit text techSpecifications
-        techSpecificationsEdit = findViewById(R.id.techSpecText);
-        // edit text tooling
-        toolingEdit = findViewById(R.id.toolingText);
-        // edit text shelfLife
-        shelfLifeEdit = findViewById(R.id.shelfLifeText);
-        // edit text traceability
-        traceEdit = findViewById(R.id.traceText);
-        // edit text reqTraining
-        reqTrainingEdit = findViewById(R.id.reqTrainingText);
-        // edit text trainingDate
-        trainingDateEdit = findViewById(R.id.dateText);
+    public void createInProcessPdf(List<InProcessObject> inProcessList) throws FileNotFoundException {
+        if(inProcessList != null) {
+            String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+//                File file = new File(pdfPath, auditObject.getAuditTitleObj() + ".pdf");
+            File file = new File(pdfPath,  "Test2.pdf");
 
-        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
-        File file = new File(pdfPath, titleEdit.getText() + ".pdf");
+            OutputStream outputStream = new FileOutputStream(file);
 
-        OutputStream outputStream = new FileOutputStream(file);
+            PdfWriter writer = new PdfWriter(file);
+            PdfDocument pdfDocument = new PdfDocument(writer);
+            Document document = new Document(pdfDocument);
 
-        PdfWriter writer = new PdfWriter(file);
-        PdfDocument pdfDocument = new PdfDocument(writer);
-        Document document = new Document(pdfDocument);
+            Drawable drawable = getDrawable(R.drawable.united_airlines_quality_assurance_logo);
+            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] bitmapData = stream.toByteArray();
 
-        Drawable drawable = getDrawable(R.drawable.united_airlines_quality_assurance_logo);
-        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] bitmapData = stream.toByteArray();
+            ImageData imageData = ImageDataFactory.create(bitmapData);
+            Image image = new Image(imageData);
+            image.setHeight(80);
+            image.setWidth(500);
 
-        ImageData imageData = ImageDataFactory.create(bitmapData);
-        Image image = new Image(imageData);
-        image.setHeight(80);
-        image.setWidth(500);
+            Paragraph paragraph = new Paragraph("Technical Operations Quality Assurance");
 
-        Paragraph paragraph = new Paragraph("Technical Operations Quality Assurance");
+            document.add(image);
+            document.add(paragraph);
 
-        float columnWidth[] = {200f, 200f};
-        Table table = new Table(columnWidth);
+            for (InProcessObject inProcessObject : inProcessList) {
+                float columnWidth[] = {200f, 200f};
+                Table table = new Table(columnWidth);
 
-        // add cell
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Employee Name: ")));
-        table.addCell(employeeNameEdit.getText().toString());
+                // add cell
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Employee Name: ")));
+                table.addCell(inProcessObject.getEmployeeNameObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number: ")));
-        table.addCell(partNumberEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number: ")));
+                table.addCell(inProcessObject.getPartNumberObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Serial Number: ")));
-        table.addCell(serialNumberEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Serial Number: ")));
+                table.addCell(inProcessObject.getSerialNumberObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Nomeclature: ")));
-        table.addCell(nomenclatureEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Nomeclature: ")));
+                table.addCell(inProcessObject.getNomenclatureObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Task: ")));
-        table.addCell(taskEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Task: ")));
+                table.addCell(inProcessObject.getTaskObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technical Specifications: ")));
-        table.addCell(techSpecificationsEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technical Specifications: ")));
+                table.addCell(inProcessObject.getTechSpecificationsObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tooling: ")));
-        table.addCell(toolingEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tooling: ")));
+                table.addCell(inProcessObject.getToolingObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Shelf Life: ")));
-        table.addCell(shelfLifeEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Shelf Life: ")));
+                table.addCell(inProcessObject.getShelfLifeObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Traceability: ")));
-        table.addCell(traceEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Traceability: ")));
+                table.addCell(inProcessObject.getTraceObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training: ")));
-        table.addCell(reqTrainingEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training: ")));
+                table.addCell(inProcessObject.getReqTrainingObj());
 
-        table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date Qualified: ")));
-        table.addCell(trainingDateEdit.getText().toString());
+                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date Qualified: ")));
+                table.addCell(inProcessObject.getTrainingDateObj());
+
+                document.add(table);
+
+                Paragraph space = new Paragraph("");
+                document.add(space);
+            }
+            document.close();
+            Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "PDF not created", Toast.LENGTH_LONG).show();
+        }
 
 
-        document.add(image);
-        document.add(paragraph);
-        document.add(table);
-
-        document.close();
-        Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
     }
 }
