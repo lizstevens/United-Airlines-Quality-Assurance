@@ -177,13 +177,17 @@ public class MainActivity extends AppCompatActivity {
             TextView file = new TextView(this);
             file.setText("Airworthiness Directives");
             file.setTextColor(getColor(android.R.color.white));
+            file.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             header.addView(file);
 
 
             TextView delete = new TextView(this);
             delete.setText("Delete");
             delete.setTextColor(getColor(android.R.color.white));
+            delete.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             header.addView(delete);
+
+
 
             tl.addView(header);
 
