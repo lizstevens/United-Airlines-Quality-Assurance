@@ -58,6 +58,8 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Table;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -237,9 +239,10 @@ public class AuditActivity extends AppCompatActivity {
             // generate pdf
             case R.id.option1:
                 Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
+//                List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
                 try {
-                    createInProcessPdf(inProcessList);
+                    createChecklistPdf(pageAdapter.getChecklistFragment().getChecklistDataObject());
+//                    createInProcessPdf(inProcessList);
 //                    createTechTablePdf(techObject);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -739,9 +742,10 @@ public class AuditActivity extends AppCompatActivity {
     }
 
     // this function allows user to create a pdf to store locally
-    public void createInProcessPdf(List<InProcessObject> inProcessList) throws FileNotFoundException {
-        if(inProcessList != null) {
-            String titleName = auditObject.getAuditTitleObj().replaceAll("[^a-zA-Z0-9]", "");
+
+    public void createChecklistPdf(ChecklistDataObject checklistDataObject) throws FileNotFoundException {
+        if(pageAdapter.getChecklistFragment().getChecklistDataObject() != null) {
+            String titleName = pageAdapter.getAuditSpecFragment().getAuditObject().getAuditTitleObj().replaceAll("[^a-zA-Z0-9]", "");
             String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
             File file = new File(pdfPath, titleName + PDF);
 //            File file = new File(pdfPath,  "TestInProcess.pdf");
@@ -767,6 +771,92 @@ public class AuditActivity extends AppCompatActivity {
 
             document.add(image);
             document.add(paragraph);
+
+            Paragraph tech_data_header = new Paragraph("Checklist 8");
+            document.add(tech_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            for(int i = 1; i <= checklistDataObject.size(); i++) {
+                Map<Integer, String[]> number = checklistDataObject.get(i);
+                for (Map.Entry<Integer, String[]> entry : number.entrySet()) {
+                    List<String> indiv = Arrays.asList(entry.getValue());
+                    for(String answer : indiv) {
+                        table.addCell(answer);
+                    }
+                }
+            }
+
+            document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
+
+            createInProcessPdf(pageAdapter.getInProcessFragment().getInProcessList(), document);
+            createTechTablePdf(pageAdapter.getTableDataFragment().getTechnicalTableDataObject(), document);
+            createROMTablePdf(pageAdapter.getTableDataFragment().getRomTableDataObject(), document);
+
+            document.close();
+            Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
+        }
+//        else {
+//            Paragraph tech_data_header = new Paragraph("Checklist 8");
+//            document.add(tech_data_header);
+//
+//            float columnWidth[] = {200f, 200f};
+//            Table table = new Table(columnWidth);
+//
+//            for(int i = 1; i <= checklistDataObject.size(); i++) {
+//                Map<Integer, String[]> number = checklistDataObject.get(i);
+//                for (Map.Entry<Integer, String[]> entry : number.entrySet()) {
+//                    List<String> indiv = Arrays.asList(entry.getValue());
+//                    for(String answer : indiv) {
+//                        table.addCell(answer);
+//                    }
+//                }
+//            }
+//
+//            document.add(table);
+//
+//            Paragraph space = new Paragraph("");
+//            document.add(space);
+//
+//            createChecklistPdf(pageAdapter.getChecklistFragment().getChecklistDataObject(), document);
+//            createTechTablePdf(pageAdapter.getTableDataFragment().getTechnicalTableDataObject(), document);
+//            createROMTablePdf(pageAdapter.getTableDataFragment().getRomTableDataObject(), document);
+//        }
+    }
+
+    public void createInProcessPdf(List<InProcessObject> inProcessList, Document document) throws FileNotFoundException {
+//        List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
+        if(pageAdapter.getInProcessFragment().getInProcessList() != null) {
+//            String titleName = pageAdapter.getAuditSpecFragment().getAuditObject().getAuditTitleObj().replaceAll("[^a-zA-Z0-9]", "");
+//            String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+//            File file = new File(pdfPath, titleName + PDF);
+////            File file = new File(pdfPath,  "TestInProcess.pdf");
+//
+//            OutputStream outputStream = new FileOutputStream(file);
+//
+//            PdfWriter writer = new PdfWriter(file);
+//            PdfDocument pdfDocument = new PdfDocument(writer);
+//            Document document = new Document(pdfDocument);
+//
+//            Drawable drawable = getDrawable(R.drawable.united_airlines_quality_assurance_logo);
+//            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//            byte[] bitmapData = stream.toByteArray();
+//
+//            ImageData imageData = ImageDataFactory.create(bitmapData);
+//            Image image = new Image(imageData);
+//            image.setHeight(80);
+//            image.setWidth(500);
+//
+//            Paragraph paragraph = new Paragraph("Technical Operations Quality Assurance");
+//
+//            document.add(image);
+//            document.add(paragraph);
 
             for (InProcessObject inProcessObject : inProcessList) {
                 float columnWidth[] = {200f, 200f};
@@ -807,14 +897,20 @@ public class AuditActivity extends AppCompatActivity {
                 table.addCell(inProcessObject.getTrainingDateObj());
 
                 document.add(table);
-
-                Paragraph space = new Paragraph("");
-                document.add(space);
+//
+//                Paragraph space = new Paragraph("");
+//                document.add(space);
             }
-            createTechTablePdf(pageAdapter.getTableDataFragment().getTechnicalTableDataObject(), document);
-            createChecklistPdf(pageAdapter.getChecklistFragment().getChecklistDataObject(), document);
-            document.close();
-            Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
+//            createChecklistPdf(pageAdapter.getChecklistFragment().getChecklistDataObject(), document);
+//            createTechTablePdf(pageAdapter.getTableDataFragment().getTechnicalTableDataObject(), document);
+//            createROMTablePdf(pageAdapter.getTableDataFragment().getRomTableDataObject(), document);
+//            createCalibrationPdf(pageAdapter.getTableDataFragment().getCalibrationTableDataObject(), document);
+//            createTrainingPdf(pageAdapter.getTableDataFragment().getTrainingTableDataObject(), document);
+//            createTraceabilityPdf(pageAdapter.getTableDataFragment().getTraceabilityTableDataObject(), document);
+//            createShelfLifePdf(pageAdapter.getTableDataFragment().getShelfLifeTableDataObject(), document);
+
+//            document.close();
+//            Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
         }
         else {
             Toast.makeText(getApplicationContext(), "PDF not created", Toast.LENGTH_LONG).show();
@@ -824,10 +920,98 @@ public class AuditActivity extends AppCompatActivity {
 
     public void createTechTablePdf(TechnicalTableDataObject techObject, Document document) throws FileNotFoundException {
         if(pageAdapter.getTableDataFragment().getTechnicalTableDataObject() != null) {
-            Paragraph tech_data_header = new Paragraph("Technical Data");
+            Paragraph tech_data_header = new Paragraph("TECHNICAL DATA");
             document.add(tech_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments")));
+
+
+            List<String> row1 = techObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            List<String> row2 = techObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = techObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = techObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = techObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = techObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = techObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = techObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = techObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = techObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
+
+            List<String> row11 = techObject.getRow11();
+            for(String addRow11 : row11) {
+                table.addCell(addRow11);
+            }
+
+            List<String> row12 = techObject.getRow12();
+            for(String addRow12 : row12) {
+                table.addCell(addRow12);
+            }
+
+            List<String> row13 = techObject.getRow13();
+            for(String addRow13 : row13) {
+                table.addCell(addRow13);
+            }
+
+            List<String> row14 = techObject.getRow14();
+            for(String addRow14 : row14) {
+                table.addCell(addRow14);
+            }
+
+            document.add(table);
+        }
+        else {
+            Paragraph tech_data_header = new Paragraph("TECHNICAL DATA");
+            document.add(tech_data_header);
+
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
@@ -843,20 +1027,140 @@ public class AuditActivity extends AppCompatActivity {
                 table.addCell(addRow1);
             }
 
-            table.addCell(techObject.getRow2().toString());
-            table.addCell(techObject.getRow3().toString());
-            table.addCell(techObject.getRow4().toString());
-            table.addCell(techObject.getRow5().toString());
-            table.addCell(techObject.getRow6().toString());
-            table.addCell(techObject.getRow7().toString());
-            table.addCell(techObject.getRow8().toString());
-            table.addCell(techObject.getRow9().toString());
-            table.addCell(techObject.getRow10().toString());
-            table.addCell(techObject.getRow11().toString());
-            table.addCell(techObject.getRow12().toString());
-            table.addCell(techObject.getRow13().toString());
-            table.addCell(techObject.getRow14().toString());
+            List<String> row2 = techObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
 
+            List<String> row3 = techObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = techObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = techObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = techObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = techObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = techObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = techObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = techObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
+
+            List<String> row11 = techObject.getRow11();
+            for(String addRow11 : row11) {
+                table.addCell(addRow11);
+            }
+
+            List<String> row12 = techObject.getRow12();
+            for(String addRow12 : row12) {
+                table.addCell(addRow12);
+            }
+
+            List<String> row13 = techObject.getRow13();
+            for(String addRow13 : row13) {
+                table.addCell(addRow13);
+            }
+
+            List<String> row14 = techObject.getRow14();
+            for(String addRow14 : row14) {
+                table.addCell(addRow14);
+            }
+
+            document.add(table);
+        }
+    }
+
+    public void createROMTablePdf(ROMTableDataObject romTableDataObject, Document document) throws FileNotFoundException {
+        if(pageAdapter.getTableDataFragment().getRomTableDataObject() != null) {
+            Paragraph rom_data_header = new Paragraph("RECORDS of MAINTENANCE (ROM)");
+            document.add(rom_data_header);
+
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Doc Type")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Document #")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part/PN/SN")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Specification incl. revision level & date")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tech. Name")));
+
+            List<String> row1 = romTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            List<String> row2 = romTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = romTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = romTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = romTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = romTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = romTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = romTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = romTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = romTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
 
             document.add(table);
         }
@@ -864,72 +1168,693 @@ public class AuditActivity extends AppCompatActivity {
             Paragraph tech_data_header = new Paragraph("Technical Data");
             document.add(tech_data_header);
 
-            float columnWidth[] = {200f, 200f};
+            float columnWidth[] = {200f, 200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Doc Type")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Document #")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part/PN/SN")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Specification incl. revision level & date")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tech. Name")));
 
-            table.addCell(techObject.getRow1().toString());
-            table.addCell(techObject.getRow2().toString());
-            table.addCell(techObject.getRow3().toString());
-            table.addCell(techObject.getRow4().toString());
-            table.addCell(techObject.getRow5().toString());
-            table.addCell(techObject.getRow6().toString());
-            table.addCell(techObject.getRow7().toString());
-            table.addCell(techObject.getRow8().toString());
-            table.addCell(techObject.getRow9().toString());
-            table.addCell(techObject.getRow10().toString());
-            table.addCell(techObject.getRow11().toString());
-            table.addCell(techObject.getRow12().toString());
-            table.addCell(techObject.getRow13().toString());
-            table.addCell(techObject.getRow14().toString());
+            List<String> row1 = romTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
 
+            List<String> row2 = romTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = romTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = romTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = romTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = romTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = romTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = romTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = romTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = romTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
 
             document.add(table);
         }
     }
 
-    public void createChecklistPdf(ChecklistDataObject checklistDataObject, Document document) throws FileNotFoundException {
-        if(pageAdapter.getChecklistFragment().getChecklistDataObject() != null) {
-            Paragraph tech_data_header = new Paragraph("Checklist 8");
-            document.add(tech_data_header);
+    public void createCalibrationPdf(CalibrationTableDataObject calibrationTableDataObject, Document document) throws FileNotFoundException {
+        if(pageAdapter.getTableDataFragment().getCalibrationTableDataObject() != null) {
+            Paragraph calib_data_header = new Paragraph("CALIBRATION");
+            document.add(calib_data_header);
 
             float columnWidth[] = {200f, 200f};
             Table table = new Table(columnWidth);
 
-            for(int i = 1; i <= checklistDataObject.size(); i++) {
-                Map<Integer, String[]> number = checklistDataObject.get(i);
-                for (Map.Entry<Integer, String[]> entry : number.entrySet()) {
-                    List<String> indiv = Arrays.asList(entry.getValue());
-                    for(String answer : indiv) {
-                        table.addCell(answer);
-                    }
-                }
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ID #")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Date")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Due")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL by")));
+
+            List<String> row1 = calibrationTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            List<String> row2 = calibrationTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = calibrationTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = calibrationTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = calibrationTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = calibrationTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = calibrationTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = calibrationTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = calibrationTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = calibrationTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
+
+            List<String> row11 = calibrationTableDataObject.getRow11();
+            for(String addRow11 : row11) {
+                table.addCell(addRow11);
+            }
+
+            List<String> row12 = calibrationTableDataObject.getRow12();
+            for(String addRow12 : row12) {
+                table.addCell(addRow12);
+            }
+
+            List<String> row13 = calibrationTableDataObject.getRow13();
+            for(String addRow13 : row13) {
+                table.addCell(addRow13);
+            }
+
+            List<String> row14 = calibrationTableDataObject.getRow14();
+            for(String addRow14 : row14) {
+                table.addCell(addRow14);
+            }
+
+            List<String> row15 = calibrationTableDataObject.getRow15();
+            for(String addRow15 : row15) {
+                table.addCell(addRow15);
             }
 
             document.add(table);
         }
         else {
-            Paragraph tech_data_header = new Paragraph("Checklist 8");
-            document.add(tech_data_header);
+            Paragraph calib_data_header = new Paragraph("CALIBRATION");
+            document.add(calib_data_header);
 
             float columnWidth[] = {200f, 200f};
             Table table = new Table(columnWidth);
 
-            for(int i = 1; i <= checklistDataObject.size(); i++) {
-                Map<Integer, String[]> number = checklistDataObject.get(i);
-                for (Map.Entry<Integer, String[]> entry : number.entrySet()) {
-                    List<String> indiv = Arrays.asList(entry.getValue());
-                    for(String answer : indiv) {
-                        table.addCell(answer);
-                    }
-                }
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ID #")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Date")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Due")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL by")));
+
+            List<String> row1 = calibrationTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(" ");
+            }
+
+            List<String> row2 = calibrationTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(" ");
+            }
+
+            List<String> row3 = calibrationTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(" ");
+            }
+
+            List<String> row4 = calibrationTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(" ");
+            }
+
+            List<String> row5 = calibrationTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(" ");
+            }
+
+            List<String> row6 = calibrationTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(" ");
+            }
+
+            List<String> row7 = calibrationTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(" ");
+            }
+
+            List<String> row8 = calibrationTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = calibrationTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(" ");
+            }
+
+            List<String> row10 = calibrationTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(" ");
+            }
+
+            List<String> row11 = calibrationTableDataObject.getRow11();
+            for(String addRow11 : row11) {
+                table.addCell(" ");
+            }
+
+            List<String> row12 = calibrationTableDataObject.getRow12();
+            for(String addRow12 : row12) {
+                table.addCell(" ");
+            }
+
+            List<String> row13 = calibrationTableDataObject.getRow13();
+            for(String addRow13 : row13) {
+                table.addCell(" ");
+            }
+
+            List<String> row14 = calibrationTableDataObject.getRow14();
+            for(String addRow14 : row14) {
+                table.addCell(" ");
+            }
+
+            List<String> row15 = calibrationTableDataObject.getRow15();
+            for(String addRow15 : row15) {
+                table.addCell(" ");
+            }
+
+            document.add(table);
+        }
+    }
+
+    public void createTrainingPdf(TrainingTableDataObject trainingTableDataObject, Document document) throws FileNotFoundException {
+        if(pageAdapter.getTableDataFragment().getTrainingTableDataObject() != null) {
+            Paragraph training_data_header = new Paragraph("TRAINING (Non-Interviewed Personnel)");
+            document.add(training_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technician Name/ID")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Maintenance Performed")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("OJT/Qualified Date")));
+
+            List<String> row1 = trainingTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            List<String> row2 = trainingTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = trainingTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = trainingTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = trainingTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = trainingTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = trainingTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = trainingTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = trainingTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = trainingTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
+
+            document.add(table);
+        }
+        else {
+            Paragraph training_data_header = new Paragraph("TRAINING (Non-Interviewed Personnel)");
+            document.add(training_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technician Name/ID")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Maintenance Performed")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("OJT/Qualified Date")));
+
+            List<String> row1 = trainingTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            List<String> row2 = trainingTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = trainingTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = trainingTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = trainingTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = trainingTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = trainingTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = trainingTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = trainingTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = trainingTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
+
+            document.add(table);
+        }
+    }
+
+    public void createTraceabilityPdf(TraceabilityTableDataObject traceabilityTableDataObject, Document document) throws FileNotFoundException {
+        if(pageAdapter.getTableDataFragment().getTraceabilityTableDataObject() != null) {
+            Paragraph trace_data_header = new Paragraph("TRACEABILITY");
+            document.add(trace_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Product")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Batch/Lot #")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P.O Number")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Supplier")));
+
+            List<String> row1 = traceabilityTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            List<String> row2 = traceabilityTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = traceabilityTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = traceabilityTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = traceabilityTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = traceabilityTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = traceabilityTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = traceabilityTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = traceabilityTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = traceabilityTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
+
+            document.add(table);
+        }
+        else {
+            Paragraph trace_data_header = new Paragraph("TRACEABILITY");
+            document.add(trace_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Product")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Batch/Lot #")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P.O Number")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Supplier")));
+
+            List<String> row1 = traceabilityTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            List<String> row2 = traceabilityTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = traceabilityTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = traceabilityTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = traceabilityTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = traceabilityTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = traceabilityTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = traceabilityTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = traceabilityTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = traceabilityTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
+
+            document.add(table);
+        }
+    }
+
+    public void createShelfLifePdf(ShelfLifeTableDataObject shelfLifeTableDataObject, Document document) throws FileNotFoundException {
+        if(pageAdapter.getTableDataFragment().getShelfLifeTableDataObject() != null) {
+            Paragraph shelf_life_data_header = new Paragraph("SHELF LIFE");
+            document.add(shelf_life_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P/N")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Lot/Batch #")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOM")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOE")));
+
+            List<String> row1 = shelfLifeTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            List<String> row2 = shelfLifeTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = shelfLifeTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = shelfLifeTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = shelfLifeTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = shelfLifeTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = shelfLifeTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = shelfLifeTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = shelfLifeTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = shelfLifeTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
+
+            List<String> row11 = shelfLifeTableDataObject.getRow11();
+            for(String addRow11 : row11) {
+                table.addCell(addRow11);
+            }
+
+            List<String> row12 = shelfLifeTableDataObject.getRow12();
+            for(String addRow12 : row12) {
+                table.addCell(addRow12);
+            }
+
+            List<String> row13 = shelfLifeTableDataObject.getRow13();
+            for(String addRow13 : row13) {
+                table.addCell(addRow13);
+            }
+
+            List<String> row14 = shelfLifeTableDataObject.getRow14();
+            for(String addRow14 : row14) {
+                table.addCell(addRow14);
+            }
+
+            document.add(table);
+        }
+        else {
+            Paragraph shelf_life_data_header = new Paragraph("SHELF LIFE");
+            document.add(shelf_life_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P/N")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Lot/Batch #")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOM")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOE")));
+
+            List<String> row1 = shelfLifeTableDataObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            List<String> row2 = shelfLifeTableDataObject.getRow2();
+            for(String addRow2 : row2) {
+                table.addCell(addRow2);
+            }
+
+            List<String> row3 = shelfLifeTableDataObject.getRow3();
+            for(String addRow3 : row3) {
+                table.addCell(addRow3);
+            }
+
+            List<String> row4 = shelfLifeTableDataObject.getRow4();
+            for(String addRow4 : row4) {
+                table.addCell(addRow4);
+            }
+
+            List<String> row5 = shelfLifeTableDataObject.getRow5();
+            for(String addRow5 : row5) {
+                table.addCell(addRow5);
+            }
+
+            List<String> row6 = shelfLifeTableDataObject.getRow6();
+            for(String addRow6 : row6) {
+                table.addCell(addRow6);
+            }
+
+            List<String> row7 = shelfLifeTableDataObject.getRow7();
+            for(String addRow7 : row7) {
+                table.addCell(addRow7);
+            }
+
+            List<String> row8 = shelfLifeTableDataObject.getRow8();
+            for(String addRow8 : row8) {
+                table.addCell(addRow8);
+            }
+
+            List<String> row9 = shelfLifeTableDataObject.getRow9();
+            for(String addRow9 : row9) {
+                table.addCell(addRow9);
+            }
+
+            List<String> row10 = shelfLifeTableDataObject.getRow10();
+            for(String addRow10 : row10) {
+                table.addCell(addRow10);
+            }
+
+            List<String> row11 = shelfLifeTableDataObject.getRow11();
+            for(String addRow11 : row11) {
+                table.addCell(addRow11);
+            }
+
+            List<String> row12 = shelfLifeTableDataObject.getRow12();
+            for(String addRow12 : row12) {
+                table.addCell(addRow12);
+            }
+
+            List<String> row13 = shelfLifeTableDataObject.getRow13();
+            for(String addRow13 : row13) {
+                table.addCell(addRow13);
+            }
+
+            List<String> row14 = shelfLifeTableDataObject.getRow14();
+            for(String addRow14 : row14) {
+                table.addCell(addRow14);
             }
 
             document.add(table);
