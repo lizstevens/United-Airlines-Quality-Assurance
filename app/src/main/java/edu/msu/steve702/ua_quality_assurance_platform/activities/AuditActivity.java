@@ -1,14 +1,16 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
-import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -38,6 +42,10 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -59,6 +67,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
 import edu.msu.steve702.ua_quality_assurance_platform.MainActivity;
@@ -89,18 +98,19 @@ public class AuditActivity extends AppCompatActivity {
     TabItem tabTableData;
     String checklist_name;
     Button save_button;
-
+    private ProgressDialog progressDialog;
     private Button auditSpecsSaveBtn;
     private Button inProcessSaveBtn;
 
     public FirebaseFirestore db;
-
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageRef;
     private AuditSpecFragment auditSpecFragment;
     private InProcessFragment inProcessFragment;
 
     private String audit_id;
     private Context context;
-
+    public Uri imageUri;
     private ChecklistDataObject checklist;
     private AuditObject auditObject;
 
@@ -116,7 +126,7 @@ public class AuditActivity extends AppCompatActivity {
         save_button = findViewById(R.id.saveButton);
         toolbar.setTitle(R.string.title);
         setSupportActionBar(toolbar);
-
+        storageRef = firebaseStorage.getReference();
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,12 +143,14 @@ public class AuditActivity extends AppCompatActivity {
 
         //name of the checklist that was selected from the previous view
         checklist_name = getIntent().getStringExtra("checklistName");
-        try{
-            ExcelParser parser = new ExcelParser(this);
+        if (getIntent().getExtras() != null & !getIntent().getExtras().containsKey("editing")) {
+            try {
+                ExcelParser parser = new ExcelParser(this);
 
-            checklist = parser.readXLSXFile(checklist_name);
-        }catch(IOException e){
-            Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
+                checklist = parser.readXLSXFile(checklist_name);
+            } catch (IOException e) {
+                Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
+            }
         }
 
         pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), checklist_name, context, checklist);
@@ -228,17 +240,122 @@ public class AuditActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 return true;
+            //take photo
             case R.id.option3:
-
+                chooseImage();
                 return true;
+            //return home
             case R.id.option4:
-
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null) {
+            imageUri = data.getData();
+            uploadImage(imageUri);
+        }
+        if(requestCode==2 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+            onCaptureImageResult(data);
+        }
+
+    }
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, 2);
+    }
+
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+    private void onCaptureImageResult(Intent data){
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+        byte bb[] = bytes.toByteArray();
+        uploadPhoto(bb);
+    }
+
+    private void uploadPhoto(byte[] bb) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading File....");
+        progressDialog.show();
+
+        final String randomKey = UUID.randomUUID().toString();
+        // Create a reference
+        StorageReference imageRef = storageRef.child("image/" + randomKey);
+
+        imageRef.putBytes(bb)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                        progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
+                    }
+                });
+
+    }
+
+    private void uploadImage(Uri imageUri) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading File....");
+        progressDialog.show();
+
+        final String randomKey = UUID.randomUUID().toString();
+        // Create a reference
+        StorageReference imageRef = storageRef.child("image/" + randomKey);
+
+        // While the file names are the same, the references point to different files
+        imageRef.getName().equals(imageRef.getName());    // true
+        imageRef.getPath().equals(imageRef.getPath());    // false
+
+        imageRef.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                        progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
+                    }
+                });
+
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -610,13 +727,25 @@ public class AuditActivity extends AppCompatActivity {
 
     // Save checklist to firestore database
     public void saveChecklist() {
-//        if (checklist != null) {
         if(pageAdapter.getChecklistFragment().getQuestionAdapter() != null) {
             ChecklistDataObject checklistDataObject = pageAdapter.getChecklistFragment().getChecklistDataObject();
 
-
-
             CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
+
+            Map<String, String> map = new HashMap<>();
+            map.put("checklistName", checklist_name);
+            dbChecklist.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
+                }
+
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
 
             for(int i=1; i < checklistDataObject.size() + 1; i++){
 
@@ -624,7 +753,7 @@ public class AuditActivity extends AppCompatActivity {
 
                 //checklistDataObject.setMapString(json_str);
 
-                Map<String, String> map = new HashMap<>();
+                map = new HashMap<>();
                 map.put("Section " + i, json_str);
 
                 // save in firestore
