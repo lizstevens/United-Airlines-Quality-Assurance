@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -64,6 +65,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +103,7 @@ public class AuditActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Button auditSpecsSaveBtn;
     private Button inProcessSaveBtn;
-
+    public Uri imageUri;
     public FirebaseFirestore db;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
@@ -113,6 +115,7 @@ public class AuditActivity extends AppCompatActivity {
 
     private ChecklistDataObject checklist;
     private AuditObject auditObject;
+    private TechnicalTableDataObject techObject;
 
 
     @Override
@@ -234,6 +237,7 @@ public class AuditActivity extends AppCompatActivity {
                 List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
                 try {
                     createInProcessPdf(inProcessList);
+//                    createTechTablePdf(techObject);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -728,9 +732,6 @@ public class AuditActivity extends AppCompatActivity {
 
             }
 
-
-
-
         }
     }
 
@@ -739,7 +740,7 @@ public class AuditActivity extends AppCompatActivity {
         if(inProcessList != null) {
             String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 //                File file = new File(pdfPath, auditObject.getAuditTitleObj() + ".pdf");
-            File file = new File(pdfPath,  "Test2.pdf");
+            File file = new File(pdfPath,  "TestInProcess.pdf");
 
             OutputStream outputStream = new FileOutputStream(file);
 
@@ -806,6 +807,7 @@ public class AuditActivity extends AppCompatActivity {
                 Paragraph space = new Paragraph("");
                 document.add(space);
             }
+            createTechTablePdf(pageAdapter.getTableDataFragment().getTechnicalTableDataObject(), document);
             document.close();
             Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
         }
@@ -813,6 +815,151 @@ public class AuditActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "PDF not created", Toast.LENGTH_LONG).show();
         }
 
-
     }
+
+    public void createTechTablePdf(TechnicalTableDataObject techObject, Document document) throws FileNotFoundException {
+        if(pageAdapter.getTableDataFragment().getTechnicalTableDataObject() != null) {
+            Paragraph tech_data_header = new Paragraph("Technical Data");
+            document.add(tech_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments: ")));
+
+            List<String> row1 = techObject.getRow1();
+            for(String addRow1 : row1) {
+                table.addCell(addRow1);
+            }
+
+            table.addCell(techObject.getRow2().toString());
+            table.addCell(techObject.getRow3().toString());
+            table.addCell(techObject.getRow4().toString());
+            table.addCell(techObject.getRow5().toString());
+            table.addCell(techObject.getRow6().toString());
+            table.addCell(techObject.getRow7().toString());
+            table.addCell(techObject.getRow8().toString());
+            table.addCell(techObject.getRow9().toString());
+            table.addCell(techObject.getRow10().toString());
+            table.addCell(techObject.getRow11().toString());
+            table.addCell(techObject.getRow12().toString());
+            table.addCell(techObject.getRow13().toString());
+            table.addCell(techObject.getRow14().toString());
+
+
+            document.add(table);
+        }
+        else {
+            Paragraph tech_data_header = new Paragraph("Technical Data");
+            document.add(tech_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            // add cell
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments: ")));
+
+            table.addCell(techObject.getRow1().toString());
+            table.addCell(techObject.getRow2().toString());
+            table.addCell(techObject.getRow3().toString());
+            table.addCell(techObject.getRow4().toString());
+            table.addCell(techObject.getRow5().toString());
+            table.addCell(techObject.getRow6().toString());
+            table.addCell(techObject.getRow7().toString());
+            table.addCell(techObject.getRow8().toString());
+            table.addCell(techObject.getRow9().toString());
+            table.addCell(techObject.getRow10().toString());
+            table.addCell(techObject.getRow11().toString());
+            table.addCell(techObject.getRow12().toString());
+            table.addCell(techObject.getRow13().toString());
+            table.addCell(techObject.getRow14().toString());
+
+
+            document.add(table);
+        }
+    }
+
+//    public void createChecklistPdf(, Document document) throws FileNotFoundException {
+//        if(pageAdapter.getTableDataFragment().getTechnicalTableDataObject() != null) {
+//            Paragraph tech_data_header = new Paragraph("Technical Data");
+//            document.add(tech_data_header);
+//
+//            float columnWidth[] = {200f, 200f};
+//            Table table = new Table(columnWidth);
+//
+//            // add cell
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments: ")));
+//
+//            List<String> row1 = techObject.getRow1();
+//            for(String addRow1 : row1) {
+//                table.addCell(addRow1);
+//            }
+//
+//            table.addCell(techObject.getRow2().toString());
+//            table.addCell(techObject.getRow3().toString());
+//            table.addCell(techObject.getRow4().toString());
+//            table.addCell(techObject.getRow5().toString());
+//            table.addCell(techObject.getRow6().toString());
+//            table.addCell(techObject.getRow7().toString());
+//            table.addCell(techObject.getRow8().toString());
+//            table.addCell(techObject.getRow9().toString());
+//            table.addCell(techObject.getRow10().toString());
+//            table.addCell(techObject.getRow11().toString());
+//            table.addCell(techObject.getRow12().toString());
+//            table.addCell(techObject.getRow13().toString());
+//            table.addCell(techObject.getRow14().toString());
+//
+//
+//            document.add(table);
+//        }
+//        else {
+//            Paragraph tech_data_header = new Paragraph("Technical Data");
+//            document.add(tech_data_header);
+//
+//            float columnWidth[] = {200f, 200f};
+//            Table table = new Table(columnWidth);
+//
+//            // add cell
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date: ")));
+//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments: ")));
+//
+//            table.addCell(techObject.getRow1().toString());
+//            table.addCell(techObject.getRow2().toString());
+//            table.addCell(techObject.getRow3().toString());
+//            table.addCell(techObject.getRow4().toString());
+//            table.addCell(techObject.getRow5().toString());
+//            table.addCell(techObject.getRow6().toString());
+//            table.addCell(techObject.getRow7().toString());
+//            table.addCell(techObject.getRow8().toString());
+//            table.addCell(techObject.getRow9().toString());
+//            table.addCell(techObject.getRow10().toString());
+//            table.addCell(techObject.getRow11().toString());
+//            table.addCell(techObject.getRow12().toString());
+//            table.addCell(techObject.getRow13().toString());
+//            table.addCell(techObject.getRow14().toString());
+//
+//
+//            document.add(table);
+//        }
+//    }
 }
