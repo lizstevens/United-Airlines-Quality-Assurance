@@ -245,16 +245,7 @@ public class AuditActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 return true;
-            // upload photo
             case R.id.option2:
-                //takePhoto();
-                return true;
-            //take photo
-            case R.id.option3:
-
-                return true;
-            //return home
-            case R.id.option4:
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
                 return true;
@@ -741,7 +732,7 @@ public class AuditActivity extends AppCompatActivity {
     // this function allows user to create a pdf to store locally
     public void createInProcessPdf(List<InProcessObject> inProcessList) throws FileNotFoundException {
         if(inProcessList != null) {
-            String titleName = auditObject.getAuditTitleObj().replaceAll("[^a-zA-Z0-9]", "");
+            String titleName = pageAdapter.getAuditSpecFragment().getAuditObject().getAuditTitleObj().replaceAll("[^a-zA-Z0-9]", "");
             String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
             File file = new File(pdfPath, titleName + PDF);
 //            File file = new File(pdfPath,  "TestInProcess.pdf");
@@ -751,6 +742,8 @@ public class AuditActivity extends AppCompatActivity {
             PdfWriter writer = new PdfWriter(file);
             PdfDocument pdfDocument = new PdfDocument(writer);
             Document document = new Document(pdfDocument);
+
+            createChecklistPdf(document);
 
             Drawable drawable = getDrawable(R.drawable.united_airlines_quality_assurance_logo);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
@@ -820,6 +813,16 @@ public class AuditActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "PDF not created", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private void createChecklistPdf(Document document) throws FileNotFoundException {
+        if(pageAdapter.getTableDataFragment().getTechnicalTableDataObject() != null) {
+            Paragraph table_header = new Paragraph("Checklist");
+            document.add(table_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+        }
     }
 
     public void createTechTablePdf(TechnicalTableDataObject techObject, Document document) throws FileNotFoundException {
