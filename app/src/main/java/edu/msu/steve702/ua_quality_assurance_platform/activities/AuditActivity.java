@@ -361,120 +361,122 @@ public class AuditActivity extends AppCompatActivity {
                             }
                         });
 
-                        //rebundle table data
-                        pageAdapter.getTableDataFragment().bundleObjects();
+                        if (pageAdapter.getTableDataFragment().getTablePageAdapter() != null) {
+                            //rebundle table data
+                            pageAdapter.getTableDataFragment().bundleObjects();
 
-                        dbTechnicalTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
+                            dbTechnicalTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
 
-                                    for (DocumentSnapshot doc: task.getResult()) {
-                                        doc.getReference().delete();
+                                        for (DocumentSnapshot doc : task.getResult()) {
+                                            doc.getReference().delete();
+                                        }
+
+                                        saveTechnicalDataTable();
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
-
-                                    saveTechnicalDataTable();
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            }
-                        });
+                            });
 
-                        dbROMTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
+                            dbROMTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
 
-                                    for (DocumentSnapshot doc: task.getResult()) {
-                                        doc.getReference().delete();
+                                        for (DocumentSnapshot doc : task.getResult()) {
+                                            doc.getReference().delete();
+                                        }
+
+                                        saveROMTable();
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
-
-                                    saveROMTable();
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            }
-                        });
+                            });
 
-                        dbCalibrationTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
+                            dbCalibrationTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
 
-                                    for (DocumentSnapshot doc: task.getResult()) {
-                                        doc.getReference().delete();
+                                        for (DocumentSnapshot doc : task.getResult()) {
+                                            doc.getReference().delete();
+                                        }
+
+                                        saveCalibrationTable();
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
-
-                                    saveCalibrationTable();
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            }
-                        });
+                            });
 
-                        dbTrainingTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
+                            dbTrainingTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
 
-                                    for (DocumentSnapshot doc: task.getResult()) {
-                                        doc.getReference().delete();
+                                        for (DocumentSnapshot doc : task.getResult()) {
+                                            doc.getReference().delete();
+                                        }
+
+                                        saveTrainingTable();
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
-
-                                    saveTrainingTable();
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            }
-                        });
+                            });
 
-                        dbTraceabilityTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
+                            dbTraceabilityTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
 
-                                    for (DocumentSnapshot doc: task.getResult()) {
-                                        doc.getReference().delete();
+                                        for (DocumentSnapshot doc : task.getResult()) {
+                                            doc.getReference().delete();
+                                        }
+
+                                        saveTraceabilityTable();
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
-
-                                    saveTraceabilityTable();
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            }
-                        });
+                            });
 
-                        dbShelfLifeTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
+                            dbShelfLifeTable.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
 
-                                    for (DocumentSnapshot doc: task.getResult()) {
-                                        doc.getReference().delete();
+                                        for (DocumentSnapshot doc : task.getResult()) {
+                                            doc.getReference().delete();
+                                        }
+
+                                        saveShelfLifeTable();
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
-
-                                    saveShelfLifeTable();
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            }
-                        });
+                            });
 
-                        dbChecklist.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
+                            dbChecklist.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
 
-                                    for (DocumentSnapshot doc: task.getResult()) {
-                                        doc.getReference().delete();
+                                        for (DocumentSnapshot doc : task.getResult()) {
+                                            doc.getReference().delete();
+                                        }
+
+                                        saveChecklist();
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
-
-                                    saveChecklist();
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {

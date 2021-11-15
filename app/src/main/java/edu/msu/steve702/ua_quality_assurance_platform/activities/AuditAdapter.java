@@ -83,7 +83,7 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
         holder.vendorName.setText("Vendor Name: " + product.getVendorNameObj());
         holder.vendorNumber.setText("Vendor Number: " + product.getVendorNumObj());
         holder.description.setText("Description: " + product.getAuditDescripObj());
-        holder.status.setText("Status: Some Status");
+        holder.status.setText("Status: " + product.getStatus());
     }
 
     @Override
