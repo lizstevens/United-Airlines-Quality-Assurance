@@ -19,10 +19,11 @@ public class AuditObject implements Serializable {
     private String vendorNameObj;
     private String vendorNumObj;
     private String auditDescripObj;
+    private String status;
 
     public AuditObject() {}
 
-    public AuditObject(final String auditNameObj, final String auditDateObj, final String locationObj, final String auditTitleObj, final String auditNumberObj, final String vendorNameObj, final String vendorNumObj, final String auditDescripObj) {
+    public AuditObject(final String auditNameObj, final String auditDateObj, final String locationObj, final String auditTitleObj, final String auditNumberObj, final String vendorNameObj, final String vendorNumObj, final String auditDescripObj, final String status) {
         this.auditNameObj = auditNameObj;
         this.auditDateObj = auditDateObj;
         this.locationObj = locationObj;
@@ -31,6 +32,7 @@ public class AuditObject implements Serializable {
         this.vendorNameObj = vendorNameObj;
         this.vendorNumObj = vendorNumObj;
         this.auditDescripObj = auditDescripObj;
+        this.status = status;
     }
 
     public String getId() {
@@ -104,6 +106,10 @@ public class AuditObject implements Serializable {
     public void setAuditDescripObj(final String auditDescripObj) {
         this.auditDescripObj = auditDescripObj;
     }
+
+    public String getStatus() { return this.status; }
+
+    public void setStatus(final String status) { this.status = status; }
 
 //    @Override
 //    public int describeContents() {

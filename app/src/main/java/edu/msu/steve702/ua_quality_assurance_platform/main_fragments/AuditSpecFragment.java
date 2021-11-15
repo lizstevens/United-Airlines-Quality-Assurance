@@ -1,5 +1,6 @@
 package edu.msu.steve702.ua_quality_assurance_platform.main_fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.ToggleButton;
 
 import com.google.firebase.firestore.CollectionReference;
 
@@ -34,6 +36,7 @@ public class AuditSpecFragment extends Fragment {
     public AuditObject getAuditObject() { return this.auditObject; }
 
     public void setAuditObject(final AuditObject auditObject) { this.auditObject = auditObject; }
+    private AlertDialog pd;
 
 
     private static final String AUDIT_SPECS_KEY = "AUDIT_SPECS_KEY";
@@ -130,6 +133,7 @@ public class AuditSpecFragment extends Fragment {
         EditText vendorName = fragmentView.findViewById(R.id.vendorNameEdit);
         EditText vendorNum = fragmentView.findViewById(R.id.vendorNumEdit);
         EditText auditDescrip = fragmentView.findViewById(R.id.descripEdit);
+        ToggleButton statusbutton = fragmentView.findViewById(R.id.togglebutton);
 
         String auditNameObj = auditName.getText().toString();
         String auditDateObj = auditDate.getText().toString();
@@ -139,6 +143,13 @@ public class AuditSpecFragment extends Fragment {
         String vendorNameObj = vendorName.getText().toString();
         String vendorNumObj = vendorNum.getText().toString();
         String auditDescripObj = auditDescrip.getText().toString();
+        String status;
+
+        if (statusbutton.isChecked()) {
+            status = "Open";
+        } else {
+            status = "Closed";
+        }
 
 
         AuditObject newObject = new AuditObject(
@@ -149,7 +160,8 @@ public class AuditSpecFragment extends Fragment {
                 auditNumberObj,
                 vendorNameObj,
                 vendorNumObj,
-                auditDescripObj
+                auditDescripObj,
+                status
         );
 
         auditObject = newObject;
@@ -164,6 +176,7 @@ public class AuditSpecFragment extends Fragment {
         EditText vendorName = fragmentView.findViewById(R.id.vendorNameEdit);
         EditText vendorNum = fragmentView.findViewById(R.id.vendorNumEdit);
         EditText auditDescrip = fragmentView.findViewById(R.id.descripEdit);
+        ToggleButton statusbutton = fragmentView.findViewById(R.id.togglebutton);
 
         auditName.setText(auditObject.getAuditNameObj());
         auditDate.setText(auditObject.getAuditDateObj());
@@ -173,5 +186,11 @@ public class AuditSpecFragment extends Fragment {
         vendorName.setText(auditObject.getVendorNameObj());
         vendorNum.setText(auditObject.getVendorNumObj());
         auditDescrip.setText(auditObject.getAuditDescripObj());
+
+        if (auditObject.getStatus().equals("Open")) {
+            statusbutton.setChecked(true);
+        } else {
+            statusbutton.setChecked(false);
+        }
     }
 }

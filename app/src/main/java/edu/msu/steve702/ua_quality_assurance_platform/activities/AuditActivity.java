@@ -126,7 +126,7 @@ public class AuditActivity extends AppCompatActivity {
         save_button = findViewById(R.id.saveButton);
         toolbar.setTitle(R.string.title);
         setSupportActionBar(toolbar);
-        storageRef = firebaseStorage.getReference();
+        //storageRef = firebaseStorage.getReference();
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,7 +241,7 @@ public class AuditActivity extends AppCompatActivity {
                 return true;
             // upload photo
             case R.id.option2:
-                takePhoto();
+                //takePhoto();
                 return true;
             //take photo
             case R.id.option3:
@@ -260,63 +260,63 @@ public class AuditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-            onCaptureImageResult(data);
+            //onCaptureImageResult(data);
         }
     }
-    private void takePhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, 2);
-    }
-
-    private void onCaptureImageResult(Intent data){
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG,90,bytes);
-        byte bb[] = bytes.toByteArray();
-        uploadPhoto(bb);
-    }
-
-    private void uploadPhoto(byte[] bb) {
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading File....");
-        progressDialog.show();
-
-        final String randomKey = UUID.randomUUID().toString();
-        // Create a reference
-        StorageReference imageRef = storageRef.child("image/" + randomKey);
-
-        imageRef.putBytes(bb)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
-                    }
-                });
-
-    }
+//    private void takePhoto() {
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(intent, 2);
+//    }
+//
+//    private void onCaptureImageResult(Intent data){
+//        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        thumbnail.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+//        byte bb[] = bytes.toByteArray();
+//        uploadPhoto(bb);
+//    }
+//
+//    private void uploadPhoto(byte[] bb) {
+//
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setTitle("Uploading File....");
+//        progressDialog.show();
+//
+//        final String randomKey = UUID.randomUUID().toString();
+//        // Create a reference
+//        StorageReference imageRef = storageRef.child("image/" + randomKey);
+//
+//        imageRef.putBytes(bb)
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        progressDialog.dismiss();
+//                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
+//                    }
+//                })
+//                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+//                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+//                        progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
+//                    }
+//                });
+//
+//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's instance
-        getSupportFragmentManager().putFragment(outState, "auditSpecsFragment", auditSpecFragment);
-        getSupportFragmentManager().putFragment(outState, "inProcessFragment", inProcessFragment);
+        //getSupportFragmentManager().putFragment(outState, "auditSpecsFragment", auditSpecFragment);
+        //getSupportFragmentManager().putFragment(outState, "inProcessFragment", inProcessFragment);
     }
 
 
@@ -329,9 +329,9 @@ public class AuditActivity extends AppCompatActivity {
 
         if (audit_id != null) {
             // save to existing audit in firestore
-            dbAuditSpecs.document(audit_id).set(auditObject, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            dbAuditSpecs.document(audit_id).set(auditObject, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onSuccess(Void avoid) {
+                public void onComplete(@NonNull Task<Void> task) {
                     Toast.makeText(AuditActivity.this, "Audit Information Updated", Toast.LENGTH_LONG).show();
 
                     CollectionReference dbInProcessSheets = db.collection("Audit").document(audit_id).collection("in-process");
@@ -708,7 +708,7 @@ public class AuditActivity extends AppCompatActivity {
                 //checklistDataObject.setMapString(json_str);
 
                 map = new HashMap<>();
-                map.put("Section " + i, json_str);
+                map.put(String.valueOf(i), json_str);
 
                 // save in firestore
                 dbChecklist.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
