@@ -66,6 +66,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +91,7 @@ import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.InProcessFr
 import static android.content.ContentValues.TAG;
 
 public class AuditActivity extends AppCompatActivity {
+    String PDF = ".pdf";
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -116,6 +118,7 @@ public class AuditActivity extends AppCompatActivity {
     private ChecklistDataObject checklist;
     private AuditObject auditObject;
     private TechnicalTableDataObject techObject;
+    private ChecklistDataObject checklistDataObject;
 
 
     @Override
@@ -738,9 +741,10 @@ public class AuditActivity extends AppCompatActivity {
     // this function allows user to create a pdf to store locally
     public void createInProcessPdf(List<InProcessObject> inProcessList) throws FileNotFoundException {
         if(inProcessList != null) {
+            String titleName = auditObject.getAuditTitleObj().replaceAll("[^a-zA-Z0-9]", "");
             String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
-//                File file = new File(pdfPath, auditObject.getAuditTitleObj() + ".pdf");
-            File file = new File(pdfPath,  "TestInProcess.pdf");
+            File file = new File(pdfPath, titleName + PDF);
+//            File file = new File(pdfPath,  "TestInProcess.pdf");
 
             OutputStream outputStream = new FileOutputStream(file);
 
@@ -808,6 +812,7 @@ public class AuditActivity extends AppCompatActivity {
                 document.add(space);
             }
             createTechTablePdf(pageAdapter.getTableDataFragment().getTechnicalTableDataObject(), document);
+            createChecklistPdf(pageAdapter.getChecklistFragment().getChecklistDataObject(), document);
             document.close();
             Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
         }
@@ -890,76 +895,44 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
-//    public void createChecklistPdf(, Document document) throws FileNotFoundException {
-//        if(pageAdapter.getTableDataFragment().getTechnicalTableDataObject() != null) {
-//            Paragraph tech_data_header = new Paragraph("Technical Data");
-//            document.add(tech_data_header);
-//
-//            float columnWidth[] = {200f, 200f};
-//            Table table = new Table(columnWidth);
-//
-//            // add cell
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments: ")));
-//
-//            List<String> row1 = techObject.getRow1();
-//            for(String addRow1 : row1) {
-//                table.addCell(addRow1);
-//            }
-//
-//            table.addCell(techObject.getRow2().toString());
-//            table.addCell(techObject.getRow3().toString());
-//            table.addCell(techObject.getRow4().toString());
-//            table.addCell(techObject.getRow5().toString());
-//            table.addCell(techObject.getRow6().toString());
-//            table.addCell(techObject.getRow7().toString());
-//            table.addCell(techObject.getRow8().toString());
-//            table.addCell(techObject.getRow9().toString());
-//            table.addCell(techObject.getRow10().toString());
-//            table.addCell(techObject.getRow11().toString());
-//            table.addCell(techObject.getRow12().toString());
-//            table.addCell(techObject.getRow13().toString());
-//            table.addCell(techObject.getRow14().toString());
-//
-//
-//            document.add(table);
-//        }
-//        else {
-//            Paragraph tech_data_header = new Paragraph("Technical Data");
-//            document.add(tech_data_header);
-//
-//            float columnWidth[] = {200f, 200f};
-//            Table table = new Table(columnWidth);
-//
-//            // add cell
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date: ")));
-//            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments: ")));
-//
-//            table.addCell(techObject.getRow1().toString());
-//            table.addCell(techObject.getRow2().toString());
-//            table.addCell(techObject.getRow3().toString());
-//            table.addCell(techObject.getRow4().toString());
-//            table.addCell(techObject.getRow5().toString());
-//            table.addCell(techObject.getRow6().toString());
-//            table.addCell(techObject.getRow7().toString());
-//            table.addCell(techObject.getRow8().toString());
-//            table.addCell(techObject.getRow9().toString());
-//            table.addCell(techObject.getRow10().toString());
-//            table.addCell(techObject.getRow11().toString());
-//            table.addCell(techObject.getRow12().toString());
-//            table.addCell(techObject.getRow13().toString());
-//            table.addCell(techObject.getRow14().toString());
-//
-//
-//            document.add(table);
-//        }
-//    }
+    public void createChecklistPdf(ChecklistDataObject checklistDataObject, Document document) throws FileNotFoundException {
+        if(pageAdapter.getChecklistFragment().getChecklistDataObject() != null) {
+            Paragraph tech_data_header = new Paragraph("Checklist 8");
+            document.add(tech_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            for(int i = 1; i <= checklistDataObject.size(); i++) {
+                Map<Integer, String[]> number = checklistDataObject.get(i);
+                for (Map.Entry<Integer, String[]> entry : number.entrySet()) {
+                    List<String> indiv = Arrays.asList(entry.getValue());
+                    for(String answer : indiv) {
+                        table.addCell(answer);
+                    }
+                }
+            }
+
+            document.add(table);
+        }
+        else {
+            Paragraph tech_data_header = new Paragraph("Checklist 8");
+            document.add(tech_data_header);
+
+            float columnWidth[] = {200f, 200f};
+            Table table = new Table(columnWidth);
+
+            for(int i = 1; i <= checklistDataObject.size(); i++) {
+                Map<Integer, String[]> number = checklistDataObject.get(i);
+                for (Map.Entry<Integer, String[]> entry : number.entrySet()) {
+                    List<String> indiv = Arrays.asList(entry.getValue());
+                    for(String answer : indiv) {
+                        table.addCell(answer);
+                    }
+                }
+            }
+
+            document.add(table);
+        }
+    }
 }
