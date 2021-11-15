@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -101,7 +102,7 @@ public class AuditActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Button auditSpecsSaveBtn;
     private Button inProcessSaveBtn;
-
+    public Uri imageUri;
     public FirebaseFirestore db;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
@@ -126,6 +127,7 @@ public class AuditActivity extends AppCompatActivity {
         save_button = findViewById(R.id.saveButton);
         toolbar.setTitle(R.string.title);
         setSupportActionBar(toolbar);
+        firebaseStorage = firebaseStorage.getInstance();
         storageRef = firebaseStorage.getReference();
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,11 +243,11 @@ public class AuditActivity extends AppCompatActivity {
                 return true;
             // upload photo
             case R.id.option2:
-                takePhoto();
+
                 return true;
             //take photo
             case R.id.option3:
-
+                chooseImage();
                 return true;
             //return home
             case R.id.option4:
@@ -260,23 +262,18 @@ public class AuditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-            onCaptureImageResult(data);
+            imageUri = data.getData();
+            uploadImage(imageUri);
         }
     }
-    private void takePhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, 2);
-    }
 
-    private void onCaptureImageResult(Intent data){
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG,90,bytes);
-        byte bb[] = bytes.toByteArray();
-        uploadPhoto(bb);
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
     }
-
-    private void uploadPhoto(byte[] bb) {
+    private void uploadImage(Uri imageUri) {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading File....");
@@ -286,7 +283,11 @@ public class AuditActivity extends AppCompatActivity {
         // Create a reference
         StorageReference imageRef = storageRef.child("image/" + randomKey);
 
-        imageRef.putBytes(bb)
+        // While the file names are the same, the references point to different files
+        imageRef.getName().equals(imageRef.getName());    // true
+        imageRef.getPath().equals(imageRef.getPath());    // false
+
+        imageRef.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -309,6 +310,7 @@ public class AuditActivity extends AppCompatActivity {
                 });
 
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
