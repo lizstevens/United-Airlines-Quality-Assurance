@@ -57,7 +57,6 @@
 
             <EditText
                 android:id="@+id/editText_Comment"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
@@ -65,7 +64,8 @@
                 android:ems="10"
                 android:gravity="clip_horizontal|center|center_horizontal"
                 android:hint="@string/comment"
-                android:inputType="textImeMultiLine" />
+                android:inputType="textImeMultiLine"
+                android:visibility="visible" />
 
         </LinearLayout>
 

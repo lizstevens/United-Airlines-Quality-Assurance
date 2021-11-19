@@ -169,7 +169,7 @@ public class ExcelParser {
 //                        Pair<String, Boolean> pair = new Pair<String, Boolean>(cellTxt, status);
 //
 
-                        String[] arr = {cellTxt, ctx.getString((R.string.no_answer))};
+                        String[] arr = {cellTxt, ctx.getString((R.string.no_answer)), ""};
 
 
 

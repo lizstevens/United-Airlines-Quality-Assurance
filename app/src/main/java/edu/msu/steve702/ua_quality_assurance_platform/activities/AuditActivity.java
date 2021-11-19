@@ -787,10 +787,10 @@ public class AuditActivity extends AppCompatActivity {
             createInProcessPdf(pageAdapter.getInProcessFragment().getInProcessList(), document);
             createTechTablePdf(pageAdapter.getTableDataFragment().getTechnicalTableDataObject(), document);
             createROMTablePdf(pageAdapter.getTableDataFragment().getRomTableDataObject(), document);
-//            createCalibrationPdf(pageAdapter.getTableDataFragment().getCalibrationTableDataObject(), document);
-//            createTrainingPdf(pageAdapter.getTableDataFragment().getTrainingTableDataObject(), document);
-//            createTraceabilityPdf(pageAdapter.getTableDataFragment().getTraceabilityTableDataObject(), document);
-//            createShelfLifePdf(pageAdapter.getTableDataFragment().getShelfLifeTableDataObject(), document);
+            createCalibrationPdf(pageAdapter.getTableDataFragment().getCalibrationTableDataObject(), document);
+            createTrainingPdf(pageAdapter.getTableDataFragment().getTrainingTableDataObject(), document);
+            createTraceabilityPdf(pageAdapter.getTableDataFragment().getTraceabilityTableDataObject(), document);
+            createShelfLifePdf(pageAdapter.getTableDataFragment().getShelfLifeTableDataObject(), document);
 
             document.close();
             Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
