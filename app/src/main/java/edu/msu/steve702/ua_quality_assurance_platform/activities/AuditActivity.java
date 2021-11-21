@@ -66,6 +66,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -262,6 +263,14 @@ public class AuditActivity extends AppCompatActivity {
         if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
             //onCaptureImageResult(data);
         }
+//        if(requestCode==2 && resultCode== RESULT_OK && data!=null) {
+//            Uri imageData = data.getData();
+//            try {
+//                attachedPdf(imageData);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 //    private void takePhoto() {
 //        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -733,6 +742,27 @@ public class AuditActivity extends AppCompatActivity {
     }
 
     // this function allows user to create a pdf to store locally
+
+//    private void attachImage() {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intent, 2);
+//    }
+//    private void attachedPdf(Uri imageUri) throws FileNotFoundException {
+//        InputStream inputStream = getContentResolver().openInputStream(imageUri);
+//        Drawable drawable2 = Drawable.createFromStream(inputStream, imageUri.toString());
+//        Bitmap bitmap2 = ((BitmapDrawable) drawable2).getBitmap();
+//        ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+//        bitmap2.compress(Bitmap.CompressFormat.PNG, 100, stream2);
+//        byte[] bitmapData2 = stream2.toByteArray();
+//        ImageData imageData2 = ImageDataFactory.create(bitmapData2);
+//        Image image2 = new Image(imageData2);
+//        image2.setHeight(400);
+//        image2.setWidth(400);
+//
+//        document.add(image2);
+//    }
 
     public void createChecklistPdf(ChecklistDataObject checklistDataObject) throws FileNotFoundException {
         if(pageAdapter.getChecklistFragment().getChecklistDataObject() != null) {
