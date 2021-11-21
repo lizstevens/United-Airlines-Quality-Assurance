@@ -1,6 +1,7 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,13 +40,29 @@ public class CheckListListActivity extends AppCompatActivity {
 
 
 
-        Field[] fields = R.raw.class.getFields();
-        for (int i=0; i < fields.length; i++) {
-            Log.d("Files", "FileName: " + fields[i].getName());
-            checklistList.add(i, fields[i].getName());
+        //Field[] fields = R.raw.class.getFields();
+        try {
+            String[] sheets = getAssets().list("templates");
+
+            for (int i=0; i < sheets.length; i++) {
+                Log.d("Files", "FileName: " + sheets[i]);
+                checklistList.add(i, sheets[i]);
 
 
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+
+//        for (int i=0; i < fields.length; i++) {
+//            Log.d("Files", "FileName: " + fields[i].getName());
+//            checklistList.add(i, fields[i].getName());
+//
+//
+//        }
+
+
 
         adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, checklistList);
         listView.setAdapter(adapter);
