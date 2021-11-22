@@ -110,7 +110,7 @@ public class ExcelParser {
 
         AssetManager am = ctx.getAssets();
 
-        InputStream ExcelFileToRead = am.open(fileName + ".xlsx");
+        InputStream ExcelFileToRead = am.open("templates/" + fileName);
 
         try{
 
