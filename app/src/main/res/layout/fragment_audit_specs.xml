@@ -64,6 +64,8 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+
+
             <EditText
                 android:id="@+id/dateEdit"
                 android:layout_width="match_parent"

@@ -77,8 +77,8 @@ public class ChecklistDataObject implements Serializable {
         dataMap.put(key, newMap);
     }
 
-    public int getId() {
-        return checklist_id;
+    public String getId() {
+        return id;
     }
     public void setId(final String id) {
         this.id = id;

@@ -125,7 +125,8 @@ public class ChecklistFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TextView checklistTitleTextview = view.findViewById(R.id.checklistTitle);
         //checklistTitleTextview.setText(checklistTitle);
-        checklistTitleTextview.setText("Checklist " + obj.getId());
+        //checklistTitleTextview.setText("Checklist " + obj.getChecklistId());
+        checklistTitleTextview.setText("Checklist 8");
         spinner = view.findViewById(R.id.section_spinner);
         totalSizeFor8 = obj.size();
 

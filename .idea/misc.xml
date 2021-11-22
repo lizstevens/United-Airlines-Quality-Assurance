@@ -5,11 +5,13 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2609375" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2609375" />
+        <entry key="app/src/main/res/layout/activity_audit.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_checklist_list.xml" value="0.19767441860465115" />
         <entry key="app/src/main/res/layout/activity_in_process.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_pdf.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/layout/activity_tabular_data.xml" value="0.12447916666666667" />
+        <entry key="app/src/main/res/layout/fragment_audit_specs.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_checklist.xml" value="0.11141304347826086" />
       </map>
     </option>
