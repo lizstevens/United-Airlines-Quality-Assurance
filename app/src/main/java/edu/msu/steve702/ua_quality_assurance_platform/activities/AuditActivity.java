@@ -136,7 +136,8 @@ public class AuditActivity extends AppCompatActivity {
         save_button = findViewById(R.id.saveButton);
         toolbar.setTitle(R.string.title);
         setSupportActionBar(toolbar);
-        //storageRef = firebaseStorage.getReference();
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageRef = firebaseStorage.getReference();
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,13 +257,16 @@ public class AuditActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+            case R.id.option3:
+                takePhoto();
+                return true;
         }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-            //onCaptureImageResult(data);
+        if(requestCode==1 ){
+            onCaptureImageResult(data);
         }
 //        if(requestCode==2 && resultCode== RESULT_OK && data!=null) {
 //            Uri imageData = data.getData();
@@ -273,52 +277,52 @@ public class AuditActivity extends AppCompatActivity {
 //            }
 //        }
     }
-//    private void takePhoto() {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(intent, 2);
-//    }
-//
-//    private void onCaptureImageResult(Intent data){
-//        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        thumbnail.compress(Bitmap.CompressFormat.JPEG,90,bytes);
-//        byte bb[] = bytes.toByteArray();
-//        uploadPhoto(bb);
-//    }
-//
-//    private void uploadPhoto(byte[] bb) {
-//
-//        progressDialog = new ProgressDialog(this);
-//        progressDialog.setTitle("Uploading File....");
-//        progressDialog.show();
-//
-//        final String randomKey = UUID.randomUUID().toString();
-//        // Create a reference
-//        StorageReference imageRef = storageRef.child("image/" + randomKey);
-//
-//        imageRef.putBytes(bb)
-//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        progressDialog.dismiss();
-//                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
-//                    }
-//                })
-//                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-//                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-//                        progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
-//                    }
-//                });
-//
-//    }
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, 1);
+    }
+
+    private void onCaptureImageResult(Intent data){
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+        byte bb[] = bytes.toByteArray();
+        uploadPhoto(bb);
+    }
+
+    private void uploadPhoto(byte[] bb) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading File....");
+        progressDialog.show();
+
+        final String randomKey = UUID.randomUUID().toString();
+        // Create a reference
+        StorageReference imageRef = storageRef.child("image/" + randomKey);
+
+        imageRef.putBytes(bb)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                        progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
+                    }
+                });
+
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
