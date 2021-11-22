@@ -7,4 +7,7 @@
 
     <item android:id = "@+id/option2"
         android:title="@string/return_to_dashboard" />
+
+    <item android:id = "@+id/option3"
+        android:title="@string/take_photo" />
 </menu>
