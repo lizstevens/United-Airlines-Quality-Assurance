@@ -262,9 +262,9 @@ public class AuditActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-            case R.id.option3:
-                takePhoto();
-                return true;
+//            case R.id.option3:
+//                takePhoto();
+//                return true;
         }
     }
 
