@@ -37,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+import edu.msu.steve702.ua_quality_assurance_platform.activities.InProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 

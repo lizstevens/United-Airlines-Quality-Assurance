@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.msu.steve702.ua_quality_assurance_platform.InProcessActivity;
+import edu.msu.steve702.ua_quality_assurance_platform.activities.InProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 

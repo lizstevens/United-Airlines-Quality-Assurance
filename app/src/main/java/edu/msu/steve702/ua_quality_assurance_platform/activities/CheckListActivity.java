@@ -1,4 +1,4 @@
-package edu.msu.steve702.ua_quality_assurance_platform;
+package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 
+import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
 
 public class CheckListActivity extends AppCompatActivity {

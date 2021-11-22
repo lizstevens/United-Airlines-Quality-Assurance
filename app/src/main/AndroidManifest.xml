@@ -16,10 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TabularDataActivity"></activity>
-        <activity android:name=".InProcessActivity"></activity>
+        <activity android:name=".activities.InProcessActivity"></activity>
         <activity android:name=".InProcessListActivity"></activity>
         <activity android:name=".UpdateInProcessActivity"></activity>
-        <activity android:name=".InitialAuditActivity"></activity>
+        <activity android:name=".activities.InitialAuditActivity"></activity>
         <activity android:name=".TechnicalDataListActivity"></activity>
         <activity android:name=".UpdateTabularActvity"></activity>
         <activity android:name=".activities.AuditActivity"></activity>

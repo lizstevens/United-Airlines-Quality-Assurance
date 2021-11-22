@@ -1,4 +1,4 @@
-package edu.msu.steve702.ua_quality_assurance_platform;
+package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 
 public class InitialAuditActivity extends AppCompatActivity implements View.OnClickListener {
