@@ -317,15 +317,15 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
                     if (task.isSuccessful()) {
                         Map<Integer, Map<Integer, String[]>> map = new HashMap<>();
                         ChecklistDataObject obj = new ChecklistDataObject(null, map);
-                        String checklistName = "";
+                        Integer checklistID = 0;
                         Type mapType = new TypeToken<Map<Integer, String[]>>(){}.getType();
 
                         for (DocumentSnapshot doc: task.getResult()) {
                             Map<String, Object> docMap = doc.getData();
                             for(Map.Entry<String, Object> entry : docMap.entrySet()) {
                                 String section = entry.getKey();
-                                if (section.equals("checklistName")) {
-                                    checklistName = entry.getValue().toString();
+                                if (section.equals("checklistID")) {
+                                    checklistID = Integer.valueOf(entry.getValue().toString());
                                 } else {
                                     Integer sectionNum = Integer.valueOf(section);
                                     Map<Integer, String[]> subMap = new Gson().fromJson(entry.getValue().toString(), mapType);
@@ -340,13 +340,17 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
 
 
                         intent.putExtra("ChecklistData", obj);
-                        intent.putExtra("checklistName", checklistName);
+                        intent.putExtra("checklistID", checklistID);
                         mCtx.startActivity(intent);
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 }
             });
+
+
+
+
         }
 
 

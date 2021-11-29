@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -49,9 +48,12 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
+import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -61,6 +63,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.element.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -162,7 +165,12 @@ public class AuditActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.e("Failed to Parse Excel", "Error message: " + e.getMessage());
             }
+        }else{
+            checklist_name = "";
+            Map<Integer, Map<Integer, String[]>> map = new HashMap<>();
+            checklist = new ChecklistDataObject(0, map);
         }
+
 
         pageAdapter = new AuditPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), checklist_name, context, checklist);
         viewPager.setAdapter(pageAdapter);
@@ -193,6 +201,7 @@ public class AuditActivity extends AppCompatActivity {
             }
             if (getIntent().getExtras().containsKey("ChecklistData")) {
                 pageAdapter.getChecklistFragment().setChecklistDataObject((ChecklistDataObject) getIntent().getSerializableExtra("ChecklistData"));
+                pageAdapter.getChecklistFragment().setChecklistId((Integer) getIntent().getIntExtra("checklistID",0));
             }
         }
 
@@ -249,6 +258,8 @@ public class AuditActivity extends AppCompatActivity {
 //                    createTechTablePdf(techObject);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 return true;
             case R.id.option2:
@@ -257,9 +268,9 @@ public class AuditActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-            case R.id.option3:
-                takePhoto();
-                return true;
+//            case R.id.option3:
+//                takePhoto();
+//                return true;
         }
     }
 
@@ -702,9 +713,10 @@ public class AuditActivity extends AppCompatActivity {
 
             CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
 
-            Map<String, String> map = new HashMap<>();
-            map.put("checklistName", checklist_name);
-            dbChecklist.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            int checklistNum = checklistDataObject.getChecklistId();
+            Map<String, Integer> Idmap = new HashMap<>();
+            Idmap.put("checklistID", checklistNum);
+            dbChecklist.add(Idmap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
@@ -717,13 +729,14 @@ public class AuditActivity extends AppCompatActivity {
                 }
             });
 
+
             for(int i=1; i < checklistDataObject.size() + 1; i++){
 
                 String json_str = new Gson().toJson(checklistDataObject.get(i));
 
                 //checklistDataObject.setMapString(json_str);
 
-                map = new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 map.put(String.valueOf(i), json_str);
 
                 // save in firestore
@@ -746,30 +759,7 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
-    // this function allows user to create a pdf to store locally
-
-//    private void attachImage() {
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(intent, 2);
-//    }
-//    private void attachedPdf(Uri imageUri) throws FileNotFoundException {
-//        InputStream inputStream = getContentResolver().openInputStream(imageUri);
-//        Drawable drawable2 = Drawable.createFromStream(inputStream, imageUri.toString());
-//        Bitmap bitmap2 = ((BitmapDrawable) drawable2).getBitmap();
-//        ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
-//        bitmap2.compress(Bitmap.CompressFormat.PNG, 100, stream2);
-//        byte[] bitmapData2 = stream2.toByteArray();
-//        ImageData imageData2 = ImageDataFactory.create(bitmapData2);
-//        Image image2 = new Image(imageData2);
-//        image2.setHeight(400);
-//        image2.setWidth(400);
-//
-//        document.add(image2);
-//    }
-
-    public void createChecklistPdf(ChecklistDataObject checklistDataObject) throws FileNotFoundException {
+    public void createChecklistPdf(ChecklistDataObject checklistDataObject) throws FileNotFoundException, IOException {
         if(pageAdapter.getChecklistFragment().getChecklistDataObject() != null) {
             String titleName = pageAdapter.getAuditSpecFragment().getAuditObject().getAuditTitleObj().replaceAll("[^a-zA-Z0-9]", "");
             String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
@@ -790,26 +780,45 @@ public class AuditActivity extends AppCompatActivity {
 
             ImageData imageData = ImageDataFactory.create(bitmapData);
             Image image = new Image(imageData);
-            image.setHeight(80);
-            image.setWidth(500);
+            image.setHeight(40);
+            image.setWidth(250);
 
-            Paragraph paragraph = new Paragraph("Technical Operations Quality Assurance");
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            Text header_text = new Text("Technical Operations Quality Assurance").setFont(font);
+            Paragraph pdf_header = new Paragraph()
+                    .add(header_text);
 
             document.add(image);
-            document.add(paragraph);
+            document.add(pdf_header);
 
-            Paragraph tech_data_header = new Paragraph("Checklist 8");
-            document.add(tech_data_header);
-
-            float columnWidth[] = {200f, 200f};
+            // 600
+            float columnWidth[] = {350f, 100f, 150f};
             Table table = new Table(columnWidth);
+
+            Text column_1_chklist_header = new Text("General Information");
+            Text column_2_answer = new Text("Yes / No / N/A");
+            Text column_3_comment = new Text("Comment");
+
+            Paragraph chklist_header_1 = new Paragraph()
+                    .add(column_1_chklist_header);
+            table.addCell(chklist_header_1);
+
+            Paragraph chklist_header_2 = new Paragraph()
+                    .add(column_2_answer);
+            table.addCell(chklist_header_2);
+
+            Paragraph chklist_header_3 = new Paragraph()
+                    .add(column_3_comment);
+            table.addCell(chklist_header_3);
 
             for(int i = 1; i <= checklistDataObject.size(); i++) {
                 Map<Integer, String[]> number = checklistDataObject.get(i);
                 for (Map.Entry<Integer, String[]> entry : number.entrySet()) {
                     List<String> indiv = Arrays.asList(entry.getValue());
                     for(String answer : indiv) {
-                        table.addCell(answer);
+                        table.addCell(answer).setFont(font);
                     }
                 }
             }
@@ -830,117 +839,120 @@ public class AuditActivity extends AppCompatActivity {
             document.close();
             Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
         }
-//        else {
-//            Paragraph tech_data_header = new Paragraph("Checklist 8");
-//            document.add(tech_data_header);
-//
-//            float columnWidth[] = {200f, 200f};
-//            Table table = new Table(columnWidth);
-//
-//            for(int i = 1; i <= checklistDataObject.size(); i++) {
-//                Map<Integer, String[]> number = checklistDataObject.get(i);
-//                for (Map.Entry<Integer, String[]> entry : number.entrySet()) {
-//                    List<String> indiv = Arrays.asList(entry.getValue());
-//                    for(String answer : indiv) {
-//                        table.addCell(answer);
-//                    }
-//                }
-//            }
-//
-//            document.add(table);
-//
-//            Paragraph space = new Paragraph("");
-//            document.add(space);
-//
-//            createChecklistPdf(pageAdapter.getChecklistFragment().getChecklistDataObject(), document);
-//            createTechTablePdf(pageAdapter.getTableDataFragment().getTechnicalTableDataObject(), document);
-//            createROMTablePdf(pageAdapter.getTableDataFragment().getRomTableDataObject(), document);
 //        }
     }
 
-    public void createInProcessPdf(List<InProcessObject> inProcessList, Document document) throws FileNotFoundException {
-//        List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
+    public void createInProcessPdf(List<InProcessObject> inProcessList, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getInProcessFragment().getInProcessList() != null) {
-//            String titleName = pageAdapter.getAuditSpecFragment().getAuditObject().getAuditTitleObj().replaceAll("[^a-zA-Z0-9]", "");
-//            String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
-//            File file = new File(pdfPath, titleName + PDF);
-////            File file = new File(pdfPath,  "TestInProcess.pdf");
-//
-//            OutputStream outputStream = new FileOutputStream(file);
-//
-//            PdfWriter writer = new PdfWriter(file);
-//            PdfDocument pdfDocument = new PdfDocument(writer);
-//            Document document = new Document(pdfDocument);
-//
-//            Drawable drawable = getDrawable(R.drawable.united_airlines_quality_assurance_logo);
-//            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//            byte[] bitmapData = stream.toByteArray();
-//
-//            ImageData imageData = ImageDataFactory.create(bitmapData);
-//            Image image = new Image(imageData);
-//            image.setHeight(80);
-//            image.setWidth(500);
-//
-//            Paragraph paragraph = new Paragraph("Technical Operations Quality Assurance");
-//
-//            document.add(image);
-//            document.add(paragraph);
-
             for (InProcessObject inProcessObject : inProcessList) {
-                float columnWidth[] = {200f, 200f};
-                Table table = new Table(columnWidth);
+                PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+                PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+                float columnWidth[] = {150f, 150f, 150f, 150f};
+                Table table1 = new Table(columnWidth);
+
+                Text column_1_ip = new Text("Employee Name / ID").setFont(bold);
+                Text column_2_ip = new Text("Part Number").setFont(bold);
+                Text column_3_ip = new Text("Serial Number").setFont(bold);
+                Text column_4_ip = new Text("Nomeclature").setFont(bold);
+
+                Paragraph ip_header_1 = new Paragraph()
+                        .add(column_1_ip);
+                table1.addCell(ip_header_1);
+
+                Paragraph ip_header_2 = new Paragraph()
+                        .add(column_2_ip);
+                table1.addCell(ip_header_2);
+
+                Paragraph ip_header_3 = new Paragraph()
+                        .add(column_3_ip);
+                table1.addCell(ip_header_3);
+
+                Paragraph ip_header_4 = new Paragraph()
+                        .add(column_4_ip);
+                table1.addCell(ip_header_4);
 
                 // add cell
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Employee Name: ")));
-                table.addCell(inProcessObject.getEmployeeNameObj());
+                table1.addCell(inProcessObject.getEmployeeNameObj()).setFont(font);;
+                table1.addCell(inProcessObject.getPartNumberObj()).setFont(font);;
+                table1.addCell(inProcessObject.getSerialNumberObj()).setFont(font);;
+                table1.addCell(inProcessObject.getNomenclatureObj()).setFont(font);;
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number: ")));
-                table.addCell(inProcessObject.getPartNumberObj());
+                float columnWidth2[] = {100f, 500f};
+                Table table2 = new Table(columnWidth2);
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Serial Number: ")));
-                table.addCell(inProcessObject.getSerialNumberObj());
+                Text task_row_ip = new Text("Task: (include customer name)").setFont(bold);
+                Paragraph ip_row3 = new Paragraph()
+                        .add(task_row_ip).setMaxHeight(500f);
+                table2.addCell(ip_row3);
+                table2.addCell(inProcessObject.getTaskObj()).setMaxHeight(500f).setFont(font);
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Nomeclature: ")));
-                table.addCell(inProcessObject.getNomenclatureObj());
+                float columnWidth3[] = {200f, 400f};
+                Table table3 = new Table(columnWidth3);
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Task: ")));
-                table.addCell(inProcessObject.getTaskObj());
+                Text techspec_row_ip = new Text("Technical Specification - Record type of spec, revision date and revision level ").setFont(bold);
+                Paragraph ip_row_ts = new Paragraph()
+                        .add(techspec_row_ip).setMaxHeight(400f);
+                table3.addCell(ip_row_ts);
+                table3.addCell(inProcessObject.getTechSpecificationsObj()).setMaxHeight(400f).setFont(font);
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technical Specifications: ")));
-                table.addCell(inProcessObject.getTechSpecificationsObj());
+                float columnWidth4[] = {200f, 400f};
+                Table table4 = new Table(columnWidth4);
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tooling: ")));
-                table.addCell(inProcessObject.getToolingObj());
+                Text tooling_row_ip = new Text("Tooling – Record ID and due date, if any, per box ").setFont(bold);
+                Paragraph ip_row_tooling = new Paragraph()
+                        .add(tooling_row_ip).setMaxHeight(400f);
+                table4.addCell(ip_row_tooling);
+                table4.addCell(inProcessObject.getToolingObj()).setMaxHeight(400f).setFont(font);
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Shelf Life: ")));
-                table.addCell(inProcessObject.getShelfLifeObj());
+                float columnWidth5[] = {200f, 400f};
+                Table table5 = new Table(columnWidth5);
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Traceability: ")));
-                table.addCell(inProcessObject.getTraceObj());
+                Text sl_row_ip = new Text("Shelf Life – Record Item and due date, if any, per box ").setFont(bold);
+                Paragraph ip_sl_tooling = new Paragraph()
+                        .add(sl_row_ip).setMaxHeight(400f);
+                table5.addCell(ip_sl_tooling);
+                table5.addCell(inProcessObject.getShelfLifeObj()).setMaxHeight(400f).setFont(font);
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training: ")));
-                table.addCell(inProcessObject.getReqTrainingObj());
+                float columnWidth6[] = {200f, 400f};
+                Table table6 = new Table(columnWidth6);
 
-                table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date Qualified: ")));
-                table.addCell(inProcessObject.getTrainingDateObj());
+                Text trace_row_ip = new Text("Traceability (outside of Stores)").setFont(bold);
+                Paragraph ip_trace_tooling = new Paragraph()
+                        .add(trace_row_ip).setMaxHeight(400f);
+                table6.addCell(ip_trace_tooling);
+                table6.addCell(inProcessObject.getTraceObj()).setMaxHeight(400f).setFont(font);
 
-                document.add(table);
-//
-//                Paragraph space = new Paragraph("");
-//                document.add(space);
+                float columnWidth7[] = {300f, 300f};
+                Table table7 = new Table(columnWidth7);
+
+                Text reqTraining_row_ip = new Text("Required Training").setFont(bold);
+                Text date_row_ip = new Text("Date Qualified").setFont(bold);
+
+                Paragraph ip_rt_tooling_1 = new Paragraph()
+                        .add(reqTraining_row_ip).setMaxHeight(400f);
+
+                Paragraph ip_rt_tooling_2 = new Paragraph()
+                        .add(date_row_ip).setMaxHeight(400f);
+
+                table7.addCell(ip_rt_tooling_1);
+                table7.addCell(ip_rt_tooling_2);
+
+                table7.addCell(inProcessObject.getReqTrainingObj()).setMaxHeight(400f).setFont(font);
+                table7.addCell(inProcessObject.getTrainingDateObj()).setMaxHeight(400f).setFont(font);
+
+                document.add(table1);
+                document.add(table2);
+                document.add(table3);
+                document.add(table4);
+                document.add(table5);
+                document.add(table6);
+                document.add(table7);
+
+                Paragraph space = new Paragraph("");
+                document.add(space);
+
             }
-//            createChecklistPdf(pageAdapter.getChecklistFragment().getChecklistDataObject(), document);
-//            createTechTablePdf(pageAdapter.getTableDataFragment().getTechnicalTableDataObject(), document);
-//            createROMTablePdf(pageAdapter.getTableDataFragment().getRomTableDataObject(), document);
-//            createCalibrationPdf(pageAdapter.getTableDataFragment().getCalibrationTableDataObject(), document);
-//            createTrainingPdf(pageAdapter.getTableDataFragment().getTrainingTableDataObject(), document);
-//            createTraceabilityPdf(pageAdapter.getTableDataFragment().getTraceabilityTableDataObject(), document);
-//            createShelfLifePdf(pageAdapter.getTableDataFragment().getShelfLifeTableDataObject(), document);
-
-//            document.close();
-//            Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
         }
         else {
             Toast.makeText(getApplicationContext(), "PDF not created", Toast.LENGTH_LONG).show();
@@ -948,950 +960,1094 @@ public class AuditActivity extends AppCompatActivity {
 
     }
 
-    public void createTechTablePdf(TechnicalTableDataObject techObject, Document document) throws FileNotFoundException {
+    public void createTechTablePdf(TechnicalTableDataObject techObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getTechnicalTableDataObject() != null) {
-            Paragraph tech_data_header = new Paragraph("TECHNICAL DATA");
-            document.add(tech_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text tech = new Text("TECHNICAL DATA ").setFont(bold);
+            Paragraph tech_data = new Paragraph()
+                    .add(tech);
+            table_h.addCell(tech_data);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments")).setFont(font));
 
 
             List<String> row1 = techObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = techObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                if(addRow2.equals("")) {
+                    table.addCell(" ").setFont(font);
+                }
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = techObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = techObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = techObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = techObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = techObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = techObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = techObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = techObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
             List<String> row11 = techObject.getRow11();
             for(String addRow11 : row11) {
-                table.addCell(addRow11);
+                table.addCell(addRow11).setFont(font);
             }
 
             List<String> row12 = techObject.getRow12();
             for(String addRow12 : row12) {
-                table.addCell(addRow12);
+                table.addCell(addRow12).setFont(font);
             }
 
             List<String> row13 = techObject.getRow13();
             for(String addRow13 : row13) {
-                table.addCell(addRow13);
+                table.addCell(addRow13).setFont(font);
             }
 
             List<String> row14 = techObject.getRow14();
             for(String addRow14 : row14) {
-                table.addCell(addRow14);
+                table.addCell(addRow14).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
         else {
-            Paragraph tech_data_header = new Paragraph("TECHNICAL DATA");
-            document.add(tech_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text tech = new Text("TECHNICAL DATA ").setFont(bold);
+            Paragraph tech_data = new Paragraph()
+                    .add(tech);
+            table_h.addCell(tech_data);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date: ")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments: ")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Aircraft/Eng Effectively Num")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Manufacturer")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ATA/Document ID")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Level")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Rev. Date")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Comments")).setFont(font));
+
 
             List<String> row1 = techObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = techObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = techObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = techObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = techObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = techObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = techObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = techObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = techObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = techObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
             List<String> row11 = techObject.getRow11();
             for(String addRow11 : row11) {
-                table.addCell(addRow11);
+                table.addCell(addRow11).setFont(font);
             }
 
             List<String> row12 = techObject.getRow12();
             for(String addRow12 : row12) {
-                table.addCell(addRow12);
+                table.addCell(addRow12).setFont(font);
             }
 
             List<String> row13 = techObject.getRow13();
             for(String addRow13 : row13) {
-                table.addCell(addRow13);
+                table.addCell(addRow13).setFont(font);
             }
 
             List<String> row14 = techObject.getRow14();
             for(String addRow14 : row14) {
-                table.addCell(addRow14);
+                table.addCell(addRow14).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
     }
 
-    public void createROMTablePdf(ROMTableDataObject romTableDataObject, Document document) throws FileNotFoundException {
+    public void createROMTablePdf(ROMTableDataObject romTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getRomTableDataObject() != null) {
-            Paragraph rom_data_header = new Paragraph("RECORDS of MAINTENANCE (ROM)");
-            document.add(rom_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text rom = new Text("RECORDS of MAINTENANCE (ROM)").setFont(bold);
+            Paragraph rom_data = new Paragraph()
+                    .add(rom);
+            table_h.addCell(rom_data);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Doc Type")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Document #")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part/PN/SN")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Specification incl. revision level & date")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tech. Name")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Doc Type")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Document #")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part/PN/SN")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Specification incl. revision level & date")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tech. Name")).setFont(font));
 
             List<String> row1 = romTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = romTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = romTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = romTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = romTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = romTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = romTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = romTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = romTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = romTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
         else {
-            Paragraph tech_data_header = new Paragraph("Technical Data");
-            document.add(tech_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text rom = new Text("RECORDS of MAINTENANCE (ROM)").setFont(bold);
+            Paragraph rom_data = new Paragraph()
+                    .add(rom);
+            table_h.addCell(rom_data);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Doc Type")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Document #")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part/PN/SN")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Specification incl. revision level & date")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tech. Name")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Doc Type")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Document #")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part/PN/SN")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Date")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Specification incl. revision level & date")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Tech. Name")).setFont(font));
 
             List<String> row1 = romTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = romTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = romTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = romTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = romTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = romTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = romTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = romTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = romTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = romTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
     }
 
-    public void createCalibrationPdf(CalibrationTableDataObject calibrationTableDataObject, Document document) throws FileNotFoundException {
+    public void createCalibrationPdf(CalibrationTableDataObject calibrationTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getCalibrationTableDataObject() != null) {
-            Paragraph calib_data_header = new Paragraph("CALIBRATION");
-            document.add(calib_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text calib = new Text("CALIBRATION").setFont(bold);
+            Paragraph calib_data = new Paragraph()
+                    .add(calib);
+            table_h.addCell(calib_data);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ID #")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Date")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Due")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL by")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ID #")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Date")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Due")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL by")).setFont(font));
 
             List<String> row1 = calibrationTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = calibrationTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = calibrationTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = calibrationTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = calibrationTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = calibrationTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = calibrationTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = calibrationTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = calibrationTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = calibrationTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
             List<String> row11 = calibrationTableDataObject.getRow11();
             for(String addRow11 : row11) {
-                table.addCell(addRow11);
+                table.addCell(addRow11).setFont(font);
             }
 
             List<String> row12 = calibrationTableDataObject.getRow12();
             for(String addRow12 : row12) {
-                table.addCell(addRow12);
+                table.addCell(addRow12).setFont(font);
             }
 
             List<String> row13 = calibrationTableDataObject.getRow13();
             for(String addRow13 : row13) {
-                table.addCell(addRow13);
+                table.addCell(addRow13).setFont(font);
             }
 
             List<String> row14 = calibrationTableDataObject.getRow14();
             for(String addRow14 : row14) {
-                table.addCell(addRow14);
+                table.addCell(addRow14).setFont(font);
             }
 
             List<String> row15 = calibrationTableDataObject.getRow15();
             for(String addRow15 : row15) {
-                table.addCell(addRow15);
+                table.addCell(addRow15).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
         else {
-            Paragraph calib_data_header = new Paragraph("CALIBRATION");
-            document.add(calib_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text calib = new Text("CALIBRATION").setFont(bold);
+            Paragraph calib_data = new Paragraph()
+                    .add(calib);
+            table_h.addCell(calib_data);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ID #")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Date")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Due")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL by")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("ID #")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Date")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL Due")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("CAL by")).setFont(font));
 
             List<String> row1 = calibrationTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = calibrationTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = calibrationTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = calibrationTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = calibrationTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = calibrationTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = calibrationTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = calibrationTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = calibrationTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = calibrationTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
             List<String> row11 = calibrationTableDataObject.getRow11();
             for(String addRow11 : row11) {
-                table.addCell(addRow11);
+                table.addCell(addRow11).setFont(font);
             }
 
             List<String> row12 = calibrationTableDataObject.getRow12();
             for(String addRow12 : row12) {
-                table.addCell(addRow12);
+                table.addCell(addRow12).setFont(font);
             }
 
             List<String> row13 = calibrationTableDataObject.getRow13();
             for(String addRow13 : row13) {
-                table.addCell(addRow13);
+                table.addCell(addRow13).setFont(font);
             }
 
             List<String> row14 = calibrationTableDataObject.getRow14();
             for(String addRow14 : row14) {
-                table.addCell(addRow14);
+                table.addCell(addRow14).setFont(font);
             }
 
             List<String> row15 = calibrationTableDataObject.getRow15();
             for(String addRow15 : row15) {
-                table.addCell(addRow15);
+                table.addCell(addRow15).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
     }
 
-    public void createTrainingPdf(TrainingTableDataObject trainingTableDataObject, Document document) throws FileNotFoundException {
+    public void createTrainingPdf(TrainingTableDataObject trainingTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getTrainingTableDataObject() != null) {
-            Paragraph training_data_header = new Paragraph("TRAINING (Non-Interviewed Personnel)");
-            document.add(training_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text td = new Text("TRAINING (Non-Interviewed Personnel)").setFont(bold);
+            Paragraph training_data_header = new Paragraph()
+                    .add(td);
+            table_h.addCell(training_data_header);
 
             float columnWidth[] = {200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technician Name/ID")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Maintenance Performed")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("OJT/Qualified Date")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technician Name/ID")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Maintenance Performed")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("OJT/Qualified Date")).setFont(font));
 
             List<String> row1 = trainingTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = trainingTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = trainingTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = trainingTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = trainingTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = trainingTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = trainingTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = trainingTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = trainingTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = trainingTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
         else {
-            Paragraph training_data_header = new Paragraph("TRAINING (Non-Interviewed Personnel)");
-            document.add(training_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text td = new Text("TRAINING (Non-Interviewed Personnel)").setFont(bold);
+            Paragraph training_data_header = new Paragraph()
+                    .add(td);
+            table_h.addCell(training_data_header);
 
             float columnWidth[] = {200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technician Name/ID")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Maintenance Performed")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("OJT/Qualified Date")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Technician Name/ID")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number/Maintenance Performed")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Required Training")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("OJT/Qualified Date")).setFont(font));
 
             List<String> row1 = trainingTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = trainingTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = trainingTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = trainingTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = trainingTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = trainingTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = trainingTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = trainingTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = trainingTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = trainingTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
     }
 
-    public void createTraceabilityPdf(TraceabilityTableDataObject traceabilityTableDataObject, Document document) throws FileNotFoundException {
+    public void createTraceabilityPdf(TraceabilityTableDataObject traceabilityTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getTraceabilityTableDataObject() != null) {
-            Paragraph trace_data_header = new Paragraph("TRACEABILITY");
-            document.add(trace_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text trace = new Text("TRACEABILITY").setFont(bold);
+            Paragraph trace_data_header = new Paragraph()
+                    .add(trace);
+            table_h.addCell(trace_data_header);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Product")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Batch/Lot #")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P.O Number")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Supplier")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Product")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Batch/Lot #")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P.O Number")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Supplier")).setFont(font));
 
             List<String> row1 = traceabilityTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = traceabilityTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = traceabilityTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = traceabilityTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = traceabilityTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = traceabilityTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = traceabilityTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = traceabilityTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = traceabilityTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = traceabilityTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
         else {
-            Paragraph trace_data_header = new Paragraph("TRACEABILITY");
-            document.add(trace_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text trace = new Text("TRACEABILITY").setFont(bold);
+            Paragraph trace_data_header = new Paragraph()
+                    .add(trace);
+            table_h.addCell(trace_data_header);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Product")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Batch/Lot #")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P.O Number")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Supplier")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Product")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Part Number")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Batch/Lot #")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P.O Number")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Supplier")).setFont(font));
 
             List<String> row1 = traceabilityTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = traceabilityTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = traceabilityTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = traceabilityTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = traceabilityTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = traceabilityTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = traceabilityTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = traceabilityTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = traceabilityTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = traceabilityTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
     }
 
-
-
-    public void createShelfLifePdf(ShelfLifeTableDataObject shelfLifeTableDataObject, Document document) throws FileNotFoundException {
+    public void createShelfLifePdf(ShelfLifeTableDataObject shelfLifeTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getShelfLifeTableDataObject() != null) {
-            Paragraph shelf_life_data_header = new Paragraph("SHELF LIFE");
-            document.add(shelf_life_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text shelf_life = new Text("SHELF LIFE").setFont(bold);
+            Paragraph shelf_life_data_header = new Paragraph()
+                    .add(shelf_life);
+            table_h.addCell(shelf_life_data_header);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P/N")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Lot/Batch #")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOM")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOE")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P/N")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Lot/Batch #")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOM")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOE")).setFont(font));
 
             List<String> row1 = shelfLifeTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = shelfLifeTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = shelfLifeTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = shelfLifeTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = shelfLifeTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = shelfLifeTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = shelfLifeTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = shelfLifeTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = shelfLifeTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = shelfLifeTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
             List<String> row11 = shelfLifeTableDataObject.getRow11();
             for(String addRow11 : row11) {
-                table.addCell(addRow11);
+                table.addCell(addRow11).setFont(font);
             }
 
             List<String> row12 = shelfLifeTableDataObject.getRow12();
             for(String addRow12 : row12) {
-                table.addCell(addRow12);
+                table.addCell(addRow12).setFont(font);
             }
 
             List<String> row13 = shelfLifeTableDataObject.getRow13();
             for(String addRow13 : row13) {
-                table.addCell(addRow13);
+                table.addCell(addRow13).setFont(font);
             }
 
             List<String> row14 = shelfLifeTableDataObject.getRow14();
             for(String addRow14 : row14) {
-                table.addCell(addRow14);
+                table.addCell(addRow14).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
         else {
-            Paragraph shelf_life_data_header = new Paragraph("SHELF LIFE");
-            document.add(shelf_life_data_header);
+            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+            PdfFont bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+
+            float columnWidth_h[] = {600f};
+            Table table_h = new Table(columnWidth_h);
+
+            Text shelf_life = new Text("SHELF LIFE").setFont(bold);
+            Paragraph shelf_life_data_header = new Paragraph()
+                    .add(shelf_life);
+            table_h.addCell(shelf_life_data_header);
 
             float columnWidth[] = {200f, 200f, 200f, 200f, 200f};
             Table table = new Table(columnWidth);
 
             // add cell
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P/N")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Lot/Batch #")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOM")));
-            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOE")));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Item")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("P/N")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("Lot/Batch #")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOM")).setFont(font));
+            table.addCell(new Cell().setBackgroundColor(ColorConstants.LIGHT_GRAY).add(new Paragraph("DOE")).setFont(font));
 
             List<String> row1 = shelfLifeTableDataObject.getRow1();
             for(String addRow1 : row1) {
-                table.addCell(addRow1);
+                table.addCell(addRow1).setFont(font);
             }
 
             List<String> row2 = shelfLifeTableDataObject.getRow2();
             for(String addRow2 : row2) {
-                table.addCell(addRow2);
+                table.addCell(addRow2).setFont(font);
             }
 
             List<String> row3 = shelfLifeTableDataObject.getRow3();
             for(String addRow3 : row3) {
-                table.addCell(addRow3);
+                table.addCell(addRow3).setFont(font);
             }
 
             List<String> row4 = shelfLifeTableDataObject.getRow4();
             for(String addRow4 : row4) {
-                table.addCell(addRow4);
+                table.addCell(addRow4).setFont(font);
             }
 
             List<String> row5 = shelfLifeTableDataObject.getRow5();
             for(String addRow5 : row5) {
-                table.addCell(addRow5);
+                table.addCell(addRow5).setFont(font);
             }
 
             List<String> row6 = shelfLifeTableDataObject.getRow6();
             for(String addRow6 : row6) {
-                table.addCell(addRow6);
+                table.addCell(addRow6).setFont(font);
             }
 
             List<String> row7 = shelfLifeTableDataObject.getRow7();
             for(String addRow7 : row7) {
-                table.addCell(addRow7);
+                table.addCell(addRow7).setFont(font);
             }
 
             List<String> row8 = shelfLifeTableDataObject.getRow8();
             for(String addRow8 : row8) {
-                table.addCell(addRow8);
+                table.addCell(addRow8).setFont(font);
             }
 
             List<String> row9 = shelfLifeTableDataObject.getRow9();
             for(String addRow9 : row9) {
-                table.addCell(addRow9);
+                table.addCell(addRow9).setFont(font);
             }
 
             List<String> row10 = shelfLifeTableDataObject.getRow10();
             for(String addRow10 : row10) {
-                table.addCell(addRow10);
+                table.addCell(addRow10).setFont(font);
             }
 
             List<String> row11 = shelfLifeTableDataObject.getRow11();
             for(String addRow11 : row11) {
-                table.addCell(addRow11);
+                table.addCell(addRow11).setFont(font);
             }
 
             List<String> row12 = shelfLifeTableDataObject.getRow12();
             for(String addRow12 : row12) {
-                table.addCell(addRow12);
+                table.addCell(addRow12).setFont(font);
             }
 
             List<String> row13 = shelfLifeTableDataObject.getRow13();
             for(String addRow13 : row13) {
-                table.addCell(addRow13);
+                table.addCell(addRow13).setFont(font);
             }
 
             List<String> row14 = shelfLifeTableDataObject.getRow14();
             for(String addRow14 : row14) {
-                table.addCell(addRow14);
+                table.addCell(addRow14).setFont(font);
             }
 
+            document.add(table_h);
             document.add(table);
+
+            Paragraph space = new Paragraph("");
+            document.add(space);
         }
-
-
     }
 }
