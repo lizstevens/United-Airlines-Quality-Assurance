@@ -13,23 +13,42 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="sensorPortrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TabularDataActivity"></activity>
-        <activity android:name=".activities.InProcessActivity"></activity>
-        <activity android:name=".InProcessListActivity"></activity>
-        <activity android:name=".UpdateInProcessActivity"></activity>
-        <activity android:name=".activities.InitialAuditActivity"></activity>
-        <activity android:name=".TechnicalDataListActivity"></activity>
-        <activity android:name=".UpdateTabularActvity"></activity>
-        <activity android:name=".activities.AuditActivity"></activity>
-        <activity android:name=".activities.CheckListListActivity"></activity>
-        <activity android:name=".activities.EditAuditListActivity"></activity>
+        <activity android:name=".TabularDataActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"></activity>
+        <activity android:name=".InProcessListActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"></activity>
+        <activity android:name=".UpdateInProcessActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"></activity>
+        <activity android:name=".TechnicalDataListActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"></activity>
+        <activity android:name=".UpdateTabularActvity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"></activity>
+        <activity android:name=".activities.AuditActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"></activity>
+        <activity android:name=".activities.CheckListListActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"></activity>
+        <activity android:name=".activities.EditAuditListActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"></activity>
         <activity
             android:name=".pdfActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
