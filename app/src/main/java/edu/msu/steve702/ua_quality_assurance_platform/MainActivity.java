@@ -3,6 +3,9 @@ package edu.msu.steve702.ua_quality_assurance_platform;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -167,17 +170,38 @@ public class MainActivity extends AppCompatActivity {
 
             TableLayout tl = new TableLayout(this);
 
+
             tl.setId(R.id.RegTable);
+
+            tl.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT));
+
+            tl.setStretchAllColumns(true);
 
             // Add header
             TableRow header = new TableRow(this);
 
-            header.setBackgroundColor(getColor(R.color.UnitedBlue));
+            GradientDrawable shape = new GradientDrawable();
+            shape.setShape(GradientDrawable.RECTANGLE);
+            shape.setColor(getResources().getColor(R.color.UnitedBlue));
+
+
+            shape.setCornerRadii(new float[]{10.0f, 10.0f,
+                    10.0f, 10.0f,
+                    0.0f, 0.0f,
+                    0.0f, 0.0f
+            });
+            shape.mutate();
+
+            header.setBackgroundDrawable(shape);
+
+            //header.setBackgroundColor(getColor(R.color.UnitedBlue));
 
             TextView file = new TextView(this);
             file.setText("Airworthiness Directives");
             file.setTextColor(getColor(android.R.color.white));
             file.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            file.setTextSize(12);
+            file.setTypeface(null, Typeface.BOLD);
             header.addView(file);
 
 
@@ -185,6 +209,8 @@ public class MainActivity extends AppCompatActivity {
             delete.setText("Delete");
             delete.setTextColor(getColor(android.R.color.white));
             delete.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            delete.setTextSize(12);
+            delete.setTypeface(null, Typeface.BOLD);
             header.addView(delete);
 
 
@@ -195,6 +221,9 @@ public class MainActivity extends AppCompatActivity {
                 TableRow tableRow = new TableRow(this);
                 TextView fileName = new TextView(this);
                 fileName.setText(files[i].getName());
+                fileName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                fileName.setTextSize(12);
+
 
 
                 int finalI = i;
@@ -217,6 +246,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Button button = new Button(this);
                 button.setText("Delete");
+                button.setTextSize(12);
+                button.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
                 button.setOnClickListener(new View.OnClickListener(){
 

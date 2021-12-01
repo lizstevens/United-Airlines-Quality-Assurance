@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ua-quality-assurance-platform</string>
+    <string name="app_name">QA Audit Center</string>
     <string name="employeeName">Employee Name/ID</string>
     <string name="partNumber">Part Number</string>
     <string name="generatePdf">Generate PDF</string>
