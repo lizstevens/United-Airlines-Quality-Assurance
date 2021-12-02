@@ -263,8 +263,9 @@ public class AuditActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.option2:
-                Intent intent = new Intent(context, MainActivity.class);
+                Intent intent = new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

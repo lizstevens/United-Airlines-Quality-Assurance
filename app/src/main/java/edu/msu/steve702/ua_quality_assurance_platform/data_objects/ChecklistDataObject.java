@@ -40,8 +40,8 @@ public class ChecklistDataObject implements Serializable {
     public ChecklistDataObject(){}
 
     public ChecklistDataObject(Integer id, Map<Integer, Map<Integer, String[]>> map) {
-        this.checklist_id = id;
-        this.dataMap = map;
+        checklist_id = id;
+        dataMap = map;
 //        this.datamap1 = newlist;
     }
 

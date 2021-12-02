@@ -53,7 +53,9 @@ public class ExcelParser {
         Map<Integer, Map<Integer, String[]>> map = new HashMap<>();
 //        List<Map<Integer, String[]>> newmap = new ArrayList<>();
 
-        this.data = new ChecklistDataObject(null, map);
+        data = new ChecklistDataObject(null, map);
+
+        firstRow = true;
 
 
     }
@@ -185,10 +187,12 @@ public class ExcelParser {
 
             }
 
+            ExcelFileToRead.close();
+
+
         }catch(InvalidFormatException e){
             return null;
         }
-
 
         return data;
 
