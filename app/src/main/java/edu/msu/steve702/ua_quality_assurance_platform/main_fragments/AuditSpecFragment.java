@@ -127,14 +127,18 @@ public class AuditSpecFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().equals(current)) {
+                if(start == 0 && count == 0){
+                    date.getText().clear();
+
+                }
+                else if (!s.toString().equals(current)) {
                     String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
                     String cleanC = current.replaceAll("[^\\d.]|\\.", "");
 
                     int cl = clean.length();
                     int sel = cl;
                     for (int i = 2; i <= cl && i < 6; i += 2) {
-                        sel++;
+                        sel ++;
                     }
                     //Fix for pressing delete next to a forward slash
                     if (clean.equals(cleanC)) sel--;
@@ -156,7 +160,8 @@ public class AuditSpecFragment extends Fragment {
                         //with leap years - otherwise, date e.g. 29/02/2012
                         //would be automatically corrected to 28/02/2012
 
-                        day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
+                        day = day > cal.getActualMaximum(Calendar.DATE)? cal.getActualMaximum(Calendar.DATE):day
+                                < cal.getActualMinimum(Calendar.DATE)? cal.getActualMinimum(Calendar.DATE):day;
                         clean = String.format("%02d%02d%02d", mon, day, year);
                     }
 
@@ -168,6 +173,7 @@ public class AuditSpecFragment extends Fragment {
                     current = clean;
                     date.setText(current);
                     date.setSelection(sel < current.length() ? sel : current.length());
+
                 }
             }
 
