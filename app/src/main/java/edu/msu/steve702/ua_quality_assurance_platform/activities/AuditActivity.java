@@ -206,6 +206,26 @@ public class AuditActivity extends AppCompatActivity {
                 pageAdapter.getChecklistFragment().setChecklistDataObject((ChecklistDataObject) getIntent().getSerializableExtra("ChecklistData"));
                 pageAdapter.getChecklistFragment().setChecklistId((Integer) getIntent().getIntExtra("checklistID",0));
             }
+            if(getIntent().getExtras().containsKey("Photos")){
+                ArrayList<String> photoRefs = getIntent().getStringArrayListExtra("Photos");
+
+                for(String ref: photoRefs){
+                    StorageReference photo = firebaseStorage.getReferenceFromUrl(ref);
+
+                    final long ONE_MEGABYTE = 1024 * 1024;
+                    photo.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            photos.add(bytes);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                        }
+                    });
+                }
+            }
         }
 
 //        if (savedInstanceState != null) {
@@ -352,12 +372,12 @@ public class AuditActivity extends AppCompatActivity {
 
 
         Map<String, String> photoMap = new HashMap<>();
-        photoMap.put("checklistID", ref.getBucket() +  ref.getPath());
+        photoMap.put("checklistID", "gs://" + ref.getBucket() +  ref.getPath());
         // save in firestore
         dbPhotos.add(photoMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
+                Toast.makeText(AuditActivity.this, "Photos Added" , Toast.LENGTH_LONG).show();
             }
 
         }).addOnFailureListener(new OnFailureListener() {

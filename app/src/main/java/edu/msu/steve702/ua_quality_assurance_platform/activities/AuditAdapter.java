@@ -341,7 +341,8 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
 
                         intent.putExtra("ChecklistData", obj);
                         intent.putExtra("checklistID", checklistID);
-                        mCtx.startActivity(intent);
+                        queryPhotos();
+
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
@@ -351,6 +352,31 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
 
 
 
+        }
+
+        public void queryPhotos(){
+            db.collection("Audit").document(this_audit_id).collection("Photos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        ArrayList<String> photos = new ArrayList<>();
+
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            Map<String, Object> photoMap = doc.getData();
+                            for(Map.Entry<String, Object> entry : photoMap.entrySet()) {
+                                photos.add(entry.getValue().toString());
+                            }
+                        }
+
+
+                        intent.putExtra("Photos", photos);
+                        mCtx.startActivity(intent);
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
         }
 
 
