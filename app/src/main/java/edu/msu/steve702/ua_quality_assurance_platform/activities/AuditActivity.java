@@ -308,17 +308,28 @@ public class AuditActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1 ){
-            onCaptureImageResult(data);
+
+        switch(requestCode){
+            case 1:
+                onCaptureImageResult(data);
+                break;
+
+            case 2:
+                if (resultCode == RESULT_OK) {
+                    Uri imageUri = data.getData();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                        onSelectImageResult(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+
+
+
         }
-//        if(requestCode==2 && resultCode== RESULT_OK && data!=null) {
-//            Uri imageData = data.getData();
-//            try {
-//                attachedPdf(imageData);
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
+
     }
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -328,17 +339,28 @@ public class AuditActivity extends AppCompatActivity {
     private void choosePicture() {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
+        intent.setAction(Intent.ACTION_PICK);
+//        intent.putExtra("return-data", true);
+//        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+        startActivityForResult(intent, 2);
     }
 
     private void onCaptureImageResult(Intent data){
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        Bitmap image = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+        image.compress(Bitmap.CompressFormat.JPEG,90,bytes);
         byte bb[] = bytes.toByteArray();
+        image.recycle();
         photos.add(bb);
 
+    }
+
+    private void onSelectImageResult(Bitmap image){
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+        byte bb[] = bytes.toByteArray();
+        image.recycle();
+        photos.add(bb);
     }
 
     private void uploadPhotos() {
