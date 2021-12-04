@@ -80,6 +80,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
+import edu.msu.steve702.ua_quality_assurance_platform.ImageDisplayActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.MainActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
@@ -270,6 +271,7 @@ public class AuditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             // generate pdf
             case R.id.option1:
@@ -286,7 +288,7 @@ public class AuditActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.option2:
-                Intent intent = new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent = new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
                 return true;
@@ -294,6 +296,12 @@ public class AuditActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
             case R.id.option3:
                 takePhoto();
+                return true;
+
+            case R.id.option4:
+                intent = new Intent(context, ImageDisplayActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("PHOTOS", photos);
+                startActivity(intent);
                 return true;
         }
     }
