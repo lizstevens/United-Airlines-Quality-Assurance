@@ -299,6 +299,10 @@ public class AuditActivity extends AppCompatActivity {
                 intent.putExtra("PHOTOS", photos);
                 startActivity(intent);
                 return true;
+
+            case R.id.option5:
+                choosePicture();
+                return true;
         }
     }
 
@@ -318,6 +322,13 @@ public class AuditActivity extends AppCompatActivity {
     }
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, 1);
+    }
+
+    private void choosePicture() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
     }
 

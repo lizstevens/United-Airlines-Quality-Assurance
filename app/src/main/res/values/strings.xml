@@ -4,6 +4,7 @@
     <string name="partNumber">Part Number</string>
     <string name="generatePdf">Generate PDF</string>
     <string name="gallery">Gallery</string>
+    <string name="load_image">Load Image</string>
     <string name="header">Technical Operations Quality Assurance: Update In-Process Sheet</string>
     <string name="dashboard">Dashboard</string>
     <string name="create_a_new_audit">Start a New Audit</string>

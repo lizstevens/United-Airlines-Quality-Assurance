@@ -12,6 +12,9 @@
 <!--        android:visible="false" />-->
         />
     <item
+        android:id="@+id/option5"
+        android:title="@string/load_image" />
+    <item
         android:id="@+id/option4"
         android:title="@string/gallery" />
     <item
