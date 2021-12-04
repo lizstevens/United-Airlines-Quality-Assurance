@@ -18,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,7 +38,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -61,8 +59,6 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Text;
 
 import java.io.ByteArrayOutputStream;
@@ -70,8 +66,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -157,7 +153,7 @@ public class AuditActivity extends AppCompatActivity {
         tabChecklist = findViewById(R.id.checklistTabItem);
         tabInProcess = findViewById(R.id.inProcessTabItem);
         tabTableData = findViewById(R.id.tableDataTabItem);
-        viewPager = findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.imageViewPager);
 
         //name of the checklist that was selected from the previous view
         checklist_name = getIntent().getStringExtra("checklistName");
