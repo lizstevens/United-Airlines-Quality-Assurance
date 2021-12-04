@@ -127,6 +127,9 @@ public class AuditActivity extends AppCompatActivity {
     private TechnicalTableDataObject techObject;
     private ChecklistDataObject checklistDataObject;
 
+    // Collection of photos associated with the audit
+    private ArrayList<byte[]> photos = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,9 +272,9 @@ public class AuditActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-//            case R.id.option3:
-//                takePhoto();
-//                return true;
+            case R.id.option3:
+                takePhoto();
+                return true;
         }
     }
 
@@ -299,40 +302,72 @@ public class AuditActivity extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG,90,bytes);
         byte bb[] = bytes.toByteArray();
-        uploadPhoto(bb);
+        photos.add(bb);
+
     }
 
-    private void uploadPhoto(byte[] bb) {
+    private void uploadPhotos() {
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading File....");
-        progressDialog.show();
+        for(byte[] photo : photos){
 
-        final String randomKey = UUID.randomUUID().toString();
-        // Create a reference
-        StorageReference imageRef = storageRef.child("image/" + randomKey);
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading File....");
+            progressDialog.show();
 
-        imageRef.putBytes(bb)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
-                    }
-                });
+            final String randomKey = UUID.randomUUID().toString();
+            // Create a reference
+            StorageReference imageRef = storageRef.child("image/" + randomKey);
+
+            imageRef.putBytes(photo)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                            progressDialog.setMessage("Progress: " + (int) progressPercent + "%");
+                        }
+                    });
+
+            referenceImage(imageRef);
+        }
+
+
+    }
+
+    public void referenceImage(StorageReference ref){
+
+        CollectionReference dbPhotos = db.collection("Audit").document(audit_id).collection("Photos");
+
+
+        Map<String, String> photoMap = new HashMap<>();
+        photoMap.put("checklistID", ref.getBucket() +  ref.getPath());
+        // save in firestore
+        dbPhotos.add(photoMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
+            }
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AuditActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
 
     }
 
@@ -368,6 +403,7 @@ public class AuditActivity extends AppCompatActivity {
                     CollectionReference dbTraceabilityTable = db.collection("Audit").document(audit_id).collection("TraceabilityTable");
                     CollectionReference dbShelfLifeTable = db.collection("Audit").document(audit_id).collection("ShelfLifeTable");
                     CollectionReference dbChecklist = db.collection("Audit").document(audit_id).collection("Checklist");
+                    CollectionReference dbPhotos = db.collection("Audit").document(audit_id).collection("Photos");
 
                     //If audit_id is not null we have to adjust the data by deleting existing data and updating with new data from the fragments
                     if (audit_id != null) {
@@ -502,6 +538,22 @@ public class AuditActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
+                            dbPhotos.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+
+                                        for (DocumentSnapshot doc : task.getResult()) {
+                                            doc.getReference().delete();
+                                        }
+
+                                        uploadPhotos();
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                }
+                            });
                         }
                     }
                 }
@@ -521,6 +573,7 @@ public class AuditActivity extends AppCompatActivity {
                     Toast.makeText(AuditActivity.this, "Audit Information Added", Toast.LENGTH_LONG).show();
                     saveInProcess();
                     saveChecklist();
+                    uploadPhotos();
                     if (pageAdapter.getTableDataFragment().getTablePageAdapter() != null) {
                         pageAdapter.getTableDataFragment().bundleObjects();
                         saveTechnicalDataTable();
