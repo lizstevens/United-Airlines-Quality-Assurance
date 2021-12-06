@@ -43,6 +43,8 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
             ImageView imageView = new ImageView(this);
 
+            imageView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+
             imageView.setImageBitmap(bitmap);
 
             display.addView(imageView);
