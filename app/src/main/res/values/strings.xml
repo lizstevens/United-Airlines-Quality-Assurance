@@ -124,4 +124,5 @@
     <string name="comment">Comment</string>
     <string name="quality_assurance_technical_operations_audit">Quality Assurance Technical Operations Audit</string>
     <string name="return_to_dashboard">Return to Dashboard</string>
+    <string name="return_button">Return</string>
 </resources>

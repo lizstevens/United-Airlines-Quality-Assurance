@@ -296,7 +296,7 @@ public class AuditActivity extends AppCompatActivity {
 
             case R.id.option4:
                 intent = new Intent(context, ImageDisplayActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("PHOTOS", photos);
+                intent.putExtra("PHOTOS", (Serializable) photos);
                 startActivity(intent);
                 return true;
 
@@ -318,7 +318,7 @@ public class AuditActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     Uri imageUri = data.getData();
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                        Bitmap bitmap = (Bitmap) MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                         onSelectImageResult(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -339,7 +339,7 @@ public class AuditActivity extends AppCompatActivity {
     private void choosePicture() {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_PICK);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
 //        intent.putExtra("return-data", true);
 //        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
         startActivityForResult(intent, 2);

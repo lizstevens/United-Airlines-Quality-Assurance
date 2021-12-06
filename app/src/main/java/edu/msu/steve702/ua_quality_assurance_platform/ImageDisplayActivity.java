@@ -1,8 +1,11 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -11,15 +14,28 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 
+import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
+
 
 public class ImageDisplayActivity extends AppCompatActivity {
 
     private ArrayList<byte[]> photos = new ArrayList<>();
 
+    private Button return_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_image);
+
+        return_button = findViewById(R.id.buttonReturn);
+
+        return_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
 
@@ -52,4 +68,5 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
         }
     }
+
 }
