@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -292,7 +294,11 @@ public class AuditActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
             case R.id.option3:
-                takePhoto();
+                try {
+                    takePhoto();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return true;
 
             case R.id.option4:
@@ -363,10 +369,17 @@ public class AuditActivity extends AppCompatActivity {
 
     }
 
-    private void takePhoto() {
+    private void takePhoto() throws IOException {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, "photo");
-        startActivityForResult(intent, 1);
+
+        // Create the File where the photo should go
+        File photoFile = createImageFile();
+
+
+        if (photoFile != null) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+            startActivityForResult(intent, 1);
+        }
     }
 
     private void choosePicture() {
@@ -377,8 +390,10 @@ public class AuditActivity extends AppCompatActivity {
     }
 
     private void onCaptureImageResult(Intent data){
-        if (data.getExtras() != null){
-            Bitmap image = (Bitmap) data.getExtras().get("data");
+        if (data != null){
+            Uri imageUri = data.getData();
+            String filePath = getRealPathFromURI(imageUri);
+            Bitmap image = (Bitmap) BitmapFactory.decodeFile(filePath);
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.JPEG,100,bytes);
             byte bb[] = bytes.toByteArray();
@@ -405,6 +420,28 @@ public class AuditActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private File createImageFile() throws IOException {
+
+        long timeStamp = System.currentTimeMillis();
+        String imageFileName = "NAME_" + timeStamp;
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpeg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        return image;
+    }
+
+    public String getRealPathFromURI(Uri contentUri) {
+        String[] projx = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(contentUri, projx, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 
     private void uploadPhotos() {
@@ -524,6 +561,38 @@ public class AuditActivity extends AppCompatActivity {
                             }
                         });
 
+                        dbChecklist.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+
+                                    for (DocumentSnapshot doc : task.getResult()) {
+                                        doc.getReference().delete();
+                                    }
+
+                                    saveChecklist();
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
+                        dbPhotos.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+
+                                    for (DocumentSnapshot doc : task.getResult()) {
+                                        doc.getReference().delete();
+                                    }
+
+                                    uploadPhotos();
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
                         if (pageAdapter.getTableDataFragment().getTablePageAdapter() != null) {
                             //rebundle table data
                             pageAdapter.getTableDataFragment().bundleObjects();
@@ -624,37 +693,8 @@ public class AuditActivity extends AppCompatActivity {
                                 }
                             });
 
-                            dbChecklist.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
 
-                                        for (DocumentSnapshot doc : task.getResult()) {
-                                            doc.getReference().delete();
-                                        }
 
-                                        saveChecklist();
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
-
-                            dbPhotos.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-
-                                        for (DocumentSnapshot doc : task.getResult()) {
-                                            doc.getReference().delete();
-                                        }
-
-                                        uploadPhotos();
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
                         }
                     }
                 }
