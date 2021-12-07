@@ -29,6 +29,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -78,6 +79,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import edu.msu.steve702.ua_quality_assurance_platform.BuildConfig;
 import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
 import edu.msu.steve702.ua_quality_assurance_platform.ImageDisplayActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.MainActivity;
@@ -129,6 +131,8 @@ public class AuditActivity extends AppCompatActivity {
 
     // Collection of photos associated with the audit
     private ArrayList<byte[]> photos = new ArrayList<>();
+
+    private File photoFile;
 
 
     @Override
@@ -327,7 +331,11 @@ public class AuditActivity extends AppCompatActivity {
                 onDeleteImage(data);
                 break;
             case 1:
-                onCaptureImageResult(data);
+                try {
+                    onCaptureImageResult();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case 2:
@@ -372,14 +380,29 @@ public class AuditActivity extends AppCompatActivity {
     private void takePhoto() throws IOException {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        String photoFileName = "photo.jpg";
+
         // Create the File where the photo should go
-        File photoFile = createImageFile();
+        photoFile = getPhotoFileUri(photoFileName);
 
+        // wrap File object into a content provider
+        // required for API >= 24
+        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+        Uri fileProvider = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", photoFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-        if (photoFile != null) {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+        // So as long as the result is not null, it's safe to use the intent.
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            // Start the image capture intent to take photo
             startActivityForResult(intent, 1);
         }
+
+//        if (photoFile != null) {
+//            Uri photoURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", photoFile);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//            startActivityForResult(intent, 1);
+//        }
     }
 
     private void choosePicture() {
@@ -389,17 +412,19 @@ public class AuditActivity extends AppCompatActivity {
         startActivityForResult(intent, 2);
     }
 
-    private void onCaptureImageResult(Intent data){
-        if (data != null){
-            Uri imageUri = data.getData();
-            String filePath = getRealPathFromURI(imageUri);
-            Bitmap image = (Bitmap) BitmapFactory.decodeFile(filePath);
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-            byte bb[] = bytes.toByteArray();
-            //image.recycle();
-            photos.add(bb);
-        }
+    private void onCaptureImageResult() throws IOException {
+
+//        File file = new File(Environment.getExternalStorageDirectory().getPath(), imageFileName + ".jpg");
+//
+//        Uri imageUri = Uri.fromFile(file);
+
+        Bitmap image = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+        byte bb[] = bytes.toByteArray();
+
+        photos.add(bb);
+
 
     }
 
@@ -422,27 +447,45 @@ public class AuditActivity extends AppCompatActivity {
 
     }
 
-    private File createImageFile() throws IOException {
+    // Returns the File for a photo stored on disk given the fileName
+    public File getPhotoFileUri(String fileName) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Camera");
 
-        long timeStamp = System.currentTimeMillis();
-        String imageFileName = "NAME_" + timeStamp;
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpeg",         /* suffix */
-                storageDir      /* directory */
-        );
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d("Camera", "failed to create directory");
+        }
 
-        return image;
+        // Return the file target for the photo based on filename
+        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
+
+        return file;
     }
 
-    public String getRealPathFromURI(Uri contentUri) {
-        String[] projx = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(contentUri, projx, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
+//    private File createImageFile() throws IOException {
+//
+//        long timeStamp = System.currentTimeMillis();
+//        imageFileName = "NAME_" + timeStamp;
+//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+//
+//        return image;
+//    }
+
+//    public String getRealPathFromURI(Uri contentUri) {
+//        String[] projx = { MediaStore.Images.Media.DATA };
+//        Cursor cursor = managedQuery(contentUri, projx, null, null, null);
+//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(column_index);
+//    }
 
     private void uploadPhotos() {
 

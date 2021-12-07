@@ -104,7 +104,7 @@ public class ImageDisplayActivity extends AppCompatActivity {
             ImageView imageView = new ImageView(this);
 
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            lp.setMargins(10, 10, 10, 10);
+            lp.setMargins(1, 1, 1, 1);
             imageView.setLayoutParams(lp);
 
             imageView.setImageBitmap(bitmap);
