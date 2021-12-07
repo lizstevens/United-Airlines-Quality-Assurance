@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,12 +15,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
+//import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
@@ -31,7 +39,9 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
     private int photoSize;
 
-    private boolean delete = true;
+    private boolean delete;
+
+    private Toolbar mToolbar;
 
     private ArrayList<Integer> toDelete = new ArrayList<>();
 
@@ -42,6 +52,12 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
         return_button = findViewById(R.id.buttonReturn);
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+        delete = false;
+
+
         return_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,12 +65,10 @@ public class ImageDisplayActivity extends AppCompatActivity {
             }
         });
 
+        // Retrieve how many photos are in internal storage
         Bundle extras = getIntent().getExtras();
 
-//        photos = (ArrayList<byte[]>) extras.getSerializable("PHOTOS");
         photoSize = extras.getInt("SIZE");
-
-
 
 
         if(photoSize > 0){
@@ -84,6 +98,7 @@ public class ImageDisplayActivity extends AppCompatActivity {
                 return;
             }
 
+
             Bitmap bitmap = BitmapFactory.decodeStream(infile);
 
             ImageView imageView = new ImageView(this);
@@ -94,25 +109,43 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
             imageView.setImageBitmap(bitmap);
 
-            int index = i;
-
-            imageView.setOnClickListener(new View.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    if(delete){
-
-                        ((ViewGroup)view.getParent()).removeView(view);
-                        toDelete.add(index);
-                    }
-                }
-            });
 
             display.addView(imageView);
 
 
         }
 
+    }
+
+    public void deleteImages() {
+
+        LinearLayout layout = findViewById(R.id.imageLayout);
+
+        for (int i=0; i < layout.getChildCount(); i++) {
+
+            View v = layout.getChildAt(i);
+
+            int index = i;
+
+            // Delete images when selected
+            v.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+
+                    if(delete){
+                        ((ViewGroup)view.getParent()).removeView(view);
+                        toDelete.add(index);
+                    }
+                }
+            });
+
+
+
+
+
+
+        }
     }
 
     public void close(){
@@ -124,11 +157,38 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
         }
 
+        // Close application and return to audit activity
         Intent returnIntent = new Intent();
         returnIntent.putExtra("result", toDelete);
         setResult(Activity.RESULT_OK, returnIntent);
 
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        close();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_gallery, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+      item.setChecked(!delete);
+
+      delete = item.isChecked();
+
+      deleteImages();
+
+      return true;
+
     }
 
 }

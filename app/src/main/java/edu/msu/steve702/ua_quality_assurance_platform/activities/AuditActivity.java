@@ -336,7 +336,9 @@ public class AuditActivity extends AppCompatActivity {
                 }
                 break;
 
+            default:
 
+                break;
 
         }
 
@@ -395,11 +397,14 @@ public class AuditActivity extends AppCompatActivity {
     }
 
     private void onDeleteImage(Intent data){
-        ArrayList<Integer> toDelete = (ArrayList<Integer>) data.getIntegerArrayListExtra("result");
+        if(data != null){
+            ArrayList<Integer> toDelete = (ArrayList<Integer>) data.getIntegerArrayListExtra("result");
 
-        for(Integer del : toDelete){
-            photos.remove((int) del);
+            for(Integer del : toDelete){
+                photos.remove((int) del);
+            }
         }
+
     }
 
     private void uploadPhotos() {

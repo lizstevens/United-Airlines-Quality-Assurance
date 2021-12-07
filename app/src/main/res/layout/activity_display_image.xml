@@ -51,6 +51,7 @@
         android:id="@+id/imageScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#687D9AF3"
         tools:context=".ImageDisplayActivity"
         tools:ignore="SpeakableTextPresentCheck">
 
