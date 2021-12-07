@@ -8,10 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
@@ -23,6 +27,8 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
     private Button return_button;
 
+    private int photoSize;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,33 +39,52 @@ public class ImageDisplayActivity extends AppCompatActivity {
         return_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                close();
             }
         });
 
         Bundle extras = getIntent().getExtras();
 
-        photos = (ArrayList<byte[]>) extras.getSerializable("PHOTOS");
+//        photos = (ArrayList<byte[]>) extras.getSerializable("PHOTOS");
+        photoSize = extras.getInt("SIZE");
 
 
-        if(photos.size() > 0){
+
+
+        if(photoSize > 0){
+
             displayGallery();
         }
+
+
     }
 
     public void displayGallery(){
 
         // Get the view pager to display the image
-        FrameLayout display = findViewById(R.id.imageFrame);
+        ScrollView scrollView = findViewById(R.id.imageScroll);
+
+        LinearLayout display = findViewById(R.id.imageLayout);
+
+
 
         // Add an image view for each photo
-        for(byte[] photo : photos){
+        for(int i=0; i < photoSize; i++){
 
-            Bitmap bitmap = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+            FileInputStream infile;
+            try {
+                infile = openFileInput("photo" + i + ".jpeg");
+            } catch (FileNotFoundException ex) {
+                return;
+            }
+
+            Bitmap bitmap = BitmapFactory.decodeStream(infile);
 
             ImageView imageView = new ImageView(this);
 
-            imageView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            lp.setMargins(10, 10, 10, 10);
+            imageView.setLayoutParams(lp);
 
             imageView.setImageBitmap(bitmap);
 
@@ -67,6 +92,19 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
 
         }
+
+    }
+
+    public void close(){
+
+        // Delete files from internal storage
+        for(int i=0; i < photoSize; i++) {
+
+            deleteFile("photo" + i + ".jpeg");
+
+        }
+
+        finish();
     }
 
 }

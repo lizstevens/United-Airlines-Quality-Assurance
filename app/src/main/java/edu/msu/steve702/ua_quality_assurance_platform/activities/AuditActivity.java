@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -296,8 +297,14 @@ public class AuditActivity extends AppCompatActivity {
 
             case R.id.option4:
                 intent = new Intent(context, ImageDisplayActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("PHOTOS", (Serializable) photos);
-                startActivity(intent);
+                intent.putExtra("SIZE" , photos.size());
+                try {
+                    writeFiles();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                intent.putExtra("PHOTOS" , (Serializable) photos);
+                startActivityForResult(intent, 0);
                 return true;
 
             case R.id.option5:
@@ -308,6 +315,7 @@ public class AuditActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
 
         switch(requestCode){
             case 1:
@@ -331,8 +339,29 @@ public class AuditActivity extends AppCompatActivity {
         }
 
     }
+
+    private void writeFiles() throws IOException {
+
+        for(int i = 0; i < photos.size(); i++){
+            String filename = "photo" + i +".jpeg";
+            FileOutputStream file = null;
+            try {
+                file = openFileOutput(filename, Context.MODE_PRIVATE);
+                file.write(photos.get(i));
+            } catch (FileNotFoundException ex) {
+                return;
+            } catch (IOException ex) {
+                return;
+            } finally {
+                file.close();
+            }
+        }
+
+    }
+
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, "photo");
         startActivityForResult(intent, 1);
     }
 
@@ -340,26 +369,24 @@ public class AuditActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-//        intent.putExtra("return-data", true);
-//        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
         startActivityForResult(intent, 2);
     }
 
     private void onCaptureImageResult(Intent data){
         Bitmap image = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+        image.compress(Bitmap.CompressFormat.JPEG,100,bytes);
         byte bb[] = bytes.toByteArray();
-        image.recycle();
+        //image.recycle();
         photos.add(bb);
 
     }
 
     private void onSelectImageResult(Bitmap image){
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+        image.compress(Bitmap.CompressFormat.JPEG,100,bytes);
         byte bb[] = bytes.toByteArray();
-        image.recycle();
+        //image.recycle();
         photos.add(bb);
     }
 
@@ -409,7 +436,7 @@ public class AuditActivity extends AppCompatActivity {
 
 
         Map<String, String> photoMap = new HashMap<>();
-        photoMap.put("checklistID", "gs://" + ref.getBucket() +  ref.getPath());
+        photoMap.put("URI", "gs://" + ref.getBucket() +  ref.getPath());
         // save in firestore
         dbPhotos.add(photoMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
