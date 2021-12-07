@@ -1,10 +1,12 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -28,6 +30,10 @@ public class ImageDisplayActivity extends AppCompatActivity {
     private Button return_button;
 
     private int photoSize;
+
+    private boolean delete = true;
+
+    private ArrayList<Integer> toDelete = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +94,20 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
             imageView.setImageBitmap(bitmap);
 
+            int index = i;
+
+            imageView.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    if(delete){
+
+                        ((ViewGroup)view.getParent()).removeView(view);
+                        toDelete.add(index);
+                    }
+                }
+            });
+
             display.addView(imageView);
 
 
@@ -103,6 +123,10 @@ public class ImageDisplayActivity extends AppCompatActivity {
             deleteFile("photo" + i + ".jpeg");
 
         }
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", toDelete);
+        setResult(Activity.RESULT_OK, returnIntent);
 
         finish();
     }

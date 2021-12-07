@@ -303,7 +303,6 @@ public class AuditActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                intent.putExtra("PHOTOS" , (Serializable) photos);
                 startActivityForResult(intent, 0);
                 return true;
 
@@ -318,6 +317,9 @@ public class AuditActivity extends AppCompatActivity {
 
 
         switch(requestCode){
+            case 0:
+                onDeleteImage(data);
+                break;
             case 1:
                 onCaptureImageResult(data);
                 break;
@@ -373,12 +375,14 @@ public class AuditActivity extends AppCompatActivity {
     }
 
     private void onCaptureImageResult(Intent data){
-        Bitmap image = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-        byte bb[] = bytes.toByteArray();
-        //image.recycle();
-        photos.add(bb);
+        if (data.getExtras() != null){
+            Bitmap image = (Bitmap) data.getExtras().get("data");
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+            byte bb[] = bytes.toByteArray();
+            //image.recycle();
+            photos.add(bb);
+        }
 
     }
 
@@ -388,6 +392,14 @@ public class AuditActivity extends AppCompatActivity {
         byte bb[] = bytes.toByteArray();
         //image.recycle();
         photos.add(bb);
+    }
+
+    private void onDeleteImage(Intent data){
+        ArrayList<Integer> toDelete = (ArrayList<Integer>) data.getIntegerArrayListExtra("result");
+
+        for(Integer del : toDelete){
+            photos.remove((int) del);
+        }
     }
 
     private void uploadPhotos() {
