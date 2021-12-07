@@ -439,7 +439,7 @@ public class AuditActivity extends AppCompatActivity {
         if(data != null){
             ArrayList<Integer> toDelete = (ArrayList<Integer>) data.getIntegerArrayListExtra("result");
 
-            for(Integer del : toDelete){
+            for(Integer del=toDelete.size()-1;  del >= 0; del--){
                 photos.remove((int) del);
             }
         }
