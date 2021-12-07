@@ -432,7 +432,6 @@ public class AuditActivity extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG,100,bytes);
         byte bb[] = bytes.toByteArray();
-        //image.recycle();
         photos.add(bb);
     }
 
@@ -465,27 +464,7 @@ public class AuditActivity extends AppCompatActivity {
         return file;
     }
 
-//    private File createImageFile() throws IOException {
-//
-//        long timeStamp = System.currentTimeMillis();
-//        imageFileName = "NAME_" + timeStamp;
-//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//        File image = File.createTempFile(
-//                imageFileName,  /* prefix */
-//                ".jpg",         /* suffix */
-//                storageDir      /* directory */
-//        );
-//
-//        return image;
-//    }
 
-//    public String getRealPathFromURI(Uri contentUri) {
-//        String[] projx = { MediaStore.Images.Media.DATA };
-//        Cursor cursor = managedQuery(contentUri, projx, null, null, null);
-//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//        cursor.moveToFirst();
-//        return cursor.getString(column_index);
-//    }
 
     private void uploadPhotos() {
 
