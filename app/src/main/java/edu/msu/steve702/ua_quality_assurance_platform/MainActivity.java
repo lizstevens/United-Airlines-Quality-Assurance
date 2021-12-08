@@ -3,50 +3,44 @@ package edu.msu.steve702.ua_quality_assurance_platform;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileObserver;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-//import com.google.firebase.storage.FirebaseStorage;
-//import com.google.firebase.storage.OnProgressListener;
-//import com.google.firebase.storage.StorageReference;
-//import com.google.firebase.storage.UploadTask;
-
 import java.io.File;
 import java.io.FilenameFilter;
 
 import edu.msu.steve702.ua_quality_assurance_platform.activities.CheckListListActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.activities.EditAuditListActivity;
+import edu.msu.steve702.ua_quality_assurance_platform.activities.pdfActivity;
 
-
+/**
+ * MainActivity Class
+ * Activity that displays the main dashboard of the application and handles all dashboard functions.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /** New Audit Button View **/
     private Button newAuditButton;
+    /** Edit Audit Button View **/
     private Button editAuditButton;
-    private Button uploadImageButton;
 
-    private FileObserver observer;
-//    private FirebaseStorage storage;
-//    private StorageReference storageRef;
-    public Uri imageUri;
-
+    /**
+     * Function for creating the Main Acitivity
+     * @param savedInstanceState the saved instance state of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        storage = FirebaseStorage.getInstance();
-//        storageRef = storage.getReference();
         newAuditButton = (Button)findViewById(R.id.createAudit);
         newAuditButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,87 +56,26 @@ public class MainActivity extends AppCompatActivity {
                 startEditAuditActivity();
             }
         });
-//        uploadImageButton = findViewById(R.id.uploadImage);
-//
-//        uploadImageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                choosePicture();
-//            }
-//        });
-
     }
 
-//    public void openInProcessActivity() {
-////        Intent intent = new Intent(this, InProcessActivity.class);
-////        startActivity(intent);
-////    }
-
+    /**
+     * Function for starting a new Audit Activity
+     */
     public void startNewAuditActivity() {
         Intent intent = new Intent(this, CheckListListActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Function for starting an edit Audit Activity
+     */
     public void startEditAuditActivity() {
         startActivity(new Intent(this, EditAuditListActivity.class));
     }
 
-    private void choosePicture() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
-    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-//            imageUri = data.getData();
-//            uploadImage(imageUri);
-//        }
-//    }
-//
-//    private void uploadImage(Uri imageUri) {
-//
-//        final ProgressDialog pd =new ProgressDialog(this);
-//        pd.setTitle("Uploading Image...");
-//        pd.show();
-//
-//        final String randomKey = UUID.randomUUID().toString();
-//        // Create a reference
-//        StorageReference imageRef = storageRef.child("image/" + randomKey);
-//
-//        // While the file names are the same, the references point to different files
-//        imageRef.getName().equals(imageRef.getName());    // true
-//        imageRef.getPath().equals(imageRef.getPath());    // false
-//
-//        imageRef.putFile(imageUri)
-//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        Snackbar.make(findViewById(android.R.id.content),"Image Uploaded",Snackbar.LENGTH_LONG).show();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        pd.dismiss();
-//                        Toast.makeText(getApplicationContext(),"Failed Tp Upload", Toast.LENGTH_LONG).show();
-//                    }
-//                })
-//                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-//                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-//                        pd.setMessage("Progress: " + (int) progressPercent + "%");
-//                    }
-//                });
-//
-//    }
-
-
-
+    /**
+     * Function for resuming the Activity
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -165,15 +98,14 @@ public class MainActivity extends AppCompatActivity {
 
         if(files.length > 0){
 
-
             // Add table layout
 
             TableLayout tl = new TableLayout(this);
 
-
             tl.setId(R.id.RegTable);
 
-            tl.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT));
+            tl.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.MATCH_PARENT));
 
             tl.setStretchAllColumns(true);
 
@@ -194,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
 
             header.setBackgroundDrawable(shape);
 
-            //header.setBackgroundColor(getColor(R.color.UnitedBlue));
-
             TextView file = new TextView(this);
             file.setText("Airworthiness Directives");
             file.setTextColor(getColor(android.R.color.white));
@@ -213,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
             delete.setTypeface(null, Typeface.BOLD);
             header.addView(delete);
 
-
-
             tl.addView(header);
 
             for(int i=0; i < files.length; i++){
@@ -224,15 +152,14 @@ public class MainActivity extends AppCompatActivity {
                 fileName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 fileName.setTextSize(12);
 
-
-
                 int finalI = i;
                 fileName.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
 
 
-                        Intent intent = new Intent(MainActivity.this, pdfActivity.class);
+                        Intent intent = new Intent(MainActivity.this,
+                                pdfActivity.class);
                         intent.putExtra("URI", Uri.fromFile(files[finalI]).toString());
                         startActivity(intent);
 
@@ -241,13 +168,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-
                 tableRow.addView(fileName);
 
                 Button button = new Button(this);
                 button.setText("Delete");
                 button.setTextSize(12);
-                button.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                button.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
 
                 button.setOnClickListener(new View.OnClickListener(){
 
@@ -274,20 +201,17 @@ public class MainActivity extends AppCompatActivity {
             layout.addView(tl);
         }
 
-        
-
-
     }
 
+    /**
+     * Function for getting the regulation documents
+     * @param view the view of the FAA regulations
+     */
     public void onGetRegulations(View view){
         Intent httpIntent = new Intent(Intent.ACTION_VIEW);
         httpIntent.setData(Uri.parse("http://35.9.22.101"));
 
-
-
         startActivity(httpIntent);
-
-
-
     }
+
 }

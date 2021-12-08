@@ -1,16 +1,20 @@
 package edu.msu.steve702.ua_quality_assurance_platform.data_objects;
 
-import android.os.Parcelable;
-import android.widget.EditText;
-
 import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
 
+/**
+ * InProcessObject Class
+ * Serializable Object that represents the data for an in process table within an Audit.
+ * Used for database management.
+ */
 public class InProcessObject implements Serializable {
 
-    @Exclude private String id;
+    @Exclude
+    private String id;
 
+    /** Data Variables **/
     private String employeeNameObj;
     private String partNumberObj;
     private String serialNumberObj;
@@ -23,10 +27,17 @@ public class InProcessObject implements Serializable {
     private String reqTrainingObj;
     private String trainingDateObj;
 
+    /** Empty Constructor **/
     public InProcessObject() {
-
     }
-    public InProcessObject(final String employeeNameObj, final String partNumberObj, final String serialNumberObj, final String nomenclatureObj, final String taskObj, final String techSpecificationsObj, final String toolingObj, final String shelfLifeObj, final String traceObj, final String reqTrainingObj, final String trainingDateObj) {
+
+    /** Constructor **/
+    public InProcessObject(final String employeeNameObj, final String partNumberObj,
+                           final String serialNumberObj, final String nomenclatureObj,
+                           final String taskObj, final String techSpecificationsObj,
+                           final String toolingObj, final String shelfLifeObj,
+                           final String traceObj, final String reqTrainingObj,
+                           final String trainingDateObj) {
         this.employeeNameObj = employeeNameObj;
         this.partNumberObj = partNumberObj;
         this.serialNumberObj = serialNumberObj;
@@ -40,57 +51,34 @@ public class InProcessObject implements Serializable {
         this.trainingDateObj = trainingDateObj;
     }
 
-    public String getId() {
-        return this.id;
-    }
+    /** Respective Getters and Setters **/
 
-    public void setId(final String id) {
-        this.id = id;
-    }
+    public String getId() { return this.id; }
 
-    public String getEmployeeNameObj() {
-        return this.employeeNameObj;
-    }
+    public void setId(final String id) { this.id = id; }
+
+    public String getEmployeeNameObj() { return this.employeeNameObj; }
 
     public String getPartNumberObj() {
         return this.partNumberObj;
     }
 
-    public String getSerialNumberObj() {
-        return this.serialNumberObj;
-    }
+    public String getSerialNumberObj() { return this.serialNumberObj; }
 
-    public String getNomenclatureObj() {
-        return this.nomenclatureObj;
-    }
+    public String getNomenclatureObj() { return this.nomenclatureObj; }
 
-    public String getTaskObj() {
-        return this.taskObj;
-    }
+    public String getTaskObj() { return this.taskObj; }
 
-    public String getTechSpecificationsObj() {
-        return this.techSpecificationsObj;
-    }
+    public String getTechSpecificationsObj() { return this.techSpecificationsObj; }
 
-    public String getToolingObj() {
-        return this.toolingObj;
-    }
+    public String getToolingObj() { return this.toolingObj; }
 
-    public String getShelfLifeObj() {
-        return this.shelfLifeObj;
-    }
+    public String getShelfLifeObj() { return this.shelfLifeObj; }
 
-    public String getTraceObj() {
-        return this.traceObj;
-    }
+    public String getTraceObj() { return this.traceObj; }
 
-    public String getReqTrainingObj() {
-        return this.reqTrainingObj;
-    }
+    public String getReqTrainingObj() { return this.reqTrainingObj; }
 
-    public String getTrainingDateObj() {
-        return this.trainingDateObj;
-    }
-
+    public String getTrainingDateObj() { return this.trainingDateObj; }
 
 }

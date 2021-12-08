@@ -5,10 +5,17 @@ import com.google.firebase.firestore.Exclude;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * CalibrationTableDataObject Class
+ * Serializable Object that represents the data for Calibration table within an Audit.
+ * Used for database management.
+ */
 public class CalibrationTableDataObject implements Serializable {
+
     @Exclude
     String id;
 
+    /** Data Variables **/
     private List<String> row1;
     private List<String> row2;
     private List<String> row3;
@@ -25,9 +32,11 @@ public class CalibrationTableDataObject implements Serializable {
     private List<String> row14;
     private List<String> row15;
 
+    /** Empty Constructor **/
+    public CalibrationTableDataObject() {
+    }
 
-    public CalibrationTableDataObject() {}
-
+    /** Constuctor **/
     public CalibrationTableDataObject(List<String> row1,
                                       List<String> row2,
                                       List<String> row3,
@@ -57,129 +66,72 @@ public class CalibrationTableDataObject implements Serializable {
         this.row12 = row12;
         this.row13 = row13;
         this.row14 = row14;
-        this.row15= row15;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-    public void setId(final String id) {
-        this.id = id;
-    }
-
-    public List<String> getRow1() {return this.row1; }
-    public void setRow1(final List<String> row1) { this.row1 = row1; }
-
-    public List<String> getRow2() {
-        return this.row2;
-    }
-
-    public void setRow2(final List<String> row2) {
-        this.row2 = row2;
-    }
-
-    public List<String> getRow3() {
-        return this.row3;
-    }
-
-    public void setRow3(final List<String> row3) {
-        this.row3 = row3;
-    }
-
-    public List<String> getRow4() {
-        return this.row4;
-    }
-
-    public void setRow4(final List<String> row4) {
-        this.row4 = row4;
-    }
-
-    public List<String> getRow5() {
-        return this.row5;
-    }
-
-    public void setRow5(final List<String> row5) {
-        this.row5 = row5;
-    }
-
-    public List<String> getRow6() {
-        return this.row6;
-    }
-
-    public void setRow6(final List<String> row6) {
-        this.row6 = row6;
-    }
-
-    public List<String> getRow7() {
-        return this.row7;
-    }
-
-    public void setRow7(final List<String> row7) {
-        this.row7 = row7;
-    }
-
-    public List<String> getRow8() {
-        return this.row8;
-    }
-
-    public void setRow8(final List<String> row8) {
-        this.row8 = row8;
-    }
-
-    public List<String> getRow9() {
-        return this.row9;
-    }
-
-    public void setRow9(final List<String> row9) {
-        this.row9 = row9;
-    }
-
-    public List<String> getRow10() {
-        return this.row10;
-    }
-
-    public void setRow10(final List<String> row10) {
-        this.row10 = row10;
-    }
-
-    public List<String> getRow11() {
-        return this.row11;
-    }
-
-    public void setRow11(final List<String> row11) {
-        this.row11 = row11;
-    }
-
-    public List<String> getRow12() {
-        return this.row12;
-    }
-
-    public void setRow12(final List<String> row12) {
-        this.row12 = row12;
-    }
-
-    public List<String> getRow13() {
-        return this.row13;
-    }
-
-    public void setRow13(final List<String> row13) {
-        this.row13 = row13;
-    }
-
-    public List<String> getRow14() {
-        return this.row14;
-    }
-
-    public void setRow14(final List<String> row14) {
-        this.row14 = row14;
-    }
-
-    public List<String> getRow15() {
-        return this.row15;
-    }
-
-    public void setRow15(final List<String> row15) {
         this.row15 = row15;
     }
+
+    /** Respective Getters and Setters **/
+    public String getId() { return this.id; }
+
+    public void setId(final String id) { this.id = id; }
+
+    public List<String> getRow1() { return this.row1; }
+
+    public void setRow1(final List<String> row1) { this.row1 = row1; }
+
+    public List<String> getRow2() { return this.row2; }
+
+    public void setRow2(final List<String> row2) { this.row2 = row2; }
+
+    public List<String> getRow3() { return this.row3; }
+
+    public void setRow3(final List<String> row3) { this.row3 = row3; }
+
+    public List<String> getRow4() { return this.row4; }
+
+    public void setRow4(final List<String> row4) { this.row4 = row4; }
+
+    public List<String> getRow5() { return this.row5; }
+
+    public void setRow5(final List<String> row5) { this.row5 = row5; }
+
+    public List<String> getRow6() { return this.row6; }
+
+    public void setRow6(final List<String> row6) { this.row6 = row6; }
+
+    public List<String> getRow7() { return this.row7; }
+
+    public void setRow7(final List<String> row7) { this.row7 = row7; }
+
+    public List<String> getRow8() { return this.row8; }
+
+    public void setRow8(final List<String> row8) { this.row8 = row8; }
+
+    public List<String> getRow9() { return this.row9; }
+
+    public void setRow9(final List<String> row9) { this.row9 = row9; }
+
+    public List<String> getRow10() { return this.row10; }
+
+    public void setRow10(final List<String> row10) { this.row10 = row10; }
+
+    public List<String> getRow11() { return this.row11; }
+
+    public void setRow11(final List<String> row11) { this.row11 = row11; }
+
+    public List<String> getRow12() { return this.row12; }
+
+    public void setRow12(final List<String> row12) { this.row12 = row12; }
+
+    public List<String> getRow13() { return this.row13; }
+
+    public void setRow13(final List<String> row13) { this.row13 = row13; }
+
+    public List<String> getRow14() { return this.row14; }
+
+    public void setRow14(final List<String> row14) { this.row14 = row14; }
+
+    public List<String> getRow15() { return this.row15; }
+
+    public void setRow15(final List<String> row15) { this.row15 = row15; }
 
 }

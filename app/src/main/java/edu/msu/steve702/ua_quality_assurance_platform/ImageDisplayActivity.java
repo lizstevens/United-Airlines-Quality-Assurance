@@ -11,40 +11,40 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Toast;
-//import android.widget.Toolbar;
 import androidx.appcompat.widget.Toolbar;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
 
-
+/**
+ * ImageDisplayActivity Class
+ * Class for displaying an image in the image activity.
+ */
 public class ImageDisplayActivity extends AppCompatActivity {
 
+    /** byte array of photos **/
     private ArrayList<byte[]> photos = new ArrayList<>();
-
+    /** return button **/
     private Button return_button;
-
+    /** photo size **/
     private int photoSize;
-
+    /** boolean to delete a photo **/
     private boolean delete;
-
+    /** the toolbar **/
     private Toolbar mToolbar;
-
+    /** list of images to delete **/
     private ArrayList<Integer> toDelete = new ArrayList<>();
 
+    /**
+     * Function to create the activity
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,10 +75,11 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
             displayGallery();
         }
-
-
     }
 
+    /**
+     * Function to display the photo gallery
+     */
     public void displayGallery(){
 
         // Get the view pager to display the image
@@ -118,6 +119,9 @@ public class ImageDisplayActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Function to delete an image
+     */
     public void deleteImages() {
 
         LinearLayout layout = findViewById(R.id.imageLayout);
@@ -141,14 +145,12 @@ public class ImageDisplayActivity extends AppCompatActivity {
                 }
             });
 
-
-
-
-
-
         }
     }
 
+    /**
+     * Function close the activity
+     */
     public void close(){
 
         // Delete files from internal storage
@@ -166,12 +168,20 @@ public class ImageDisplayActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * function to destroy the activity
+     */
     @Override
     public void onBackPressed() {
         close();
     }
 
 
+    /**
+     * Function to create the menu options for this activity
+     * @param menu the menu
+     * @return boolean representing if the menu is created
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -179,6 +189,11 @@ public class ImageDisplayActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Function called when a menu option is selected
+     * @param item the item selected
+     * @return boolean representing if the item was selected
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

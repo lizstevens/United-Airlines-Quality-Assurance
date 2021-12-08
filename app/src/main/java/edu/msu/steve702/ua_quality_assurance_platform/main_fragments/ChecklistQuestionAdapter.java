@@ -2,32 +2,28 @@ package edu.msu.steve702.ua_quality_assurance_platform.main_fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.R;
-import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
-import edu.msu.steve702.ua_quality_assurance_platform.table_data_sub_fragments.ShelfLifeTableFragment;
 
-import static android.content.ContentValues.TAG;
-
+/**
+ * CheckListQuestion
+ * Represents the tab view for the audit spec fragment in the AuditAcitvity Class.
+ */
 public class ChecklistQuestionAdapter extends RecyclerView.Adapter<ChecklistQuestionAdapter.CheckListQuestionViewHolder> {
     private Integer currentSection;
     private List<String> questionList;

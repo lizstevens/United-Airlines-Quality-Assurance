@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -71,7 +69,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -94,47 +91,64 @@ import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TechnicalTabl
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TraceabilityTableDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TrainingTableDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditPageAdapter;
-import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.AuditSpecFragment;
-import edu.msu.steve702.ua_quality_assurance_platform.main_fragments.InProcessFragment;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * AuditActivity Class
+ *
+ * This class handles the following functionalities:
+ * Drives the activity for filling out an audit.
+ * Handles database management for saving an audit.
+ * Allows image captures and uploads.
+ * Generating audit pdf.
+ */
 public class AuditActivity extends AppCompatActivity {
+
+    /** string for pdf file type **/
     String PDF = ".pdf";
+    /** The toolbar view **/
     Toolbar toolbar;
+    /** the tab layout view **/
     TabLayout tabLayout;
+    /** the view pager view **/
     ViewPager viewPager;
+    /** the audit page adapter **/
     AuditPageAdapter pageAdapter;
+    /** tab items **/
     TabItem tabAuditSpecs;
     TabItem tabChecklist;
     TabItem tabInProcess;
     TabItem tabTableData;
+    /** String for the checklist names **/
     String checklist_name;
+    /** view for the save button **/
     Button save_button;
+    /** progress dialog **/
     private ProgressDialog progressDialog;
-    private Button auditSpecsSaveBtn;
-    private Button inProcessSaveBtn;
+    /** image uri **/
     public Uri imageUri;
+    /** Firestore reference **/
     public FirebaseFirestore db;
+    /** Storage reference **/
     private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
-    private AuditSpecFragment auditSpecFragment;
-    private InProcessFragment inProcessFragment;
-
+    /** string representing this audit's id **/
     private String audit_id;
+    /** the application context **/
     private Context context;
-
+    /** the checklist data object **/
     private ChecklistDataObject checklist;
-    private AuditObject auditObject;
-    private TechnicalTableDataObject techObject;
-    private ChecklistDataObject checklistDataObject;
-
-    // Collection of photos associated with the audit
+    /** Collection of photos associated with the audit **/
     private ArrayList<byte[]> photos = new ArrayList<>();
-
+    /** the photo file **/
     private File photoFile;
 
 
+    /**
+     * Function to create the activitiy
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,7 +176,7 @@ public class AuditActivity extends AppCompatActivity {
         tabTableData = findViewById(R.id.tableDataTabItem);
         viewPager = findViewById(R.id.imageViewPager);
 
-        //name of the checklist that was selected from the previous view
+        // name of the checklist that was selected from the previous view
         checklist_name = getIntent().getStringExtra("checklistName");
         if (getIntent().getExtras() != null & !getIntent().getExtras().containsKey("editing")) {
             try {
@@ -232,12 +246,6 @@ public class AuditActivity extends AppCompatActivity {
             }
         }
 
-//        if (savedInstanceState != null) {
-//            // Restore the fragment's instance
-//            auditSpecFragment = (AuditSpecFragment) getSupportFragmentManager().getFragment(savedInstanceState, "auditSpecsFragment");
-//            inProcessFragment = (InProcessFragment) getSupportFragmentManager().getFragment(savedInstanceState, "inProcessFragment");
-//        }
-
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -265,6 +273,11 @@ public class AuditActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Function for creating the menu options
+     * @param menu the menu view
+     * @return a boolean representing that the menu was created
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -272,6 +285,11 @@ public class AuditActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Function for whe a menu option has been selected
+     * @param item the menu item selected
+     * @return boolean representing that an option was selected
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
@@ -279,11 +297,8 @@ public class AuditActivity extends AppCompatActivity {
             // generate pdf
             case R.id.option1:
                 Toast.makeText(this, "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show();
-//                List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
                 try {
                     createChecklistPdf(pageAdapter.getChecklistFragment().getChecklistDataObject());
-//                    createInProcessPdf(inProcessList);
-//                    createTechTablePdf(techObject);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -315,16 +330,20 @@ public class AuditActivity extends AppCompatActivity {
                 }
                 startActivityForResult(intent, 0);
                 return true;
-
             case R.id.option5:
                 choosePicture();
                 return true;
         }
     }
 
+    /**
+     * Function for when an image is selected during the activity.
+     * @param requestCode integer representing the type of request code
+     * @param resultCode integer representing the type of result code
+     * @param data the intent data
+     */
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
 
         switch(requestCode){
             case 0:
@@ -355,9 +374,12 @@ public class AuditActivity extends AppCompatActivity {
                 break;
 
         }
-
     }
 
+    /**
+     * Function for writing photo files.
+     * @throws IOException io exception
+     */
     private void writeFiles() throws IOException {
 
         for(int i = 0; i < photos.size(); i++){
@@ -377,6 +399,10 @@ public class AuditActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Function for taking a photo within the application
+     * @throws IOException io exception
+     */
     private void takePhoto() throws IOException {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -398,13 +424,11 @@ public class AuditActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         }
 
-//        if (photoFile != null) {
-//            Uri photoURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", photoFile);
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//            startActivityForResult(intent, 1);
-//        }
     }
 
+    /**
+     * Function to choose a picture from the gallery
+     */
     private void choosePicture() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -412,11 +436,11 @@ public class AuditActivity extends AppCompatActivity {
         startActivityForResult(intent, 2);
     }
 
+    /**
+     * Function for capturing an image result.
+     * @throws IOException io exception
+     */
     private void onCaptureImageResult() throws IOException {
-
-//        File file = new File(Environment.getExternalStorageDirectory().getPath(), imageFileName + ".jpg");
-//
-//        Uri imageUri = Uri.fromFile(file);
 
         Bitmap image = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -425,9 +449,12 @@ public class AuditActivity extends AppCompatActivity {
 
         photos.add(bb);
 
-
     }
 
+    /**
+     * Function for capturing an image that was selected
+     * @param image the image bitmap
+     */
     private void onSelectImageResult(Bitmap image){
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG,100,bytes);
@@ -435,9 +462,14 @@ public class AuditActivity extends AppCompatActivity {
         photos.add(bb);
     }
 
+    /**
+     * Function for deleting an image
+     * @param data the intent data
+     */
     private void onDeleteImage(Intent data){
         if(data != null){
-            ArrayList<Integer> toDelete = (ArrayList<Integer>) data.getIntegerArrayListExtra("result");
+            ArrayList<Integer> toDelete = (ArrayList<Integer>) data.getIntegerArrayListExtra(
+                    "result");
 
             for(Integer del=toDelete.size()-1;  del >= 0; del--){
                 photos.remove((int) del);
@@ -446,12 +478,17 @@ public class AuditActivity extends AppCompatActivity {
 
     }
 
-    // Returns the File for a photo stored on disk given the fileName
+    /**
+     *  Returns the File for a photo stored on disk given the fileName
+     * @param fileName the filename
+     * @return the file that is returned from the filename
+     */
     public File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
         // Use `getExternalFilesDir` on Context to access package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Camera");
+        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "Camera");
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
@@ -464,8 +501,9 @@ public class AuditActivity extends AppCompatActivity {
         return file;
     }
 
-
-
+    /**
+     * Function to upload photos associate with the audit to the database
+     */
     private void uploadPhotos() {
 
         for(byte[] photo : photos){
@@ -503,13 +541,15 @@ public class AuditActivity extends AppCompatActivity {
             referenceImage(imageRef);
         }
 
-
     }
 
+    /**
+     * Creating a reference in the database to the image that was collected for the audit
+     * @param ref the storage reference
+     */
     public void referenceImage(StorageReference ref){
 
         CollectionReference dbPhotos = db.collection("Audit").document(audit_id).collection("Photos");
-
 
         Map<String, String> photoMap = new HashMap<>();
         photoMap.put("URI", "gs://" + ref.getBucket() +  ref.getPath());
@@ -527,21 +567,24 @@ public class AuditActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
+    /**
+     * Override method for saving the instance state for the activity.
+     * @param outState the out state
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        //Save the fragment's instance
-        //getSupportFragmentManager().putFragment(outState, "auditSpecsFragment", auditSpecFragment);
-        //getSupportFragmentManager().putFragment(outState, "inProcessFragment", inProcessFragment);
     }
 
 
+    /** The following functions are used for saving audit data to the database **/
 
+    /**
+     * Function for saving the audit spec data to the database.
+     */
     private void saveAuditSpecs() {
         pageAdapter.getAuditSpecFragment().bundleObject();
         AuditObject auditObject = pageAdapter.getAuditSpecFragment().getAuditObject();
@@ -759,9 +802,10 @@ public class AuditActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Function for saving the inprocess sheets to the database
+     */
     private void saveInProcess() {
-        //pageAdapter.getInProcessFragment().bundleObject();
         List<InProcessObject> inProcessList = pageAdapter.getInProcessFragment().getInProcessList();
 
         CollectionReference dbInProcessSheets = db.collection("Audit").document(audit_id).collection("in-process");
@@ -783,14 +827,11 @@ public class AuditActivity extends AppCompatActivity {
             });
         }
 
-//        try {
-//            createPdf(inProcessList);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
+    /**
+     * Function for saving the technical data table to the database
+     */
     public void saveTechnicalDataTable() {
         if (pageAdapter.getTableDataFragment().getTablePageAdapter().getTechDataFragment().getFragmentView() != null) {
             TechnicalTableDataObject techObject = pageAdapter.getTableDataFragment().getTechnicalTableDataObject();
@@ -813,6 +854,9 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for saving the ROM table to the database
+     */
     public void saveROMTable() {
         if (pageAdapter.getTableDataFragment().getTablePageAdapter().getRomTableFragment().getFragmentView() != null) {
             ROMTableDataObject romObject = pageAdapter.getTableDataFragment().getRomTableDataObject();
@@ -835,6 +879,9 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for saving the calibration table to the database
+     */
     public void saveCalibrationTable() {
         if (pageAdapter.getTableDataFragment().getTablePageAdapter().getCalTableFragment().getFragmentView() != null) {
             CalibrationTableDataObject calObject = pageAdapter.getTableDataFragment().getCalibrationTableDataObject();
@@ -857,6 +904,9 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for saving the training table to the database
+     */
     public void saveTrainingTable() {
         if (pageAdapter.getTableDataFragment().getTablePageAdapter().getTrainTableFragment().getFragmentView() != null) {
             TrainingTableDataObject trainObject = pageAdapter.getTableDataFragment().getTrainingTableDataObject();
@@ -878,6 +928,9 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for saving the traceability table to the database
+     */
     public void saveTraceabilityTable() {
         if (pageAdapter.getTableDataFragment().getTablePageAdapter().getTraceTableFragment().getFragmentView() != null) {
             TraceabilityTableDataObject traceObject = pageAdapter.getTableDataFragment().getTraceabilityTableDataObject();
@@ -900,6 +953,9 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for saving the shelf life table to the database
+     */
     public void saveShelfLifeTable() {
         if (pageAdapter.getTableDataFragment().getTablePageAdapter().getShelfTableFragment().getFragmentView() != null) {
             ShelfLifeTableDataObject shelfObject = pageAdapter.getTableDataFragment().getShelfLifeTableDataObject();
@@ -923,7 +979,9 @@ public class AuditActivity extends AppCompatActivity {
     }
 
 
-    // Save checklist to firestore database
+    /**
+     * Function for saving the checklist to the database
+     */
     public void saveChecklist() {
         if(pageAdapter.getChecklistFragment().getQuestionAdapter() != null) {
             ChecklistDataObject checklistDataObject = pageAdapter.getChecklistFragment().getChecklistDataObject();
@@ -951,7 +1009,6 @@ public class AuditActivity extends AppCompatActivity {
 
                 String json_str = new Gson().toJson(checklistDataObject.get(i));
 
-                //checklistDataObject.setMapString(json_str);
 
                 Map<String, String> map = new HashMap<>();
                 map.put(String.valueOf(i), json_str);
@@ -960,7 +1017,6 @@ public class AuditActivity extends AppCompatActivity {
                 dbChecklist.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        //Toast.makeText(AuditActivity.this, "Checklist Added" , Toast.LENGTH_LONG).show();
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
@@ -976,12 +1032,20 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+
+    /** The following functions are used for generating a pdf with the audit data **/
+
+    /**
+     * Function for adding the checklist data to the generated pdf
+     * @param checklistDataObject the checklist data object containing checklist data
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void createChecklistPdf(ChecklistDataObject checklistDataObject) throws FileNotFoundException, IOException {
         if(pageAdapter.getChecklistFragment().getChecklistDataObject() != null) {
             String titleName = pageAdapter.getAuditSpecFragment().getAuditObject().getAuditTitleObj().replaceAll("[^a-zA-Z0-9]", "");
             String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
             File file = new File(pdfPath, titleName + PDF);
-//            File file = new File(pdfPath,  "TestInProcess.pdf");
 
             OutputStream outputStream = new FileOutputStream(file);
 
@@ -1056,9 +1120,16 @@ public class AuditActivity extends AppCompatActivity {
             document.close();
             Toast.makeText(getApplicationContext(), "PDF Created", Toast.LENGTH_LONG).show();
         }
-//        }
+
     }
 
+    /**
+     * Function for adding the inprocess sheets to a generated pdf
+     * @param inProcessList The list of inprocess sheets that are currently in the audit
+     * @param document the pdf document
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void createInProcessPdf(List<InProcessObject> inProcessList, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getInProcessFragment().getInProcessList() != null) {
             for (InProcessObject inProcessObject : inProcessList) {
@@ -1177,6 +1248,13 @@ public class AuditActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Function for adding the technical data table to the generated pdf.
+     * @param techObject The technical data table object
+     * @param document the pdf document generated
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void createTechTablePdf(TechnicalTableDataObject techObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getTechnicalTableDataObject() != null) {
             PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
@@ -1383,6 +1461,13 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for adding the ROM table to the generated pdf
+     * @param romTableDataObject the rom table data object
+     * @param document the generated pdf document
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void createROMTablePdf(ROMTableDataObject romTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getRomTableDataObject() != null) {
             PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
@@ -1544,6 +1629,13 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for adding the calibration table to the pdf.
+     * @param calibrationTableDataObject the calibration data table object
+     * @param document the generated pdf document
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void createCalibrationPdf(CalibrationTableDataObject calibrationTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getCalibrationTableDataObject() != null) {
             PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
@@ -1753,6 +1845,13 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for adding the Training table to the generated pdf
+     * @param trainingTableDataObject the training table data object
+     * @param document the generated pdf document
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void createTrainingPdf(TrainingTableDataObject trainingTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getTrainingTableDataObject() != null) {
             PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
@@ -1910,6 +2009,13 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for adding the traceability table to the generated pdf
+     * @param traceabilityTableDataObject the traceability table data object
+     * @param document the generated pdf document
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void createTraceabilityPdf(TraceabilityTableDataObject traceabilityTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getTraceabilityTableDataObject() != null) {
             PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
@@ -2069,6 +2175,13 @@ public class AuditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function for adding the shelf life table to the generated pdf
+     * @param shelfLifeTableDataObject the shelf life table data object
+     * @param document the generated pdf document
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void createShelfLifePdf(ShelfLifeTableDataObject shelfLifeTableDataObject, Document document) throws FileNotFoundException, IOException {
         if(pageAdapter.getTableDataFragment().getShelfLifeTableDataObject() != null) {
             PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
@@ -2267,4 +2380,5 @@ public class AuditActivity extends AppCompatActivity {
             document.add(space);
         }
     }
+
 }

@@ -7,10 +7,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+/**
+ * TablePageAdapter Class
+ * The page adapter for the page viewer for the subfragments within the Table Data fragment.
+ * Apart of the Audit Activity Class.
+ */
 public class TablePageAdapter extends FragmentPagerAdapter {
+    /** the number of tabs for this adapter **/
     private int numOfTabs;
 
-    //Instances of each table characteristic
+    /** Instances of the data objects for each table characteristic **/
     private TechDataTableFragment techDataFragment;
     private ROMTableFragment romTableFragment;
     private CalibrationTableFragment calTableFragment;
@@ -18,7 +24,7 @@ public class TablePageAdapter extends FragmentPagerAdapter {
     private TraceabilityTableFragment traceTableFragment;
     private ShelfLifeTableFragment shelfTableFragment;
 
-    //Getters for each table characteristic
+    /** Getters for each table characteristic data object **/
     public TechDataTableFragment getTechDataFragment() { return this.techDataFragment; }
     public ROMTableFragment getRomTableFragment() { return this.romTableFragment; }
     public CalibrationTableFragment getCalTableFragment() { return this.calTableFragment; }
@@ -26,6 +32,12 @@ public class TablePageAdapter extends FragmentPagerAdapter {
     public TraceabilityTableFragment getTraceTableFragment() { return this.traceTableFragment; }
     public ShelfLifeTableFragment getShelfTableFragment() { return this.shelfTableFragment; }
 
+    /**
+     * Constructor
+     * @param fm fragment manager
+     * @param numOfTabs the number of tabs
+     * @param context the application context
+     */
     public TablePageAdapter(@NonNull FragmentManager fm, int numOfTabs, Context context) {
         super(fm);
         this.numOfTabs = numOfTabs;
@@ -44,6 +56,11 @@ public class TablePageAdapter extends FragmentPagerAdapter {
         shelfTableFragment.setContext(context);
     }
 
+    /**
+     * Function to get the fragment according to the selected tab position
+     * @param position the current position
+     * @return the Fragment
+     */
     @NonNull
     @Override
     public Fragment getItem(int position) {
@@ -65,8 +82,13 @@ public class TablePageAdapter extends FragmentPagerAdapter {
         }
     }
 
+    /**
+     * Gets the number of tabs
+     * @return integer for the number of tabs
+     */
     @Override
     public int getCount() {
         return numOfTabs;
     }
+
 }

@@ -2,7 +2,6 @@ package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,20 +20,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
-import org.dom4j.dtd.InternalEntityDecl;
-
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import edu.msu.steve702.ua_quality_assurance_platform.InProcessAdapter;
-import edu.msu.steve702.ua_quality_assurance_platform.InProcessListActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
-import edu.msu.steve702.ua_quality_assurance_platform.UpdateInProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.AuditObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.CalibrationTableDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
@@ -47,14 +40,29 @@ import edu.msu.steve702.ua_quality_assurance_platform.data_objects.TrainingTable
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * AuditAdapter Class
+ * This class is for handling the audit adapter for the recycler view during the EditAuditListActivity.
+ * This class also handles database querying for the selected audit.
+ */
 public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHolder>  {
 
+    /** the application context **/
     private Context mCtx;
+    /** The list of audits collected from the database query **/
     private List<AuditObject> auditList;
+    /** reference to the database **/
     public FirebaseFirestore db;
+    /** intent data **/
     private Intent intent;
+    /** id of the audit selected **/
     private String this_audit_id;
 
+    /**
+     * Constructor
+     * @param mCtx the application context
+     * @param auditList list of audit objects
+     */
     public AuditAdapter(Context mCtx, List<AuditObject> auditList) {
         this.mCtx = mCtx;
         this.auditList = auditList;
@@ -63,6 +71,12 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
         intent = new Intent(mCtx, AuditActivity.class);
     }
 
+    /**
+     * Function for creating the view holder for the recycler view
+     * @param parent view group parent
+     * @param viewType the view type
+     * @return an audit view holder
+     */
     @NonNull
     @Override
     public AuditAdapter.AuditViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -71,6 +85,11 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
         );
     }
 
+    /**
+     * Function for binding the viewholder to the recycler view
+     * @param holder the audit view holder
+     * @param position the position in the view holder
+     */
     @Override
     public void onBindViewHolder(@NonNull AuditAdapter.AuditViewHolder holder, int position) {
         AuditObject product = auditList.get(position);
@@ -86,16 +105,28 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
         holder.status.setText("Status: " + product.getStatus());
     }
 
+    /**
+     * Function for getting the number of items in the view holder
+     * @return the size of the audit list
+     */
     @Override
     public int getItemCount() {
         return auditList.size();
     }
 
+    /**
+     * AuditViewHolder subclass
+     * Handles the view holder for the recycler view.
+     */
     class AuditViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView auditorName, date, location, auditTitle, auditNumber;
         TextView vendorName, vendorNumber, description, status;
 
+        /**
+         * Constructor
+         * @param itemView the item view
+         */
         public AuditViewHolder(View itemView) {
             super(itemView);
 
@@ -112,12 +143,23 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * Handles the on click for an item in the view holder
+         * @param view the view selected
+         */
         @Override
         public void onClick(View view) {
             AuditObject audit = auditList.get(getAbsoluteAdapterPosition());
             queryDB(audit);
         }
 
+
+        /** The following functions are for querying the selected audit from the view holder **/
+
+        /**
+         * Initial query for the audit selected
+         * @param audit the audit object
+         */
         private void queryDB(AuditObject audit) {
             this_audit_id = audit.getId();
             intent.putExtra("editing", true);
@@ -140,6 +182,9 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
             });
         }
 
+        /**
+         * Query inprocess sheets
+         */
         private void queryInProcess() {
             db.collection("Audit").document(this_audit_id).collection("in-process").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -164,6 +209,9 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
 
         }
 
+        /**
+         * query technical data table
+         */
         private void queryTechDataTable() {
             db.collection("Audit").document(this_audit_id).collection("TechnicalDataTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -190,6 +238,9 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
 
         }
 
+        /**
+         * query rom table
+         */
         public void queryROMTable() {
             db.collection("Audit").document(this_audit_id).collection("ROMTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -214,6 +265,9 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
             });
         }
 
+        /**
+         * query calibration table
+         */
         public void queryCalibrationTable() {
             db.collection("Audit").document(this_audit_id).collection("CalibrationTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -238,6 +292,9 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
             });
         }
 
+        /**
+         * query training table
+         */
         public void queryTrainingTable() {
             db.collection("Audit").document(this_audit_id).collection("TrainingTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -262,6 +319,9 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
             });
         }
 
+        /**
+         * query traceability table
+         */
         public void queryTraceabilityTable() {
             db.collection("Audit").document(this_audit_id).collection("TraceabilityTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -286,6 +346,9 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
             });
         }
 
+        /**
+         * query shelf life table
+         */
         public void queryShelfLifeTable() {
             db.collection("Audit").document(this_audit_id).collection("ShelfLifeTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -310,6 +373,9 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
             });
         }
 
+        /**
+         * query checklist
+         */
         public void queryChecklist() {
             db.collection("Audit").document(this_audit_id).collection("Checklist").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -348,12 +414,11 @@ public class AuditAdapter extends RecyclerView.Adapter<AuditAdapter.AuditViewHol
                     }
                 }
             });
-
-
-
-
         }
 
+        /**
+         * query photos
+         */
         public void queryPhotos(){
             db.collection("Audit").document(this_audit_id).collection("Photos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override

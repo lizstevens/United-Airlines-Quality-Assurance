@@ -16,49 +16,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.msu.steve702.ua_quality_assurance_platform.R;
-import edu.msu.steve702.ua_quality_assurance_platform.data_objects.CalibrationTableDataObject;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ROMTableDataObject;
 
 /**
+ * ROMTableFragment Class
  * A simple {@link Fragment} subclass.
- * Use the {@link ROMTableFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A fragment that represents a ROM table tab within the table data fragment in the AuditAcitvity Class.
+ * This fragment view is a subfragment.
  */
 public class ROMTableFragment extends Fragment {
+
+    /** the application context and its respective Getter and Setter **/
     private Context context;
     public Context getContext() { return this.context; }
     public void setContext(final Context context) { this.context = context; }
 
+    /** this fragment view and its Getter**/
     private View fragmentView;
     public View getFragmentView() { return this.fragmentView; }
 
+    /** The ROM table data object and its respective Getter and Setter **/
     private ROMTableDataObject romTableDataObject;
     public ROMTableDataObject getRomTableDataObject() { return this.romTableDataObject; }
     public void setRomTableDataObject(final ROMTableDataObject romTableDataObject) { this.romTableDataObject = romTableDataObject; }
 
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Empty Constructor
+     */
     public ROMTableFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
+     * Factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment ROMTableFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ROMTableFragment newInstance(String param1, String param2) {
         ROMTableFragment fragment = new ROMTableFragment();
         Bundle args = new Bundle();
@@ -68,6 +72,10 @@ public class ROMTableFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Function to create this fragment
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +85,13 @@ public class ROMTableFragment extends Fragment {
         }
     }
 
+    /**
+     * Function to create the view for this fragment
+     * @param inflater the layout inflater
+     * @param container the viewgroup container
+     * @param savedInstanceState the saved instance state
+     * @return the fragment view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,6 +99,11 @@ public class ROMTableFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_r_o_m_table, container, false);
     }
 
+    /**
+     * Function for when the fragment view is created
+     * @param view the fragment view
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -94,6 +114,10 @@ public class ROMTableFragment extends Fragment {
         }
     }
 
+    /**
+     * Function to bundle the data within the fragment view.
+     * @return a ROM table data object
+     */
     public ROMTableDataObject bundleObject() {
         List<String> row1 = getRow(1);
         List<String> row2 = getRow(2);
@@ -122,6 +146,11 @@ public class ROMTableFragment extends Fragment {
         return newObject;
     }
 
+    /**
+     * Function to get the data from the table row
+     * @param rowNum the current row number
+     * @return a list of strings of the data from this row
+     */
     public List<String> getRow(Integer rowNum) {
         List<String> row = new ArrayList<>();
         for (int i=1; i<7; i++) {
@@ -133,6 +162,11 @@ public class ROMTableFragment extends Fragment {
         return row;
     }
 
+    /**
+     * Function to set the data in the table row
+     * @param rowNum the current row number
+     * @param row a list of string containing the data to be populated into the row
+     */
     public void setRow(Integer rowNum, List<String> row) {
         for (int i=1; i<7; i++) {
             String rowName = "row" + rowNum + "_col" + i;
@@ -141,7 +175,9 @@ public class ROMTableFragment extends Fragment {
             cell.setText(row.get(i-1));
         }
     }
-
+    /**
+     * Function to prepoulate the views
+     */
     public void populate() {
         setRow(1, romTableDataObject.getRow1());
         setRow(2, romTableDataObject.getRow2());
@@ -154,4 +190,5 @@ public class ROMTableFragment extends Fragment {
         setRow(9, romTableDataObject.getRow9());
         setRow(10, romTableDataObject.getRow10());
     }
+
 }

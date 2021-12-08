@@ -1,7 +1,6 @@
 package edu.msu.steve702.ua_quality_assurance_platform.activities;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,20 +13,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import edu.msu.steve702.ua_quality_assurance_platform.ExcelParser;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
-import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
 
+/**
+ * CheckListListActivity Class
+ * This class handles listing the checklists that are available to use for an audit for user selection.
+ */
 public class CheckListListActivity extends AppCompatActivity {
+
+    /** The list view **/
     private ListView listView;
+    /** the list of checklist filenames **/
     private ArrayList<String> checklistList;
+    /** array adapter **/
     private ArrayAdapter<String> adapter;
 
-
+    /**
+     * Function for creating the activity
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +43,6 @@ public class CheckListListActivity extends AppCompatActivity {
         checklistList = new ArrayList<String>();
 
 
-
-
-
-        //Field[] fields = R.raw.class.getFields();
         try {
             String[] sheets = getAssets().list("templates");
 
@@ -54,16 +56,6 @@ public class CheckListListActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-//        for (int i=0; i < fields.length; i++) {
-//            Log.d("Files", "FileName: " + fields[i].getName());
-//            checklistList.add(i, fields[i].getName());
-//
-//
-//        }
-
-
-
         adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, checklistList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,6 +68,10 @@ public class CheckListListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function for opening the audit activity
+     * @param checklistName the checklist name selected for the audit
+     */
     public void openAuditActivity(String checklistName) {
 
         Intent intent = new Intent(this, AuditActivity.class);

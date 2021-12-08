@@ -1,10 +1,7 @@
 package edu.msu.steve702.ua_quality_assurance_platform;
 
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.Pair;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -12,54 +9,57 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
 
-
+/**
+ * ExcelParser Class
+ * This class is used for parsing the checklist excel files into the ChecklistDataObject.
+ */
 public class ExcelParser {
 
+    /** The Checklist Data Object **/
     private static ChecklistDataObject data;
+    /** Variable for the first row as the header row **/
     private static boolean firstRow = true;
-
-
+    /** The Application Context **/
     private static Context ctx;
 
-    public ExcelParser(){}
+    /** Empty Constructor **/
+    public ExcelParser(){
+    }
 
-
+    /**
+     * Constructor for setting up variables prior to parsing
+     * @param context the context of the application
+     * @throws IOException io exception
+     */
     public ExcelParser(Context context) throws IOException {
-
         this.ctx = context;
 
         Map<Integer, Map<Integer, String[]>> map = new HashMap<>();
-//        List<Map<Integer, String[]>> newmap = new ArrayList<>();
 
         data = new ChecklistDataObject(null, map);
 
         firstRow = true;
-
-
     }
 
+    /**
+     * Function for reading the excel file.
+     * @param fileName a string representing the filename of the excel file
+     * @throws IOException io exception
+     */
     public static void readXLSFile(String fileName) throws IOException
     {
         InputStream ExcelFileToRead = new FileInputStream(fileName);
@@ -70,7 +70,6 @@ public class ExcelParser {
         HSSFCell cell;
 
         Iterator rows = sheet.rowIterator();
-
 
         while (rows.hasNext())
         {
@@ -99,17 +98,16 @@ public class ExcelParser {
 
         }
 
-
-
     }
 
+    /**
+     * Function for reading the excel file into a checklist data object
+     * @param fileName string representing the filename of the excel file being parsed
+     * @return a ChecklistDataObject
+     * @throws IOException io exception
+     */
     public static ChecklistDataObject readXLSXFile(String fileName) throws IOException
     {
-
-
-
-        //InputStream ExcelFileToRead = ctx.getResources().openRawResource(R.raw.audit_checklist_and_logic);
-
         AssetManager am = ctx.getAssets();
 
         InputStream ExcelFileToRead = am.open("templates/" + fileName);
@@ -139,13 +137,6 @@ public class ExcelParser {
                 {
                     cell=(XSSFCell) cells.next();
 
-//                    if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING)
-//                    {
-//                        //System.out.print(cell.getStringCellValue()+" ");
-//
-//                        // Retrieve question text
-//
-//                    }
                     if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC)
                     {
                         if(firstRow){
@@ -166,18 +157,10 @@ public class ExcelParser {
 
                         // Retrieve question number
                         String cellTxt = row.getCell(3).getStringCellValue();
-//                        Boolean status = null;
-//
-//                        Pair<String, Boolean> pair = new Pair<String, Boolean>(cellTxt, status);
-//
 
                         String[] arr = {cellTxt, ctx.getString((R.string.no_answer)), ""};
 
-
-
-
                         data.get(key).put((int)row.getCell(2).getNumericCellValue(), arr);
-
 
                         break;
 
@@ -195,10 +178,6 @@ public class ExcelParser {
         }
 
         return data;
-
-
-
     }
-
 
 }

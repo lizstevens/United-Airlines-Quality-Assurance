@@ -18,54 +18,55 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.msu.steve702.ua_quality_assurance_platform.activities.InProcessActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 
 /**
+ * InProcessFragment subclass
  * A simple {@link Fragment} subclass.
- * Use the {@link InProcessFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Represents the tab view for the In Process Fragment in the AuditAcitvity Class.
  */
 public class InProcessFragment extends Fragment {
 
+    /** The InProcessObject **/
     private InProcessObject inProcessObject;
+    /** The fragment view **/
     private View fragmentView;
+    /** The recycler view **/
     private RecyclerView recyclerView;
+    /** Adapter for the fragment recycler view **/
     private InProcessFragmentAdapter adapter;
+    /** List of inprocess sheets currently added to the audit **/
     private List<InProcessObject> inProcessList = new ArrayList<>();
+    /** View of the add button for adding an inprocess sheet to the audit **/
     private Button addButton;
-
+    /** Getter and Setter for the inprocess list **/
     public List<InProcessObject> getInProcessList() { return this.inProcessList; }
-
     public void setInProcessList(final List<InProcessObject> list) { this.inProcessList = list; }
 
+    /** Key for the inprocess **/
     private static final String IN_PROCESS_KEY = "IN_PROCESS_KEY";
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private InProcessActivity inProcessActivity;
-
+    /** Empty Constructor **/
     public InProcessFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
+     * Factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment InProcessFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static InProcessFragment newInstance(String param1, String param2) {
         InProcessFragment fragment = new InProcessFragment();
         Bundle args = new Bundle();
@@ -75,6 +76,10 @@ public class InProcessFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Function for creating this fragment.
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,20 +89,34 @@ public class InProcessFragment extends Fragment {
         }
     }
 
+    /**
+     * Function for when the fragment view is created.
+     * @param inflater layout inflator
+     * @param container viewgroup container
+     * @param savedInstanceState the saved instance state
+     * @return this fragment view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_in_process, container, false);
     }
 
+    /**
+     * Override method for onSavedInstanceState
+     * @param outState the outstate
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         // store in-process data: key to access the in-process object I store in the second argument
         outState.putSerializable(IN_PROCESS_KEY, (Serializable)inProcessObject);
     }
 
+    /**
+     * Function for creating the activity
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -108,6 +127,11 @@ public class InProcessFragment extends Fragment {
         }
     }
 
+    /**
+     * Function for the fragment view being created
+     * @param view the fragment view
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -132,6 +156,9 @@ public class InProcessFragment extends Fragment {
         fragmentView = view;
     }
 
+    /**
+     * Function for bundling fragment view data into an InProcessObject.
+     */
     public void bundleObject() {
         // edit text name
         EditText employeeNameEdit = fragmentView.findViewById(R.id.empNameText);
@@ -198,6 +225,11 @@ public class InProcessFragment extends Fragment {
         trainingDateEdit.setText("");
     }
 
+    /**
+     * Function for setting the current inprocess data into the table that was selected.
+     * @param listPosition position of the inprocess table selected
+     * @param object The inprocess object to represent this data
+     */
     public void setInProcessTable(Integer listPosition, InProcessObject object) {
         inProcessList.remove(listPosition);
 

@@ -16,85 +16,90 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import edu.msu.steve702.ua_quality_assurance_platform.R;
-import edu.msu.steve702.ua_quality_assurance_platform.activities.AuditActivity;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.ChecklistDataObject;
-import edu.msu.steve702.ua_quality_assurance_platform.table_data_sub_fragments.TablePageAdapter;
 
 /**
+ * AuditSpecFragment subclass
  * A simple {@link Fragment} subclass.
- * Use the {@link ChecklistFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Represents the tab view for the checklist fragment in the AuditAcitvity Class.
  */
 public class ChecklistFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    /** Title of the checklist **/
     private String checklistTitle;
-
+    /** Spinner View for section dropdown **/
     private Spinner spinner;
+    /** List of the names of all of the checklist sections **/
     private ArrayList<String> section_list;
-    private List<Integer> sectionNums;
-    private List<String> section_questions, section2_questions, section3_questions, section4_questions, section5_questions, section6_questions
-            , section7_questions, section8_questions, section9_questions, section10_questions, section11_questions, section12_questions
-            , section13_questions, section14_questions, section15_questions, section16_questions, section17_questions, section18_questions
-            , section19_questions, section20_questions, section21_questions;
+    /** questions for the current section **/
     private List<List<String>> section_questions_list;
-    private Map<Integer, String[]> subMap;
+    /** represents the current section selected **/
     private Integer currentSection;
+    /** total checklist sections for a checklist **/
     private Integer totalSizeFor8;
-
+    /** Checklist Data Object **/
     private ChecklistDataObject obj;
+    /** Recycler view for the checklist section **/
     RecyclerView checklistSectionRecyclerView;
+    /** Linear layout manager **/
     LinearLayoutManager layoutManager;
-
+    /** The adapter for displaying the checklist questions **/
     ChecklistQuestionAdapter questionAdapter;
-    ChecklistSectionAdapter checklistSectionAdapter;
 
+    /** The fragment view and its getter **/
     private View fragmentView;
     public View getFragmentView() { return this.fragmentView; }
 
+    /** The application context **/
     private Context context;
+
+    /** Context getters and setters **/
     @Nullable
     @Override
     public Context getContext() { return this.context; }
     public void setContext(final Context context) { this.context = context; }
 
+    /** Respective Getters and Setters for the ChecklistDataObject **/
     public ChecklistDataObject getObj() { return this.obj; }
     public void setObj(final ChecklistDataObject obj) { this.obj = obj; }
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    /** Empty Constructor **/
     public ChecklistFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Constructor
+     * @param obj Checklist data object that we will use for this fragment.
+     */
     public ChecklistFragment(ChecklistDataObject obj) {
         this.obj = obj;
     }
 
+    /** Getter for checklist question adapter **/
     public ChecklistQuestionAdapter getQuestionAdapter() { return this.questionAdapter; }
 
     /**
-     * Use this factory method to create a new instance of
+     * Factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment ChecklistFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ChecklistFragment newInstance(String param1, String param2) {
         ChecklistFragment fragment = new ChecklistFragment();
         Bundle args = new Bundle();
@@ -104,6 +109,10 @@ public class ChecklistFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Function for creating this Fragment
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +122,13 @@ public class ChecklistFragment extends Fragment {
         }
     }
 
+    /**
+     * Function for creating the fragment view.
+     * @param inflater layout inflater
+     * @param container viewgroup container
+     * @param savedInstanceState the saved instance state
+     * @return the fragment view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -120,11 +136,15 @@ public class ChecklistFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_checklist, container, false);
     }
 
+    /**
+     * Function for when the view of this fragment is created.
+     * @param view the fragment view
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView checklistTitleTextview = view.findViewById(R.id.checklistTitle);
-        //checklistTitleTextview.setText(checklistTitle);
         checklistTitleTextview.setText("Checklist " + obj.getChecklistId());
         spinner = view.findViewById(R.id.section_spinner);
         totalSizeFor8 = obj.size();
@@ -146,15 +166,16 @@ public class ChecklistFragment extends Fragment {
             }
             section_questions_list.add(i - 1, section_questions);
         }
-        questionAdapter = new ChecklistQuestionAdapter(context, currentSection, section_questions_list.get(currentSection), this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, section_list);
+        questionAdapter = new ChecklistQuestionAdapter(context, currentSection,
+                section_questions_list.get(currentSection), this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                R.layout.support_simple_spinner_dropdown_item, section_list);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Currently section 21 is at position 0
-//                Toast.makeText(context, "Item selected:" + position, Toast.LENGTH_LONG).show();
                 questionAdapter.setCurrentSection(position + 1);
                 questionAdapter.setQuestionList(section_questions_list.get(position));
                 questionAdapter.notifyDataSetChanged();
@@ -172,20 +193,21 @@ public class ChecklistFragment extends Fragment {
         checklistSectionRecyclerView.setHasFixedSize(true);
         checklistSectionRecyclerView.setAdapter(questionAdapter);
         checklistSectionRecyclerView.setLayoutManager(layoutManager);
-
     }
 
     /**
      * Function for setting the Checklist Name in the View
      * @param checklist_name string indicating the name of the checklist chosen
      */
-    public void changeChecklistTitleText(String checklist_name) {
-        checklistTitle = checklist_name;
+    public void changeChecklistTitleText(String checklist_name) { checklistTitle = checklist_name; }
+
+    /** Getter and setter for the ChecklistDataObject **/
+    public ChecklistDataObject getChecklistDataObject() { return this.obj; }
+    public void setChecklistDataObject(final ChecklistDataObject checklist) {
+        this.obj = checklist;
     }
 
-    public ChecklistDataObject getChecklistDataObject() { return this.obj; }
-    public void setChecklistDataObject(final ChecklistDataObject checklist) { this.obj = checklist; }
-
+    /** Getter for the checklistId **/
     public void setChecklistId(final Integer id){this.obj.setChecklistId(id);}
 
 }

@@ -14,27 +14,57 @@ import java.util.List;
 import edu.msu.steve702.ua_quality_assurance_platform.R;
 import edu.msu.steve702.ua_quality_assurance_platform.data_objects.InProcessObject;
 
-public class InProcessFragmentAdapter extends RecyclerView.Adapter<InProcessFragmentAdapter.InProcessViewHolder>{
+/**
+ * InProcessFragmentAdapter Class
+ * Class for the adapter for the recycler view within the in process fragment.
+ */
+public class InProcessFragmentAdapter extends
+        RecyclerView.Adapter<InProcessFragmentAdapter.InProcessViewHolder>{
+
+    /** Application context **/
     private Context mCtx;
+    /** The inprocess list to be displayed within the recycler view **/
     private List<InProcessObject> inProcessList;
+    /** the inprocess fragment **/
     private InProcessFragment fragment;
 
-    public InProcessFragmentAdapter(Context mCtx, List<InProcessObject> inProcessList, InProcessFragment fragment) {
+    /**
+     * Constuctor
+     * @param mCtx application context
+     * @param inProcessList the inprocess list associated for the recycler view
+     * @param fragment the inprocess fragment
+     */
+    public InProcessFragmentAdapter(Context mCtx, List<InProcessObject> inProcessList,
+                                    InProcessFragment fragment) {
         this.mCtx = mCtx;
         this.inProcessList = inProcessList;
         this.fragment = fragment;
     }
 
+    /**
+     * The view holder for the recycler view
+     * @param parent viewgroup parent
+     * @param viewType the view type
+     * @return an inprocess viewholder
+     */
     @NonNull
     @Override
-    public InProcessFragmentAdapter.InProcessViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public InProcessFragmentAdapter.InProcessViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent, int viewType) {
         return new InProcessFragmentAdapter.InProcessViewHolder(
-                LayoutInflater.from(mCtx).inflate(R.layout.view_in_process, parent, false)
+                LayoutInflater.from(mCtx).inflate(R.layout.view_in_process, parent,
+                        false)
         );
     }
 
+    /**
+     * Function to bind the view holder for the recycler view.
+     * @param holder the view holder
+     * @param position position of the view holder
+     */
     @Override
-    public void onBindViewHolder(@NonNull InProcessFragmentAdapter.InProcessViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull InProcessFragmentAdapter.InProcessViewHolder holder,
+                                 int position) {
         InProcessObject product = inProcessList.get(position);
 
         holder.textViewEmpName.setText(product.getEmployeeNameObj());
@@ -48,19 +78,27 @@ public class InProcessFragmentAdapter extends RecyclerView.Adapter<InProcessFrag
         holder.textViewTrace.setText(product.getTraceObj());
         holder.textViewReqTraining.setText(product.getReqTrainingObj());
         holder.textViewTrainingDate.setText(product.getTrainingDateObj());
-
-
     }
 
+    /**
+     * Gets the item count for the number of inprocess tables for the recycler view.
+     * @return integer representing that count
+     */
     @Override
     public int getItemCount() {
         return inProcessList.size();
     }
 
+    /**
+     * InProcessViewHolder subclass
+     * ViewHolder for the recycler view within the inprocess fragment
+     */
     class InProcessViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView textViewEmpName, textViewPartNum, textViewSerialNum, textViewNomenclature, textViewTask;
-        TextView textViewTechSpec, textViewTooling, textViewShelfLife, textViewTrace, textViewReqTraining, textViewTrainingDate;
+        TextView textViewEmpName, textViewPartNum, textViewSerialNum, textViewNomenclature,
+                textViewTask;
+        TextView textViewTechSpec, textViewTooling, textViewShelfLife, textViewTrace,
+                textViewReqTraining, textViewTrainingDate;
 
         public InProcessViewHolder(View itemView) {
             super(itemView);
@@ -88,4 +126,5 @@ public class InProcessFragmentAdapter extends RecyclerView.Adapter<InProcessFrag
             fragment.setInProcessTable(getAbsoluteAdapterPosition(), inProcess);
         }
     }
+
 }
